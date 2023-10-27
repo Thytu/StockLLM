@@ -22,7 +22,7 @@ RUN_NAME = BASE_MODEL_ID.split("/")[-1] + "-" + WANDB_PROJECT
 wandb.login()
 os.environ["WANDB_PROJECT"] = WANDB_PROJECT
 
-wandb.init(project=WANDB_PROJECT)
+wandb.init(project=WANDB_PROJECT, name=f"{RUN_NAME}-{datetime.now().strftime('%Y-%m-%d-%H-%M')}")
 wandb.run.config["MLM_PROMPT"] = MLM_PROMPT
 wandb.run.config["REGRESSION_PROMPT"] = REGRESSION_PROMPT
 
@@ -90,9 +90,10 @@ trainer = transformers.Trainer(
     args=transformers.TrainingArguments(
         output_dir=RUN_NAME,
         warmup_steps=5,
-        per_device_train_batch_size=8,
+        per_device_train_batch_size=16,
+        per_device_eval_batch_size=16,
         # gradient_accumulation_steps=2,
-        max_steps=4000,
+        max_steps=2000,
         learning_rate=2.5e-5, # Want about 10x smaller than the Mistral learning rate
         logging_steps=50,
         bf16=True,
@@ -104,7 +105,9 @@ trainer = transformers.Trainer(
         eval_steps=50,               # Evaluate and save checkpoints every 50 steps
         do_eval=True,                # Perform evaluation at the end of training
         report_to="wandb",           # Comment this out if you don't want to use weights & baises
-        run_name=f"{RUN_NAME}-{datetime.now().strftime('%Y-%m-%d-%H-%M')}"          # Name of the W&B run (optional)
+        run_name=f"{RUN_NAME}-{datetime.now().strftime('%Y-%m-%d-%H-%M')}",          # Name of the W&B run (optional)
+        dataloader_pin_memory=True,
+        dataloader_num_workers=8,
     ),
     data_collator=transformers.DataCollatorForLanguageModeling(_tokenizer, mlm=False),
 )
