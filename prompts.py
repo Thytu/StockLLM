@@ -34,7 +34,7 @@ Output Format: A comma-separated list of the missing chess moves.
 
 Example:
 
-Input: "e2e4, e7e6, d2d4, d7d5, b1c3, ?, e4e5, c7c5, d1g4, g8e7, d4c5, b4c3, b2c3" you must only write "".
+Input: "e2e4, e7e6, d2d4, d7d5, b1c3, ?, e4e5, c7c5, d1g4, g8e7, d4c5, b4c3, b2c3"
 Output: "f8b4"
 
 --------------------------------------
