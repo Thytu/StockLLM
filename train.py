@@ -54,8 +54,6 @@ model.gradient_checkpointing_enable()
 model = prepare_model_for_kbit_training(model)
 
 fsdp_plugin = FullyShardedDataParallelPlugin(
-#     state_dict_config=FullStateDictConfig(offload_to_cpu=True, rank0_only=False),
-#     optim_state_dict_config=FullOptimStateDictConfig(offload_to_cpu=True, rank0_only=False),
     state_dict_config=FullStateDictConfig(offload_to_cpu=False, rank0_only=False),
     optim_state_dict_config=FullOptimStateDictConfig(offload_to_cpu=False, rank0_only=False),
 )
