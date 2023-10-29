@@ -6,7 +6,7 @@ import transformers
 from datetime import datetime
 from datasets import load_from_disk
 from transformers import AutoTokenizer
-from init_dataset import TRAINING_SAMPLES
+from init_dataset import TRAINING_SAMPLES, GENERATE_MLM_PROMPT_PROB
 from prompts import MLM_PROMPT, REGRESSION_PROMPT
 from transformers import AutoModelForCausalLM, BitsAndBytesConfig
 from accelerate import FullyShardedDataParallelPlugin, Accelerator
@@ -25,6 +25,7 @@ os.environ["WANDB_PROJECT"] = WANDB_PROJECT
 wandb.init(project=WANDB_PROJECT, name=f"{RUN_NAME}-{datetime.now().strftime('%Y-%m-%d-%H-%M')}")
 wandb.run.config["MLM_PROMPT"] = MLM_PROMPT
 wandb.run.config["REGRESSION_PROMPT"] = REGRESSION_PROMPT
+wandb.run.config["GENERATE_MLM_PROMPT_PROB"] = GENERATE_MLM_PROMPT_PROB
 
 _tokenizer = AutoTokenizer.from_pretrained(
     BASE_MODEL_ID,
@@ -88,13 +89,13 @@ trainer = transformers.Trainer(
     args=transformers.TrainingArguments(
         output_dir=RUN_NAME,
         warmup_steps=5,
-        per_device_train_batch_size=16,
-        per_device_eval_batch_size=16,
+        per_device_train_batch_size=4,
+        per_device_eval_batch_size=4,
         # gradient_accumulation_steps=2,
-        max_steps=2000,
+        max_steps=1500,
         learning_rate=2.5e-5, # Want about 10x smaller than the Mistral learning rate
         logging_steps=50,
-        bf16=True,
+        bf16=False,
         optim="paged_adamw_8bit",
         logging_dir="./logs",        # Directory for storing logs
         save_strategy="steps",       # Save the model checkpoint every logging step
