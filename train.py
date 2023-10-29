@@ -16,13 +16,14 @@ from torch.distributed.fsdp.fully_sharded_data_parallel import FullOptimStateDic
 
 WANDB_PROJECT = "StockLLM"
 BASE_MODEL_ID = "mistralai/Mistral-7B-v0.1"
-RUN_NAME = BASE_MODEL_ID.split("/")[-1] + "-" + WANDB_PROJECT
+PROJECT_NAME = BASE_MODEL_ID.split("/")[-1] + "-" + WANDB_PROJECT
+RUN_NAME = f"{PROJECT_NAME}-{datetime.now().strftime('%Y-%m-%d-%H-%M')}"
 
 
 wandb.login()
 os.environ["WANDB_PROJECT"] = WANDB_PROJECT
 
-wandb.init(project=WANDB_PROJECT, name=f"{RUN_NAME}-{datetime.now().strftime('%Y-%m-%d-%H-%M')}")
+wandb.init(project=WANDB_PROJECT, name=RUN_NAME)
 wandb.run.config["MLM_PROMPT"] = MLM_PROMPT
 wandb.run.config["REGRESSION_PROMPT"] = REGRESSION_PROMPT
 wandb.run.config["GENERATE_MLM_PROMPT_PROB"] = GENERATE_MLM_PROMPT_PROB
@@ -87,12 +88,12 @@ trainer = transformers.Trainer(
     train_dataset=tokenized_train_dataset,
     eval_dataset=tokenized_val_dataset,
     args=transformers.TrainingArguments(
-        output_dir=RUN_NAME,
+        output_dir=PROJECT_NAME,
         warmup_steps=5,
         per_device_train_batch_size=4,
         per_device_eval_batch_size=4,
         # gradient_accumulation_steps=2,
-        max_steps=1500,
+        max_steps=1000,
         learning_rate=2.5e-5, # Want about 10x smaller than the Mistral learning rate
         logging_steps=50,
         bf16=False,
@@ -104,7 +105,7 @@ trainer = transformers.Trainer(
         eval_steps=50,               # Evaluate and save checkpoints every 50 steps
         do_eval=True,                # Perform evaluation at the end of training
         report_to="wandb",           # Comment this out if you don't want to use weights & baises
-        run_name=f"{RUN_NAME}-{datetime.now().strftime('%Y-%m-%d-%H-%M')}",          # Name of the W&B run (optional)
+        run_name=RUN_NAME,          # Name of the W&B run (optional)
         dataloader_pin_memory=True,
         dataloader_num_workers=8,
     ),
@@ -112,4 +113,39 @@ trainer = transformers.Trainer(
 )
 
 model.config.use_cache = False  # silence the warnings. Please re-enable for inference!
+
+class ProfilerCallback(transformers.TrainerCallback):
+    def __init__(self, prof):
+        self.prof = prof
+
+    def on_step_end(self, args, state, control, **kwargs):
+        self.prof.step()
+
+torch.cuda.memory._record_memory_history()
+
+os.makedirs(name=os.path.join("profiling/", RUN_NAME), exist_ok=True)
+
+# with torch.profiler.profile(
+#     activities=[
+#         torch.profiler.ProfilerActivity.CPU,
+#         torch.profiler.ProfilerActivity.CUDA
+#     ], schedule=torch.profiler.schedule(
+#         skip_first=3,
+#         wait=1,
+#         warmup=5,
+#         active=2,
+#         repeat=2
+#     ), on_trace_ready=torch.profiler.tensorboard_trace_handler('hf-training-trainer'),
+#     profile_memory=True,
+#     with_stack=True,
+#     record_shapes=True
+# ) as prof:
+
+#     trainer.add_callback(ProfilerCallback(prof=prof))
 trainer.train()
+
+    # prof.export_chrome_trace(os.path.join("profiling/", RUN_NAME, "trace.json"))
+
+torch.cuda.memory._dump_snapshot(
+    os.path.join("profiling/", RUN_NAME, "memory_dump_snapshot.pickle"),
+)
