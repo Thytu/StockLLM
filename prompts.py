@@ -24,29 +24,20 @@ def __remove_random_moves(moves, prob_to_remove: float = 0.1):
 
     return remaining_moves, removed_moves
 
-MLM_PROMPT = """task: Given an incomplit set of chess moves, write the missing chess moves.
+MLM_PROMPT = """task: Given an incomplit set of chess moves and the game's score, write the missing chess moves.
 Missing chess moves are indicated with a "?" mark. Write ONLY the missing moves, not the provided ones.
 
-Input Format: A comma-separated list of chess moves.
+Input Format: A comma-separated list of chess moves followed by the game score.
 Output Format: A comma-separated list of the missing chess moves.
 
---------------------------------------
-
-Example:
-
-Input: "e2e4, e7e6, d2d4, d7d5, b1c3, ?, e4e5, c7c5, d1g4, g8e7, d4c5, b4c3, b2c3"
-Output: "f8b4"
-
---------------------------------------
-
 Moves: {}
-Result:
-"""
+Score: {}
+Result:"""
 
 def generate_MLM_prompt(tokenizer, data_point, return_tensors=None):
     moves, removed_moves = __remove_random_moves(data_point["Moves"])
 
-    full_prompt =MLM_PROMPT.format(moves).replace("'", "")
+    full_prompt = MLM_PROMPT.format(moves, data_point["Result"]).replace("'", "")
 
     result = tokenize(tokenizer, full_prompt, return_tensors=return_tensors)
     result["labels"] = tokenize(tokenizer, str(removed_moves))["input_ids"]
@@ -58,17 +49,8 @@ REGRESSION_PROMPT = """Task: Given a full set of chess moves, announce the final
 Input Format: A comma-separated list of chess moves.
 Output Format: "1-0" if White wins, "0-1" if Black wins, and "1/2-1/2" in case of a draw.
 
---------------------------------------
-
-Example:
-Input: "[previous moves], e5d4, b4b3, a6a1, b3b4, a1b1, b4a3, d4c5, a3a4, b1b4"
-Output: "0-1"
-
---------------------------------------
-
 Moves: {}
-Result:
-"""
+Result:"""
 
 def generate_regression_prompt(tokenizer, data_point, return_tensors=None):
     full_prompt = REGRESSION_PROMPT.format(data_point["Moves"]).replace("'", "")
