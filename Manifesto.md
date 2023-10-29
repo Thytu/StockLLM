@@ -29,3 +29,17 @@ I still need to find out wether fine-tuning the model on multiple task is a good
 I also need to find the right amount of training set, starting from few hundred sampls the model seems to follow the required prompt/result format however at 1k training sampels it still isn't producing valid and accuracte results. I might need to use the H100 again once the prompt fine-tuned to train the model over multiple thousant of steps.
 
 TL;DR: It seems that fine-tuning a 7b parameter model on a new taks isn't just runing QLoRa on a dataset 🤡
+
+I removed the example to test weither it's helpful and I observe no degradation in the model results by removing it.
+Let's save some tokens and remove it.
+
+Next test I want to do is testing weither giving the game result in the MLM prompt helps the model. My initial intuition is that it should be, as a human it's easier to guess the missing moves if I know who won. It should change a lot cause using the moves I can deduce who won but no in some cases where the missing moves is brillian or a blunder.
+I'll evaluatue the model on MLM only and followed by MLM w/ the game result given in the prompt.
+
+Also a potential good idea might be to evaluate the quality of the dataset moves by Stockfish and create a new task where I ask the model the predict the best/worst move and/or to annotate the quality of the moves.
+
+Also I added a memory profiler to inspect why the GPU spends so much time accessing memory. Let's hope it helps
+
+Unsurprisingly the model has a harder time on MLM prompt than regression one (tested both isolated).
+In MLM instead of asking for random moves I should ask the model to predict the last move that led to chessmate/draw/ending.
+The model may not have sufficiant informations to guess the missing moves.
