@@ -1,4 +1,8 @@
-def generate_pgn(moves):
+from typing import List
+from datasets import Dataset
+
+
+def generate_pgn(moves: List[str]) -> str:
     pairs_of_move = [[]]
 
     for m in moves:
@@ -21,18 +25,8 @@ def _add_pgn_notation(example):
     return example
 
 
-def _gen_from_iterable_dataset(iterable_ds):
-    yield from iterable_ds
+def main(dataset: Dataset) -> Dataset:
 
-
-def main(dataset, training_samples, validation_samples):
-
-    dataset = dataset["train"].take(training_samples + validation_samples)
-
-    dataset = Dataset.from_generator(
-        partial(_gen_from_iterable_dataset, dataset),
-        features=dataset.features,
-    )
     dataset.cleanup_cache_files()
 
     dataset = dataset.map(
@@ -46,21 +40,14 @@ def main(dataset, training_samples, validation_samples):
 if __name__ == "__main__":
     import os
 
-    from functools import partial
-    from datasets import load_dataset, Dataset
-    from init_dataset import TRAINING_SAMPLES, VALIDATION_SAMPLES
+    from datasets import load_from_disk
 
 
     OUTPUT_FOLDER = "outputs/PGNs"
 
     os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
-    dataset = load_dataset("laion/strategic_game_chess", streaming=True)
+    dataset = load_from_disk("outputs/samples")
 
-    dataset = main(
-        dataset=dataset,
-        training_samples=TRAINING_SAMPLES,
-        validation_samples=VALIDATION_SAMPLES,
-    )
-
+    dataset: Dataset = main(dataset=dataset)
     dataset.save_to_disk(OUTPUT_FOLDER)

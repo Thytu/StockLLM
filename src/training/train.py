@@ -7,7 +7,7 @@ from datetime import datetime
 from datasets import load_from_disk
 from transformers import AutoTokenizer
 from init_dataset import TRAINING_SAMPLES, GENERATE_MLM_PROMPT_PROB
-from prompts import MLM_PROMPT, REGRESSION_PROMPT
+from prompts import MLM_PROMPT, REGRESSION_PROMPT, MLM_LAST_ONLY_PROMPT
 from transformers import AutoModelForCausalLM, BitsAndBytesConfig
 from accelerate import FullyShardedDataParallelPlugin, Accelerator
 from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
@@ -15,7 +15,8 @@ from torch.distributed.fsdp.fully_sharded_data_parallel import FullOptimStateDic
 
 
 WANDB_PROJECT = "StockLLM"
-BASE_MODEL_ID = "mistralai/Mistral-7B-v0.1"
+# BASE_MODEL_ID = "mistralai/Mistral-7B-v0.1"
+BASE_MODEL_ID = "mistralai/Mistral-7B-Instruct-v0.1"
 PROJECT_NAME = BASE_MODEL_ID.split("/")[-1] + "-" + WANDB_PROJECT
 RUN_NAME = f"{PROJECT_NAME}-{datetime.now().strftime('%Y-%m-%d-%H-%M')}"
 
@@ -27,10 +28,11 @@ wandb.init(project=WANDB_PROJECT, name=RUN_NAME)
 wandb.run.config["MLM_PROMPT"] = MLM_PROMPT
 wandb.run.config["REGRESSION_PROMPT"] = REGRESSION_PROMPT
 wandb.run.config["GENERATE_MLM_PROMPT_PROB"] = GENERATE_MLM_PROMPT_PROB
+wandb.run.config["MLM_LAST_ONLY_PROMPT"] = MLM_LAST_ONLY_PROMPT
 
 _tokenizer = AutoTokenizer.from_pretrained(
     BASE_MODEL_ID,
-    model_max_length=128,
+    model_max_length=2048,
     padding_side="left",
     add_eos_token=True
 )
@@ -91,9 +93,9 @@ trainer = transformers.Trainer(
         output_dir=PROJECT_NAME,
         warmup_steps=5,
         per_device_train_batch_size=4,
-        per_device_eval_batch_size=4,
+        per_device_eval_batch_size=8,
         # gradient_accumulation_steps=2,
-        max_steps=1000,
+        max_steps=int(50_000 / 4),
         learning_rate=2.5e-5, # Want about 10x smaller than the Mistral learning rate
         logging_steps=50,
         bf16=False,
@@ -121,9 +123,9 @@ class ProfilerCallback(transformers.TrainerCallback):
     def on_step_end(self, args, state, control, **kwargs):
         self.prof.step()
 
-torch.cuda.memory._record_memory_history()
+# torch.cuda.memory._record_memory_history()
 
-os.makedirs(name=os.path.join("profiling/", RUN_NAME), exist_ok=True)
+# os.makedirs(name=os.path.join("profiling/", RUN_NAME), exist_ok=True)
 
 # with torch.profiler.profile(
 #     activities=[
@@ -146,6 +148,6 @@ trainer.train()
 
     # prof.export_chrome_trace(os.path.join("profiling/", RUN_NAME, "trace.json"))
 
-torch.cuda.memory._dump_snapshot(
-    os.path.join("profiling/", RUN_NAME, "memory_dump_snapshot.pickle"),
-)
+# torch.cuda.memory._dump_snapshot(
+#     os.path.join("profiling/", RUN_NAME, "memory_dump_snapshot.pickle"),
+# )

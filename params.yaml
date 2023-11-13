@@ -1,0 +1,12 @@
+data:
+
+  number_of_samples: 100000
+  validation_ration: 0.025
+
+  quantity_per_task:
+    find_last_move: 7500
+    find_score: 7500
+    MLM_on_moves: 5000
+    find_best_n_worst_moves: 7500
+    find_who_is_winning: 7500
+    sort_FENs: 5000

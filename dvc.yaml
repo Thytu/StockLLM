@@ -1,14 +1,14 @@
 stages:
 
   sample-dataset:
-    cmd: python sample_dataset.py
+    cmd: python src/data_processing/sample_dataset.py
     deps:
-    - sample_dataset.py
+    - src/data_processing/sample_dataset.py
     outs:
     - outputs/samples
 
   create-task-find-last-move:
-    cmd: python create_task_find_last_move.py
+    cmd: python src/tasks/create_task_find_last_move.py
     deps:
     - create_task_find_last_move.py
     - outputs/samples
@@ -18,7 +18,7 @@ stages:
     - data.quantity_per_task.find_last_move
 
   create-task-find-score:
-    cmd: python create_task_find_score.py
+    cmd: python src/tasks/create_task_find_score.py
     deps:
     - create_task_find_score.py
     - outputs/samples
@@ -28,31 +28,31 @@ stages:
     - data.quantity_per_task.find_score
 
   generate-PGNs:
-    cmd: python generate_PGNs.py
+    cmd: python src/data_processing/generate_PGNs.py
     deps:
-    - generate_PGNs.py
+    - src/data_processing/generate_PGNs.py
     - outputs/samples
     outs:
     - outputs/PGNs
 
   generate-FENs:
-    cmd: python generate_FENs.py
+    cmd: python src/data_processing/generate_FENs.py
     deps:
-    - generate_FENs.py
+    - src/data_processing/generate_FENs.py
     - outputs/PGNs
     outs:
     - outputs/FENs
 
   generate-evaluations:
-    cmd: python generate_evaluations.py
+    cmd: python src/data_processing/generate_evaluations.py
     deps:
-    - generate_evaluations.py
+    - src/data_processing/generate_evaluations.py
     - outputs/FENs
     outs:
     - outputs/evaluations
 
   create-task-MLM-on-moves:
-    cmd: python create_task_MLM_on_moves.py
+    cmd: python src/tasks/create_task_MLM_on_moves.py
     deps:
     - create_task_MLM_on_moves.py
     - outputs/evaluations
@@ -62,7 +62,7 @@ stages:
     - data.quantity_per_task.MLM_on_moves
 
   create-task-find-best-n-worst-move:
-    cmd: python create_task_find_best_n_worst_move.py
+    cmd: python src/tasks/create_task_find_best_n_worst_move.py
     deps:
     - create_task_find_best_n_worst_move.py
     - outputs/evaluations
@@ -72,7 +72,7 @@ stages:
     - data.quantity_per_task.find_best_n_worst_moves
 
   create-task-find-whos_winning:
-    cmd: python create_task_find_whos_winning.py
+    cmd: python src/tasks/create_task_find_whos_winning.py
     deps:
     - create_task_find_whos_winning.py
     - outputs/evaluations
@@ -82,7 +82,7 @@ stages:
     - data.quantity_per_task.find_who_is_winning
 
   create-task-sort-FENs:
-    cmd: python create_task_sort_FENs.py
+    cmd: python src/tasks/create_task_sort_FENs.py
     deps:
     - create_task_sort_FENs.py
     - outputs/evaluations
@@ -90,3 +90,16 @@ stages:
     - outputs/tasks/sortFENs
     params:
     - data.quantity_per_task.sort_FENs
+
+  generate-dataset:
+    cmd: python generate_dataset.py
+    deps:
+    - outputs/tasks/findLastMove
+    - generate_dataset.py
+    - outputs/tasks/findScore
+    - outputs/tasks/sortFENs
+    - outputs/tasks/whoIsWinning
+    - outputs/tasks/bestAndWorstMoves
+    - outputs/tasks/MLM
+    outs:
+    - outputs/dataset
