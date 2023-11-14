@@ -2,12 +2,11 @@ import os
 import wandb
 import torch
 import transformers
+import dvc.api
 
 from datetime import datetime
 from datasets import load_from_disk
 from transformers import AutoTokenizer
-from init_dataset import TRAINING_SAMPLES, GENERATE_MLM_PROMPT_PROB
-from prompts import MLM_PROMPT, REGRESSION_PROMPT, MLM_LAST_ONLY_PROMPT
 from transformers import AutoModelForCausalLM, BitsAndBytesConfig
 from accelerate import FullyShardedDataParallelPlugin, Accelerator
 from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
@@ -15,8 +14,8 @@ from torch.distributed.fsdp.fully_sharded_data_parallel import FullOptimStateDic
 
 
 WANDB_PROJECT = "StockLLM"
-# BASE_MODEL_ID = "mistralai/Mistral-7B-v0.1"
-BASE_MODEL_ID = "mistralai/Mistral-7B-Instruct-v0.1"
+BASE_MODEL_ID = "mistralai/Mistral-7B-v0.1"
+# BASE_MODEL_ID = "mistralai/Mistral-7B-Instruct-v0.1"
 PROJECT_NAME = BASE_MODEL_ID.split("/")[-1] + "-" + WANDB_PROJECT
 RUN_NAME = f"{PROJECT_NAME}-{datetime.now().strftime('%Y-%m-%d-%H-%M')}"
 
@@ -25,10 +24,7 @@ wandb.login()
 os.environ["WANDB_PROJECT"] = WANDB_PROJECT
 
 wandb.init(project=WANDB_PROJECT, name=RUN_NAME)
-wandb.run.config["MLM_PROMPT"] = MLM_PROMPT
-wandb.run.config["REGRESSION_PROMPT"] = REGRESSION_PROMPT
-wandb.run.config["GENERATE_MLM_PROMPT_PROB"] = GENERATE_MLM_PROMPT_PROB
-wandb.run.config["MLM_LAST_ONLY_PROMPT"] = MLM_LAST_ONLY_PROMPT
+wandb.run.config["dvc-params"] = dvc.api.params_show()
 
 _tokenizer = AutoTokenizer.from_pretrained(
     BASE_MODEL_ID,
@@ -38,10 +34,8 @@ _tokenizer = AutoTokenizer.from_pretrained(
 )
 _tokenizer.pad_token = _tokenizer.eos_token
 
-dataset = load_from_disk("cached_dataset")
-tokenized_train_dataset = dataset.select(range(TRAINING_SAMPLES))
-tokenized_val_dataset = dataset.select(range(TRAINING_SAMPLES, len(dataset)))
-del dataset
+train_set = load_from_disk("outputs/dataset/train")
+test_set = load_from_disk("outputs/dataset/train")
 
 bnb_config = BitsAndBytesConfig(
     load_in_4bit=True,
@@ -87,8 +81,8 @@ model = accelerator.prepare_model(model)
 
 trainer = transformers.Trainer(
     model=model,
-    train_dataset=tokenized_train_dataset,
-    eval_dataset=tokenized_val_dataset,
+    train_dataset=train_set,
+    eval_dataset=test_set,
     args=transformers.TrainingArguments(
         output_dir=PROJECT_NAME,
         warmup_steps=5,

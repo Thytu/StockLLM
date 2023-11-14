@@ -9,7 +9,7 @@ from time import sleep
 STOCKFISH_ONLINE_ENDPOINT = "https://stockfish.online/api/stockfish.php"
 
 
-@retry(n_tries=3)
+@retry.retry(n_tries=3)
 def evaluate_move(
 # async def evaluate_move(
     fen: str,

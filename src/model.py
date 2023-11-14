@@ -9,7 +9,7 @@ def tokenize(
     tokenizer,
     prompt,
     return_tensors=None,
-    max_length: int = BASE_MODEL_ID,
+    max_length: int = MODEL_MAX_LENGTH,
 ):
     return tokenizer(
         prompt,

@@ -1,0 +1,179 @@
+schema: '2.0'
+stages:
+  create-task-find-last-move:
+    cmd: python src/entrypoint.py create-task-find-last-move
+    deps:
+    - path: src/tasks/create_task_find_last_move.py
+      hash: md5
+      md5: 786827d711c409c217ee48e3cab685ff
+      size: 1689
+    params:
+      params.yaml:
+        stages.create-task-find-last-move:
+          module: tasks.create_task_find_last_move
+          params:
+            number_of_samples: 10
+            path_to_output_dataset: outputs/tasks/findLastMove/
+    outs:
+    - path: outputs/tasks/findLastMove
+      hash: md5
+      md5: 6b77f853e161777a53e0bdc272712d37.dir
+      size: 283786
+      nfiles: 3
+  create-task-find-score:
+    cmd: python src/entrypoint.py create-task-find-score
+    deps:
+    - path: src/tasks/create_task_find_score.py
+      hash: md5
+      md5: b9b6b79a84ad71b9b4842479ffd8e8b2
+      size: 1473
+    params:
+      params.yaml:
+        stages.create-task-find-score:
+          module: tasks.create_task_find_score
+          params:
+            number_of_samples: 10
+            path_to_output_dataset: outputs/tasks/findScore/
+    outs:
+    - path: outputs/tasks/findScore
+      hash: md5
+      md5: daa3649299bb15fa17661235bf93f39c.dir
+      size: 283786
+      nfiles: 3
+  create-task-MLM-on-moves:
+    cmd: python src/entrypoint.py create-task-MLM-on-moves
+    deps:
+    - path: src/tasks/create_task_MLM_on_moves.py
+      hash: md5
+      md5: 551c6b8b2f83e1cd7bb04d3d46cfa300
+      size: 2026
+    params:
+      params.yaml:
+        stages.create-task-MLM-on-moves:
+          module: tasks.create_task_MLM_on_moves
+          params:
+            number_of_samples: 10
+            path_to_output_dataset: outputs/tasks/MLM/
+    outs:
+    - path: outputs/tasks/MLM
+      hash: md5
+      md5: 1a00650446f39d8515e6387d338da3fa.dir
+      size: 283786
+      nfiles: 3
+  create-task-find-best-n-worst-move:
+    cmd: python src/entrypoint.py create-task-find-best-n-worst-move
+    deps:
+    - path: src/tasks/create_task_find_best_and_worst_moves.py
+      hash: md5
+      md5: bfb8b4ed2da0c229fb5e2a4537d3b7fa
+      size: 2523
+    params:
+      params.yaml:
+        stages.create-task-find-best-n-worst-move:
+          module: tasks.create_task_find_best_and_worst_moves
+          params:
+            number_of_samples: 10
+            path_to_output_dataset: outputs/tasks/bestAndWorstMoves/
+    outs:
+    - path: outputs/tasks/bestAndWorstMoves
+      hash: md5
+      md5: cfb05750e37bb94ed6ade57412c7fdaf.dir
+      size: 283786
+      nfiles: 3
+  create-task-find-who-is-winning:
+    cmd: python src/entrypoint.py create-task-find-who-is-winning
+    deps:
+    - path: src/tasks/create_task_find_who_is_winning.py
+      hash: md5
+      md5: 7c478688ef28aeda9372f1042e2b1d11
+      size: 1469
+    params:
+      params.yaml:
+        stages.create-task-find-who-is-winning:
+          module: tasks.create_task_find_who_is_winning
+          params:
+            number_of_samples: 10
+            path_to_output_dataset: outputs/tasks/whoIsWinning/
+    outs:
+    - path: outputs/tasks/whoIsWinning
+      hash: md5
+      md5: 651db5f1e22f1ed89325b2b598a3c42a.dir
+      size: 277762
+      nfiles: 3
+  create-task-sort-FENs:
+    cmd: python src/entrypoint.py create-task-sort-FENs
+    deps:
+    - path: src/tasks/create_task_sort_FENs.py
+      hash: md5
+      md5: 2c5ca7b063e9f4eef3bc591adde8c717
+      size: 1631
+    params:
+      params.yaml:
+        stages.create-task-sort-FENs:
+          module: tasks.create_task_sort_FENs
+          params:
+            number_of_samples: 10
+            path_to_output_dataset: outputs/tasks/sortFENs/
+    outs:
+    - path: outputs/tasks/sortFENs
+      hash: md5
+      md5: 2f0c4e603cc76ca44ebbcafdd1ecbd59.dir
+      size: 283786
+      nfiles: 3
+  generate-dataset:
+    cmd: python src/entrypoint.py generate-dataset
+    deps:
+    - path: outputs/tasks/MLM
+      hash: md5
+      md5: 636b5af254cb5d8a302d6ef1d0c432c9.dir
+      size: 284306
+      nfiles: 4
+    - path: outputs/tasks/bestAndWorstMoves
+      hash: md5
+      md5: d20473b60aab8af63a114e9b7c5285ad.dir
+      size: 284306
+      nfiles: 4
+    - path: outputs/tasks/findLastMove
+      hash: md5
+      md5: 87657a661cc1d826cf0d1664def11d75.dir
+      size: 284306
+      nfiles: 4
+    - path: outputs/tasks/findScore
+      hash: md5
+      md5: 75d21159fdf46da75f45ba500143f1e0.dir
+      size: 284306
+      nfiles: 4
+    - path: outputs/tasks/sortFENs
+      hash: md5
+      md5: dbd7f9e8962a21197f569a72f536cb78.dir
+      size: 284306
+      nfiles: 4
+    - path: outputs/tasks/whoIsWinning
+      hash: md5
+      md5: fab459cac7243c6803119fdfe9ded44d.dir
+      size: 278282
+      nfiles: 4
+    - path: src/data_processing/generate_dataset.py
+      hash: md5
+      md5: 3a06d0b8cfcdfe43f1943adc02937856
+      size: 587
+    params:
+      params.yaml:
+        stages.generate-dataset:
+          module: data_processing.generate_dataset
+          params:
+            paths:
+            - outputs/tasks/findLastMove/
+            - outputs/tasks/findScore/
+            - outputs/tasks/MLM/
+            - outputs/tasks/bestAndWorstMoves/
+            - outputs/tasks/whoIsWinning/
+            - outputs/tasks/sortFENs/
+            test_size: 0.1
+            path_to_output_dataset: outputs/dataset/
+    outs:
+    - path: outputs/dataset
+      hash: md5
+      md5: 59a7f2648babc6814ae4727a0c35bf7a.dir
+      size: 171079
+      nfiles: 3
