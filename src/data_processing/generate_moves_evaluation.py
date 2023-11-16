@@ -49,6 +49,9 @@ def evaluate_move(
 
 def _add_evaluations(example):
 
+    # NOTE: The API is too unstable to allow parallelization over request
+    # keeping the code commented for the moment
+
     # coroutines = [evaluate_move(fen) for fen in example["FENs"]]
 
     # loop = asyncio.get_event_loop()

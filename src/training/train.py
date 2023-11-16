@@ -87,7 +87,7 @@ trainer = transformers.Trainer(
         output_dir=PROJECT_NAME,
         warmup_steps=5,
         per_device_train_batch_size=4,
-        per_device_eval_batch_size=8,
+        per_device_eval_batch_size=16,
         # gradient_accumulation_steps=2,
         max_steps=int(50_000 / 4),
         learning_rate=2.5e-5, # Want about 10x smaller than the Mistral learning rate
@@ -110,38 +110,4 @@ trainer = transformers.Trainer(
 
 model.config.use_cache = False  # silence the warnings. Please re-enable for inference!
 
-class ProfilerCallback(transformers.TrainerCallback):
-    def __init__(self, prof):
-        self.prof = prof
-
-    def on_step_end(self, args, state, control, **kwargs):
-        self.prof.step()
-
-# torch.cuda.memory._record_memory_history()
-
-# os.makedirs(name=os.path.join("profiling/", RUN_NAME), exist_ok=True)
-
-# with torch.profiler.profile(
-#     activities=[
-#         torch.profiler.ProfilerActivity.CPU,
-#         torch.profiler.ProfilerActivity.CUDA
-#     ], schedule=torch.profiler.schedule(
-#         skip_first=3,
-#         wait=1,
-#         warmup=5,
-#         active=2,
-#         repeat=2
-#     ), on_trace_ready=torch.profiler.tensorboard_trace_handler('hf-training-trainer'),
-#     profile_memory=True,
-#     with_stack=True,
-#     record_shapes=True
-# ) as prof:
-
-#     trainer.add_callback(ProfilerCallback(prof=prof))
 trainer.train()
-
-    # prof.export_chrome_trace(os.path.join("profiling/", RUN_NAME, "trace.json"))
-
-# torch.cuda.memory._dump_snapshot(
-#     os.path.join("profiling/", RUN_NAME, "memory_dump_snapshot.pickle"),
-# )
