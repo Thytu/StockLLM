@@ -1,7 +1,7 @@
 from transformers import AutoTokenizer
 
 
-MODEL_MAX_LENGTH = 2048
+MODEL_MAX_LENGTH = 4096
 BASE_MODEL_ID = "mistralai/Mistral-7B-v0.1"
 
 
