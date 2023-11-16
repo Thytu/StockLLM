@@ -43,3 +43,10 @@ Also I added a memory profiler to inspect why the GPU spends so much time access
 Unsurprisingly the model has a harder time on MLM prompt than regression one (tested both isolated).
 In MLM instead of asking for random moves I should ask the model to predict the last move that led to chessmate/draw/ending.
 The model may not have sufficiant informations to guess the missing moves.
+
+## 14-11-23
+TODO: try adding a </s> at the end of labels to see if it stops the model from hallucination
+It could be handy to store in each sample the task caterory it contains.
+
+## 15-11-23
+I must increase the input lenght, inpu data can be cut

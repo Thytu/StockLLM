@@ -2,7 +2,7 @@ import torch
 
 from peft import PeftModel
 from datasets import load_dataset
-from prompts import generate_regression_prompt, generate_MLM_prompt
+from prompts import generate_regression_prompt, generate_MLM_prompt, generate_MLMlastonly_prompt
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 
 
@@ -30,12 +30,13 @@ eval_tokenizer = AutoTokenizer.from_pretrained(
 )
 eval_tokenizer.pad_token = eval_tokenizer.eos_token
 
-ft_model = PeftModel.from_pretrained(base_model, "Mistral-7B-v0.1-StockLLM/checkpoint-2000")
-ft_model.eval()
-
 dataset = load_dataset("laion/strategic_game_chess", streaming=True)
 
+ft_model = PeftModel.from_pretrained(base_model, "Mistral-7B-Instruct-v0.1-StockLLM/checkpoint-2500").to("cuda")
+ft_model.eval()
+
 data_sample = next(iter(dataset["train"]))
+print(f"{data_sample=}")
 
 model_input = generate_regression_prompt(eval_tokenizer, data_sample, return_tensors="pt")
 
@@ -43,6 +44,11 @@ with torch.no_grad():
     print(eval_tokenizer.decode(ft_model.generate(**model_input, max_new_tokens=128)[0], skip_special_tokens=True))
 
 model_input = generate_MLM_prompt(eval_tokenizer, data_sample, return_tensors="pt")
+
+with torch.no_grad():
+    print(eval_tokenizer.decode(ft_model.generate(**model_input, max_new_tokens=128)[0], skip_special_tokens=True))
+
+model_input = generate_MLMlastonly_prompt(eval_tokenizer, data_sample, return_tensors="pt")
 
 with torch.no_grad():
     print(eval_tokenizer.decode(ft_model.generate(**model_input, max_new_tokens=128)[0], skip_special_tokens=True))
