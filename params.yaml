@@ -3,37 +3,37 @@ stages:
   create-task-find-last-move:
     module: "tasks.create_task_find_last_move"
     params:
-      number_of_samples: 500
+      number_of_samples: 15000
       path_to_output_dataset: "outputs/tasks/findLastMove/"
 
   create-task-find-score:
     module: "tasks.create_task_find_score"
     params:
-      number_of_samples: 500
+      number_of_samples: 20000
       path_to_output_dataset: "outputs/tasks/findScore/"
 
   create-task-MLM-on-moves:
     module: "tasks.create_task_MLM_on_moves"
     params:
-      number_of_samples: 500
+      number_of_samples: 15000
       path_to_output_dataset: "outputs/tasks/MLM/"
 
   create-task-find-best-n-worst-move:
     module: "tasks.create_task_find_best_and_worst_moves"
     params:
-      number_of_samples: 50
+      number_of_samples: 20000
       path_to_output_dataset: "outputs/tasks/bestAndWorstMoves/"
 
   create-task-find-who-is-winning:
     module: "tasks.create_task_find_who_is_winning"
     params:
-      number_of_samples: 500
+      number_of_samples: 20000
       path_to_output_dataset: "outputs/tasks/whoIsWinning/"
 
   create-task-sort-FENs:
     module: "tasks.create_task_sort_FENs"
     params:
-      number_of_samples: 500
+      number_of_samples: 10000
       path_to_output_dataset: "outputs/tasks/sortFENs/"
 
   generate-dataset:
@@ -46,5 +46,5 @@ stages:
         - "outputs/tasks/bestAndWorstMoves/"
         - "outputs/tasks/whoIsWinning/"
         - "outputs/tasks/sortFENs/"
-      test_size: 0.05
+      test_size: 0.01
       path_to_output_dataset: "outputs/dataset/"

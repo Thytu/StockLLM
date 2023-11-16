@@ -47,3 +47,6 @@ The model may not have sufficiant informations to guess the missing moves.
 ## 14-11-23
 TODO: try adding a </s> at the end of labels to see if it stops the model from hallucination
 It could be handy to store in each sample the task caterory it contains.
+
+## 15-11-23
+I must increase the input lenght, inpu data can be cut
