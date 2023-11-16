@@ -11,7 +11,7 @@ def get_random_data_samples(number_of_samples: int):
     if number_of_samples < 0:
         raise RuntimeError(f"{number_of_samples=} must be positive.")
 
-    dataset = load_dataset("laion/strategic_game_chess", streaming=True)
+    dataset = load_dataset("laion/strategic_game_chess", streaming=True).shuffle()
 
     dataset = dataset["train"].take(number_of_samples)
 
