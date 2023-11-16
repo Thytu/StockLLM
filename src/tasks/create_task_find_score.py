@@ -3,8 +3,9 @@ from model import tokenize, get_tokenizer
 from data_processing.get_random_data_samples import get_random_data_samples
 
 
-PATH_TO_OUTPUT_DATASET = "outputs/tasks/findScore"
+TASK_ID = "FIND_FINAL_SCORE"
 
+PATH_TO_OUTPUT_DATASET = "outputs/tasks/findScore"
 
 PROMPT_FIND_SCORE = """<s>[INST]
 Given a full set of chess moves, announce the final score of the game.
@@ -46,6 +47,7 @@ def main(
         },
         num_proc=8,
     )
+    dataset = dataset.add_column("KIND", [TASK_ID] * len(dataset))
 
     dataset.save_to_disk(path_to_output_dataset)
 

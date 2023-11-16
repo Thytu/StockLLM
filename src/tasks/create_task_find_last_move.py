@@ -3,6 +3,8 @@ from model import tokenize, get_tokenizer
 from data_processing.get_random_data_samples import get_random_data_samples
 
 
+TASK_ID = "FIND_LAST_MOVE"
+
 PATH_TO_OUTPUT_DATASET = "outputs/tasks/findLastMove"
 
 PROMPT_FIND_LAST_MOVE = """<s>[INST]
@@ -53,6 +55,7 @@ def main(
         },
         num_proc=8,
     )
+    dataset = dataset.add_column("KIND", [TASK_ID] * len(dataset))
 
     dataset.save_to_disk(path_to_output_dataset)
 

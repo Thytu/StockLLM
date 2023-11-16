@@ -5,6 +5,8 @@ from data_processing.get_random_data_samples import get_random_data_samples
 from data_processing import moves_to_FENs
 
 
+TASK_ID = "MLM_ON_MOVES"
+
 PROMPT_MLM_ON_MOVES = """<s>[INST]
 Given an incomplit set of chess moves and some informations regarding this game, write the missing chess moves.
 
@@ -77,5 +79,6 @@ def main(
         },
         num_proc=8,
     )
+    dataset = dataset.add_column("KIND", [TASK_ID] * len(dataset))
 
     dataset.save_to_disk(path_to_output_dataset)

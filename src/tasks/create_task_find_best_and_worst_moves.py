@@ -6,6 +6,8 @@ from data_processing import moves_to_FENs
 from data_processing import evaluate_move
 
 
+TASK_ID = "BEST_N_WORST_MOVE"
+
 PROMPT_FIND_WORST_AND_BEST_MOVE = """<s>[INST]
 Given a full set of chess moves, write the worst and best moves from each side (white and black).
 
@@ -91,5 +93,6 @@ def main(
         },
         num_proc=8,
     )
+    dataset = dataset.add_column("KIND", [TASK_ID] * len(dataset))
 
     dataset.save_to_disk(path_to_output_dataset)

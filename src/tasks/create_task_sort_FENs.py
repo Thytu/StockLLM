@@ -5,6 +5,8 @@ from data_processing.get_random_data_samples import get_random_data_samples
 from data_processing import moves_to_FENs
 
 
+TASK_ID = "SORT_FENS"
+
 PROMPT_SORT_FENS = """<s>[INST]
 Given a list of partial FENs, sort them from the ealier in the game to the latest in the game.
 
@@ -55,5 +57,6 @@ def main(
             "tokenizer": _tokenizer,
         },
     )
+    dataset = dataset.add_column("KIND", [TASK_ID] * len(dataset))
 
     dataset.save_to_disk(path_to_output_dataset)

@@ -5,6 +5,8 @@ from data_processing.get_random_data_samples import get_random_data_samples
 from data_processing import moves_to_FENs, evaluate_move
 
 
+TASK_ID = "FIND_ADVANTAGED_PLAYER"
+
 PROMPT_FIND_WHO_IS_WINNING = """<s>[INST]
 Given some set of chess moves, write who is more advantaged (white or black)
 [/INST].
@@ -56,5 +58,6 @@ def main(
         },
         num_proc=8,
     )
+    dataset = dataset.add_column("KIND", [TASK_ID] * len(dataset))
 
     dataset.save_to_disk(path_to_output_dataset)
