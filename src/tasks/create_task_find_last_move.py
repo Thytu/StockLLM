@@ -1,5 +1,5 @@
+import os
 from datasets import Dataset
-from model import tokenize, get_tokenizer
 from data_processing.get_random_data_samples import get_random_data_samples
 
 
@@ -7,34 +7,28 @@ TASK_ID = "FIND_LAST_MOVE"
 
 PATH_TO_OUTPUT_DATASET = "outputs/tasks/findLastMove"
 
-PROMPT_FIND_LAST_MOVE = """<s>[INST]
-Given an incomplit set of chess moves and the game's final score, write the last missing chess move.
+PROMPT_FIND_LAST_MOVE = """Given an incomplit set of chess moves and the game's final score, write the last missing chess move.
 
 Input Format: A comma-separated list of chess moves followed by the game score.
-Output Format: The missing chess move
-[/INST]
-
-[INPUTS]
-Moves: {}
-Score: {}
-[/INPUTS]
-
-[OUTPUTS]
-"""
+Output Format: The missing chess move"""
 
 
 def gen_from_iterable_dataset(iterable_ds):
     yield from iterable_ds
 
 
-def generate_prompt_find_last_move(data_point, tokenizer, return_tensors=None):
+def generate_prompt_find_last_move(data_point):
     moves, removed_moves = data_point["Moves"][:-1], data_point["Moves"][-1]
     moves.append("?")
 
-    full_prompt = PROMPT_FIND_LAST_MOVE.format(moves, data_point["Result"]).replace("'", "")
-
-    result = tokenize(tokenizer, full_prompt, return_tensors=return_tensors)
-    result["labels"] = tokenize(tokenizer, str(removed_moves) + "</s>")["input_ids"]
+    result = {
+        "task": PROMPT_FIND_LAST_MOVE,
+        "input": {
+            "moves": moves,
+            "result": data_point["Result"],
+        },
+        "expected_output": str(removed_moves),
+    }
 
     return result
 
@@ -44,20 +38,21 @@ def main(
     path_to_output_dataset: str,
 ) -> Dataset:
 
-    _tokenizer = get_tokenizer()
+    os.makedirs(
+        name=path_to_output_dataset if not "." in path_to_output_dataset else os.path.split(path_to_output_dataset)[0],
+        exist_ok=True,
+    )
 
     dataset = get_random_data_samples(number_of_samples=number_of_samples)
 
     dataset = dataset.map(
         generate_prompt_find_last_move,
-        fn_kwargs={
-            "tokenizer": _tokenizer,
-        },
-        num_proc=8,
+        num_proc=os.cpu_count(),
     )
     dataset = dataset.add_column("KIND", [TASK_ID] * len(dataset))
 
-    dataset.save_to_disk(path_to_output_dataset)
+    dataset = dataset.to_pandas()
+    dataset.to_parquet(path_to_output_dataset)
 
 
 if __name__ == "__main__":

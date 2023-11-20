@@ -1,8 +1,8 @@
 import torch
 
 from peft import PeftModel
-from datasets import load_dataset
-from prompts import generate_regression_prompt, generate_MLM_prompt, generate_MLMlastonly_prompt
+from datasets import load_from_disk
+# from prompts import generate_regression_prompt, generate_MLM_prompt, generate_MLMlastonly_prompt
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 
 
@@ -30,25 +30,26 @@ eval_tokenizer = AutoTokenizer.from_pretrained(
 )
 eval_tokenizer.pad_token = eval_tokenizer.eos_token
 
-dataset = load_dataset("laion/strategic_game_chess", streaming=True)
-
-ft_model = PeftModel.from_pretrained(base_model, "Mistral-7B-Instruct-v0.1-StockLLM/checkpoint-2500").to("cuda")
+ft_model = PeftModel.from_pretrained(base_model, "Mistral-7B-v0.1-StockLLM//checkpoint-200").to("cuda")
 ft_model.eval()
 
-data_sample = next(iter(dataset["train"]))
-print(f"{data_sample=}")
 
-model_input = generate_regression_prompt(eval_tokenizer, data_sample, return_tensors="pt")
+dataset = load_from_disk("outputs/dataset/test").shuffle()
 
-with torch.no_grad():
-    print(eval_tokenizer.decode(ft_model.generate(**model_input, max_new_tokens=128)[0], skip_special_tokens=True))
-
-model_input = generate_MLM_prompt(eval_tokenizer, data_sample, return_tensors="pt")
 
 with torch.no_grad():
-    print(eval_tokenizer.decode(ft_model.generate(**model_input, max_new_tokens=128)[0], skip_special_tokens=True))
+    model_output = ft_model.generate(inputs=torch.tensor(dataset[0]["input_ids"]).unsqueeze(0))
+    print(eval_tokenizer.decode(model_output[0], skip_special_tokens=True))
 
-model_input = generate_MLMlastonly_prompt(eval_tokenizer, data_sample, return_tensors="pt")
+    model_output = ft_model.generate(inputs=torch.tensor(dataset[1]["input_ids"]).unsqueeze(0))
+    print(eval_tokenizer.decode(model_output[0], skip_special_tokens=True))
 
-with torch.no_grad():
-    print(eval_tokenizer.decode(ft_model.generate(**model_input, max_new_tokens=128)[0], skip_special_tokens=True))
+# model_input = generate_MLM_prompt(eval_tokenizer, data_sample, return_tensors="pt")
+
+# with torch.no_grad():
+#     print(eval_tokenizer.decode(ft_model.generate(**model_input, max_new_tokens=128)[0], skip_special_tokens=True))
+
+# model_input = generate_MLMlastonly_prompt(eval_tokenizer, data_sample, return_tensors="pt")
+
+# with torch.no_grad():
+#     print(eval_tokenizer.decode(ft_model.generate(**model_input, max_new_tokens=128)[0], skip_special_tokens=True))

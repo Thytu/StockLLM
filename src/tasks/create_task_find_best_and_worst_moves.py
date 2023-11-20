@@ -1,6 +1,5 @@
-from random import random
+import os
 from datasets import Dataset
-from model import tokenize, get_tokenizer
 from data_processing.get_random_data_samples import get_random_data_samples
 from data_processing import moves_to_FENs
 from data_processing import evaluate_move
@@ -8,8 +7,7 @@ from data_processing import evaluate_move
 
 TASK_ID = "BEST_N_WORST_MOVE"
 
-PROMPT_FIND_WORST_AND_BEST_MOVE = """<s>[INST]
-Given a full set of chess moves, write the worst and best moves from each side (white and black).
+PROMPT_FIND_WORST_AND_BEST_MOVE = """Given a full set of chess moves, write the worst and best moves from each side (white and black).
 
 Follow the following output format:
 White
@@ -18,14 +16,7 @@ best: [insert white's best move]
 
 Black
 worst: [insert black's worst move]
-best: [insert black's best move]
-[/INST]
-
-[INPUTS]
-Moves: {}
-[/INPUTS]
-
-[OUTPUTS]"""
+best: [insert black's best move]"""
 
 PROMPT_LABEL = """
 White
@@ -38,7 +29,7 @@ best: {}
 """
 
 
-def generate_prompt_find_worst_and_best_move(data_point, tokenizer, return_tensors=None):
+def generate_prompt_find_worst_and_best_move(data_point):
 
     FENs = moves_to_FENs(data_point["Moves"])
     evaluations = [evaluate_move(fen, depth=8) for fen in FENs]
@@ -61,18 +52,18 @@ def generate_prompt_find_worst_and_best_move(data_point, tokenizer, return_tenso
     idx_worst_move = evaluations.index(min([evaluations[i] for i in black_moves]))
     worst_move_from_black = data_point["Moves"][idx_worst_move]
 
-    full_prompt = PROMPT_FIND_WORST_AND_BEST_MOVE.format(data_point["Moves"]).replace("'", "")
-
-    result = tokenize(tokenizer, full_prompt, return_tensors=return_tensors)
-    result["labels"] = tokenize(
-        tokenizer,
-        PROMPT_LABEL.format(
+    result = {
+        "task": PROMPT_FIND_WORST_AND_BEST_MOVE,
+        "input": {
+            "moves": data_point["Moves"],
+        },
+        "expected_output": PROMPT_LABEL.format(
             worst_move_from_white,
             best_move_from_white,
             worst_move_from_black,
             best_move_from_black,
-        ) + "</s>"
-    )["input_ids"]
+        ),
+    }
 
     return result
 
@@ -82,17 +73,18 @@ def main(
     path_to_output_dataset: str,
 ) -> Dataset:
 
-    _tokenizer = get_tokenizer()
+    os.makedirs(
+        name=path_to_output_dataset if not "." in path_to_output_dataset else os.path.split(path_to_output_dataset)[0],
+        exist_ok=True,
+    )
 
     dataset = get_random_data_samples(number_of_samples=number_of_samples)
 
     dataset = dataset.map(
         generate_prompt_find_worst_and_best_move,
-        fn_kwargs={
-            "tokenizer": _tokenizer,
-        },
-        num_proc=8,
+        num_proc=os.cpu_count(),
     )
     dataset = dataset.add_column("KIND", [TASK_ID] * len(dataset))
 
-    dataset.save_to_disk(path_to_output_dataset)
+    dataset = dataset.to_pandas()
+    dataset.to_parquet(path_to_output_dataset)

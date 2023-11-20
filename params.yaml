@@ -4,47 +4,56 @@ stages:
     module: "tasks.create_task_find_last_move"
     params:
       number_of_samples: 15000
-      path_to_output_dataset: "outputs/tasks/findLastMove/"
+      path_to_output_dataset: "outputs/tasks/findLastMove.parquet"
 
   create-task-find-score:
     module: "tasks.create_task_find_score"
     params:
       number_of_samples: 20000
-      path_to_output_dataset: "outputs/tasks/findScore/"
+      path_to_output_dataset: "outputs/tasks/findScore.parquet"
 
   create-task-MLM-on-moves:
     module: "tasks.create_task_MLM_on_moves"
     params:
       number_of_samples: 15000
-      path_to_output_dataset: "outputs/tasks/MLM/"
+      path_to_output_dataset: "outputs/tasks/MLM.parquet"
 
   create-task-find-best-n-worst-move:
     module: "tasks.create_task_find_best_and_worst_moves"
     params:
       number_of_samples: 20000
-      path_to_output_dataset: "outputs/tasks/bestAndWorstMoves/"
+      path_to_output_dataset: "outputs/tasks/bestAndWorstMoves.parquet"
 
   create-task-find-who-is-winning:
     module: "tasks.create_task_find_who_is_winning"
     params:
       number_of_samples: 20000
-      path_to_output_dataset: "outputs/tasks/whoIsWinning/"
+      path_to_output_dataset: "outputs/tasks/whoIsWinning.parquet"
 
   create-task-sort-FENs:
     module: "tasks.create_task_sort_FENs"
     params:
       number_of_samples: 10000
-      path_to_output_dataset: "outputs/tasks/sortFENs/"
+      path_to_output_dataset: "outputs/tasks/sortFENs.parquet"
 
-  generate-dataset:
-    module: "data_processing.generate_dataset"
+  merge-tasks-into-dataset:
+    module: "data_processing.merge_tasks_into_dataset"
     params:
       paths:
-        - "outputs/tasks/findLastMove/"
-        - "outputs/tasks/findScore/"
-        - "outputs/tasks/MLM/"
-        - "outputs/tasks/bestAndWorstMoves/"
-        - "outputs/tasks/whoIsWinning/"
-        - "outputs/tasks/sortFENs/"
+        - "outputs/tasks/findLastMove.parquet"
+        - "outputs/tasks/findScore.parquet"
+        - "outputs/tasks/MLM.parquet"
+        - "outputs/tasks/bestAndWorstMoves.parquet"
+        - "outputs/tasks/whoIsWinning.parquet"
+        - "outputs/tasks/sortFENs.parquet"
       test_size: 0.01
+      path_to_train_set: "outputs/raw/train.parquet"
+      path_to_test_set: "outputs/raw/test.parquet"
+
+  generate-ready-to-use-dataset:
+    module: "data_processing.generate_ready_to_use_dataset"
+    params:
+      paths:
+        - "outputs/rawq/train.parquet"
+        - "outputs/rawq/test.parquet"
       path_to_output_dataset: "outputs/dataset/"
