@@ -1,3 +1,4 @@
+from typing import Optional
 from transformers import AutoTokenizer, PreTrainedTokenizer, BatchEncoding
 
 
@@ -8,7 +9,7 @@ BASE_MODEL_ID = "mistralai/Mistral-7B-v0.1"
 def tokenize(
     tokenizer: PreTrainedTokenizer,
     prompt: str,
-    return_tensors: bool = None,
+    return_tensors: Optional[bool] = None,
     max_length: int = MODEL_MAX_LENGTH,
 ) -> BatchEncoding:
     return tokenizer(

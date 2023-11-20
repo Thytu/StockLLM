@@ -1,30 +1,60 @@
-import pandas as pd
+import os
 
-from typing import List
+from transformers import BatchEncoding
+from model import get_tokenizer, tokenize
+from datasets import Dataset, DatasetDict
 
-PROMPT = """<s>[INST]{}[/INST][IN]{}[/IN][OUT]{}[/OUT]
-"""
+
+PROMPT = "<s>[INST]{}[/INST]\n[IN]{}[/IN]\n[OUT]"
+LABEL_PROMPT = "\n{}[/OUT]</s>"
+
+
+def generate_and_tokenize_prompt(sample, tokenizer) -> BatchEncoding:
+
+    result = tokenize(
+        tokenizer=tokenizer,
+        prompt=PROMPT.format(
+            sample["task"],
+            "\n".join([f"{k}: {v}" for (k, v) in sample["input"].items()])
+        ),
+        return_tensors=False,
+    )
+
+    result["labels"] = tokenize(
+        tokenizer=tokenizer,
+        prompt=LABEL_PROMPT.format(
+            "\n".join([f"{k}: {v}" for (k, v) in sample["output"].items()])
+        ),
+        return_tensors=False,
+    )
+
+    return result
 
 def main(
-    paths: List[str],
-    test_size: float,
-    path_to_train_set: str,
     path_to_test_set: str,
+    path_to_train_set: str,
+    path_to_output_dataset: str,
 ) -> None:
 
-    training_sets = []
-    test_sets = []
+    tokenizer = get_tokenizer()
 
-    for _path in paths:
-        df = pd.read_parquet(_path)
-        df = df.sample(frac=1)
+    test_set = Dataset.from_parquet(path_to_test_set).map(
+        generate_and_tokenize_prompt,
+        fn_kwargs={
+            "tokenizer": tokenizer,
+        },
+        num_proc=os.cpu_count(),
+    )
 
-        test_sets.append(df[:int(len(df) * test_size)])
-        training_sets.append(df[int(len(df) * test_size):])
+    train_set = Dataset.from_parquet(path_to_train_set).map(
+        generate_and_tokenize_prompt,
+        fn_kwargs={
+            "tokenizer": tokenizer,
+        },
+        num_proc=os.cpu_count(),
+    )
 
-
-    test_sets = pd.concat(test_sets, ignore_index=True)
-    training_sets = pd.concat(training_sets, ignore_index=True)
-
-    test_sets.to_parquet(path_to_test_set)
-    training_sets.to_parquet(path_to_train_set)
+    DatasetDict({
+        "test": test_set,
+        "train": train_set,
+    }).save_to_disk(path_to_output_dataset)
