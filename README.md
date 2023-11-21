@@ -16,7 +16,7 @@
   <h3 align="center">StockLLM</h3>
 
   <p align="center">
-    StockLLM: Elevating Chess Strategy with Fine-Tuned Language Models
+    Elevating Chess Strategy with Fine-Tuned Language Models
     <br />
     <a href="#usage"><strong>Explore the docs »</strong></a>
     <br />
