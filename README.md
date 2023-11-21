@@ -111,9 +111,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## Contact
 
-Valentin De Matos - [@ThytuVDM](https://twitter.com/ThytuVDM) - valentin.de-matos@epitech.eu
-
-Project Link: [https://github.com/Thytu/StockLLM](https://github.com/Thytu/StockLLM)
+Valentin De Matos - [@ThytuVDM](https://twitter.com/ThytuVDM) - vltn.dematos@gmail.com
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
