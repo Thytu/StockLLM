@@ -4,13 +4,14 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
+[![PUll Request][pr-shield]][pr-url]
 [![MIT License][license-shield]][license-url]
 
 
 <br />
 <div align="center">
   <a href="https://github.com/Thytu/StockLLM">
-    <img src="https://github.com/Thytu/StockLLM/assets/43698357/1e7bad49-7903-4a7a-b663-d44091112514" alt="Logo" width="200" height="200">
+    <img src="https://i.ibb.co/8zqgnxX/StockLLM.png" alt="Logo" width="200" height="200">
   </a>
 
   <h3 align="center">StockLLM</h3>
@@ -127,13 +128,15 @@ TODO
 <!-- MARKDOWN LINKS & IMAGES -->
 [contributors-shield]: https://img.shields.io/github/contributors/Thytu/StockLLM.svg?style=for-the-badge
 [contributors-url]: https://github.com/Thytu/StockLLM/graphs/contributors
+[pr-shield]: https://img.shields.io/github/issues-pr/Thytu/StockLLM.svg?style=for-the-badge
+[pr-url]: https://github.com/Thytu/StockLLM/pulls
 [issues]: https://img.shields.io/github/issues/Thytu/StockLLM
-[forks-shield]: https://img.shields.io/github/forks/Thytu/StockLLM.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/Thytu/StockLLM.svg?style=for-the-badge&
 [forks-url]: https://github.com/Thytu/StockLLM/network/members
-[stars-shield]: https://img.shields.io/github/stars/Thytu/StockLLM.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/Thytu/StockLLM.svg?style=for-the-badge&
 [stars-url]: https://github.com/Thytu/StockLLM/stargazers
-[issues-shield]: https://img.shields.io/github/issues/Thytu/StockLLM.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/Thytu/StockLLM.svg?style=for-the-badge&
 [issues-url]: https://github.com/Thytu/StockLLM/issues
-[license-shield]: https://img.shields.io/github/license/Thytu/StockLLM.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/Thytu/StockLLM.svg?style=for-the-badge&
 [license-url]: https://github.com/Thytu/StockLLM/blob/master/LICENSE
 [product-screenshot]: .img/demo-simple.gif
