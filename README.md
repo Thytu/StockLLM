@@ -102,7 +102,7 @@ Please try to follow [Conventional Commits](https://www.conventionalcommits.org/
 
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -135,5 +135,5 @@ TODO
 [issues-shield]: https://img.shields.io/github/issues/Thytu/StockLLM.svg?style=for-the-badge
 [issues-url]: https://github.com/Thytu/StockLLM/issues
 [license-shield]: https://img.shields.io/github/license/Thytu/StockLLM.svg?style=for-the-badge
-[license-url]: https://github.com/Thytu/StockLLM/blob/master/LICENSE.txt
+[license-url]: https://github.com/Thytu/StockLLM/blob/master/LICENSE
 [product-screenshot]: .img/demo-simple.gif
