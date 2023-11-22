@@ -73,9 +73,17 @@ TODO
 
 ## Roadmap
 
-TODO
+### Dataset
+- [ ] Change intermediate output format to parquet
+- [ ] Generate an intermediate dataset agnostic to any model's prompt format
+- [ ] Generate move evaluation localy by running a StockFish server
+
+### Model
+- [ ] RM will come soonly
+
 
 See the [open issues](https://github.com/Thytu/StockLLM/issues) for a full list of proposed features and known issues.
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
