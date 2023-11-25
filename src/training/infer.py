@@ -2,7 +2,6 @@ import torch
 
 from peft import PeftModel
 from datasets import load_from_disk
-# from prompts import generate_regression_prompt, generate_MLM_prompt, generate_MLMlastonly_prompt
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 
 

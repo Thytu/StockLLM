@@ -5,8 +5,8 @@ stages:
     deps:
     - path: src/tasks/create_task_find_last_move.py
       hash: md5
-      md5: 2a2e851c71586110ea0ffa5f5ae8e8aa
-      size: 1742
+      md5: 193333a518824964886c768eb0cbf1d9
+      size: 1782
     params:
       params.yaml:
         stages.create-task-find-last-move:
@@ -17,15 +17,15 @@ stages:
     outs:
     - path: outputs/tasks/findLastMove.parquet
       hash: md5
-      md5: 9a082367850faeb72a1fde52ad707fce
-      size: 7998218
+      md5: 78197fae3f5937db2b891a80e82e5088
+      size: 7966417
   create-task-find-score:
     cmd: python src/entrypoint.py create-task-find-score
     deps:
     - path: src/tasks/create_task_find_score.py
       hash: md5
-      md5: d618f39d3caa238827f897d0f05e3029
-      size: 1515
+      md5: 1640f9cd62204cbcce1108e5df46420e
+      size: 1548
     params:
       params.yaml:
         stages.create-task-find-score:
@@ -36,15 +36,15 @@ stages:
     outs:
     - path: outputs/tasks/findScore.parquet
       hash: md5
-      md5: df49862b4d1b3382fea6992177c262a2
-      size: 10582041
+      md5: 6865bcfc9d4694f2ae43eb2bd99efa48
+      size: 10569968
   create-task-MLM-on-moves:
     cmd: python src/entrypoint.py create-task-MLM-on-moves
     deps:
     - path: src/tasks/create_task_MLM_on_moves.py
       hash: md5
-      md5: 67e6b37b6dc0ff758f229ccc25fcb34c
-      size: 2057
+      md5: f63ef62e2aba59adc4e90f68807a5d2a
+      size: 2098
     params:
       params.yaml:
         stages.create-task-MLM-on-moves:
@@ -55,34 +55,15 @@ stages:
     outs:
     - path: outputs/tasks/MLM.parquet
       hash: md5
-      md5: e46fb3a6c962472ea794e28ffbd9ea09
-      size: 8599632
-  create-task-find-best-n-worst-move:
-    cmd: python src/entrypoint.py create-task-find-best-n-worst-move
-    deps:
-    - path: src/tasks/create_task_find_best_and_worst_moves.py
-      hash: md5
-      md5: fb6a9f074d5b7fc0d2cc0195d6f1c64c
-      size: 2830
-    params:
-      params.yaml:
-        stages.create-task-find-best-n-worst-move:
-          module: tasks.create_task_find_best_and_worst_moves
-          params:
-            number_of_samples: 20000
-            path_to_output_dataset: outputs/tasks/bestAndWorstMoves.parquet
-    outs:
-    - path: outputs/tasks/bestAndWorstMoves.parquet
-      hash: md5
-      md5: 14d979c9b0408105dab2bc93c2d4b533
-      size: 10951512
+      md5: 204b523cbe7be7c43a499da0e571c1a3
+      size: 8636277
   create-task-find-who-is-winning:
     cmd: python src/entrypoint.py create-task-find-who-is-winning
     deps:
     - path: src/tasks/create_task_find_who_is_winning.py
       hash: md5
-      md5: 1f7f4b600af14154dc95c54dff4c578d
-      size: 1851
+      md5: bff22b380ea0893e8151236b100c10a8
+      size: 2001
     params:
       params.yaml:
         stages.create-task-find-who-is-winning:
@@ -93,15 +74,15 @@ stages:
     outs:
     - path: outputs/tasks/whoIsWinning.parquet
       hash: md5
-      md5: b607b6df247633a59b6a085704510f5a
-      size: 5497895
+      md5: 0b5527f2e77d79c56711ae0534f0540d
+      size: 5448956
   create-task-sort-FENs:
     cmd: python src/entrypoint.py create-task-sort-FENs
     deps:
     - path: src/tasks/create_task_sort_FENs.py
       hash: md5
-      md5: 2d3288be0609ce7193ca4d7ae9ea46a7
-      size: 1711
+      md5: 814418d6f546c7af7deb60105dbffe67
+      size: 1751
     params:
       params.yaml:
         stages.create-task-sort-FENs:
@@ -112,72 +93,15 @@ stages:
     outs:
     - path: outputs/tasks/sortFENs.parquet
       hash: md5
-      md5: e44ea9aa2e96baea489d7a1b11d7c4ba
-      size: 5267093
-  generate-dataset:
-    cmd: python src/entrypoint.py generate-dataset
-    deps:
-    - path: outputs/tasks/MLM
-      hash: md5
-      md5: 1e0f728b4e007ed386b35c0c85958cbd.dir
-      size: 14109580
-      nfiles: 5
-    - path: outputs/tasks/bestAndWorstMoves
-      hash: md5
-      md5: d548df6e74b03ad62fffb7bc398499f0.dir
-      size: 1413524
-      nfiles: 5
-    - path: outputs/tasks/findLastMove
-      hash: md5
-      md5: ff7cefd1ff47fe52954c7350bd01c33b.dir
-      size: 14109580
-      nfiles: 5
-    - path: outputs/tasks/findScore
-      hash: md5
-      md5: 329ec51fefd7e25247a4145f1a69c5be.dir
-      size: 14109580
-      nfiles: 5
-    - path: outputs/tasks/sortFENs
-      hash: md5
-      md5: e583edcff6912eafe259e5d5c1de0f3a.dir
-      size: 14110022
-      nfiles: 5
-    - path: outputs/tasks/whoIsWinning
-      hash: md5
-      md5: 1408739c65a2317dca1db70580888d82.dir
-      size: 13744180
-      nfiles: 5
-    - path: src/data_processing/generate_dataset.py
-      hash: md5
-      md5: 105b0967edfed3bd5c08169568ab839e
-      size: 671
-    params:
-      params.yaml:
-        stages.generate-dataset:
-          module: data_processing.generate_dataset
-          params:
-            paths:
-            - outputs/tasks/findLastMove/
-            - outputs/tasks/findScore/
-            - outputs/tasks/MLM/
-            - outputs/tasks/bestAndWorstMoves/
-            - outputs/tasks/whoIsWinning/
-            - outputs/tasks/sortFENs/
-            test_size: 0.05
-            path_to_output_dataset: outputs/dataset/
-    outs:
-    - path: outputs/dataset
-      hash: md5
-      md5: 9e04747d51bd9bfa4fe963bfedfbfdd8.dir
-      size: 71560654
-      nfiles: 6
+      md5: 1e8ced3e657d6b80f24f25724b6e3053
+      size: 5280419
   create-task-find-next-best-move:
     cmd: python src/entrypoint.py create-task-find-next-best-move
     deps:
     - path: src/tasks/create_task_find_next_best_move.py
       hash: md5
-      md5: 9326c81459fd71209f2d0d6af158878c
-      size: 1974
+      md5: 25cbb3764dfd47616f9cebe82198b6d8
+      size: 2016
     params:
       params.yaml:
         stages.create-task-find-next-best-move:
@@ -188,39 +112,39 @@ stages:
     outs:
     - path: outputs/tasks/bestMove.parquet
       hash: md5
-      md5: 1bc217066ddcb78ebb93c0678d412b0f
-      size: 5483618
+      md5: 58119ee89ea9ce5741387983f7a7714a
+      size: 5483092
   merge-tasks-into-dataset:
     cmd: python src/entrypoint.py merge-tasks-into-dataset
     deps:
     - path: outputs/tasks/MLM.parquet
       hash: md5
-      md5: e46fb3a6c962472ea794e28ffbd9ea09
-      size: 8599632
+      md5: 204b523cbe7be7c43a499da0e571c1a3
+      size: 8636277
     - path: outputs/tasks/bestMove.parquet
       hash: md5
-      md5: 1bc217066ddcb78ebb93c0678d412b0f
-      size: 5483618
+      md5: 58119ee89ea9ce5741387983f7a7714a
+      size: 5483092
     - path: outputs/tasks/findLastMove.parquet
       hash: md5
-      md5: 9a082367850faeb72a1fde52ad707fce
-      size: 7998218
+      md5: 78197fae3f5937db2b891a80e82e5088
+      size: 7966417
     - path: outputs/tasks/findScore.parquet
       hash: md5
-      md5: df49862b4d1b3382fea6992177c262a2
-      size: 10582041
+      md5: 6865bcfc9d4694f2ae43eb2bd99efa48
+      size: 10569968
     - path: outputs/tasks/sortFENs.parquet
       hash: md5
-      md5: e44ea9aa2e96baea489d7a1b11d7c4ba
-      size: 5267093
+      md5: 1e8ced3e657d6b80f24f25724b6e3053
+      size: 5280419
     - path: outputs/tasks/whoIsWinning.parquet
       hash: md5
-      md5: b607b6df247633a59b6a085704510f5a
-      size: 5497895
+      md5: 0b5527f2e77d79c56711ae0534f0540d
+      size: 5448956
     - path: src/data_processing/merge_tasks_into_dataset.py
       hash: md5
-      md5: aee220ea09ef0d30e4a5ec7fabdf30e3
-      size: 827
+      md5: 3e08ec1a248497a5b62e9625dcfd39d5
+      size: 1689
     params:
       params.yaml:
         stages.merge-tasks-into-dataset:
@@ -234,11 +158,37 @@ stages:
             - outputs/tasks/sortFENs.parquet
             - outputs/tasks/bestMove.parquet
             test_size: 0.01
-            path_to_train_set: outputs/raw/train.parquet
-            path_to_test_set: outputs/raw/test.parquet
+            path_to_train_set: outputs/raw/train.csv
+            path_to_test_set: outputs/raw/test.csv
     outs:
     - path: outputs/raw/
       hash: md5
-      md5: ec5f85275a437aed763a980b4621bf39.dir
-      size: 43408752
+      md5: 924b9e7fc0de8a6f56f45f1512cd58b9.dir
+      size: 162771040
       nfiles: 2
+  generate-ready-to-use-dataset:
+    cmd: python src/entrypoint.py generate-ready-to-use-dataset
+    deps:
+    - path: outputs/raw/
+      hash: md5
+      md5: 924b9e7fc0de8a6f56f45f1512cd58b9.dir
+      size: 162771040
+      nfiles: 2
+    - path: src/data_processing/generate_ready_to_use_dataset.py
+      hash: md5
+      md5: 438ca8adc30e79b1f3b1aef8630fca3e
+      size: 1772
+    params:
+      params.yaml:
+        stages.generate-ready-to-use-dataset:
+          module: data_processing.generate_ready_to_use_dataset
+          params:
+            path_to_test_set: outputs/raw/test.csv
+            path_to_train_set: outputs/raw/train.csv
+            path_to_output_dataset: outputs/dataset/
+    outs:
+    - path: outputs/dataset/
+      hash: md5
+      md5: 5487244f04e0bb4b4dd0ece0bddaa941.dir
+      size: 5326051725
+      nfiles: 17

@@ -4,7 +4,7 @@ from random import randint
 from utils.retry import retry
 from datasets import Dataset
 from data_processing.get_random_data_samples import get_random_data_samples
-from data_processing import moves_to_FENs, evaluate_position
+from data_processing import moves_to_FENs, evaluate_positions
 
 
 TASK_ID = "FIND_ADVANTAGED_PLAYER"
@@ -12,32 +12,40 @@ TASK_ID = "FIND_ADVANTAGED_PLAYER"
 PROMPT_FIND_WHO_IS_WINNING = """Given some set of chess moves, write who is more advantaged (white or black)"""
 
 @retry
-def generate_prompt_find_who_is_winning(data_point):
+def generate_prompt_find_who_is_winning(data_points):
 
-    FENs = moves_to_FENs(data_point["Moves"])
+    samples = []
 
-    idx_to_cut_at = randint(
-        min(5, len(FENs)),
-        len(FENs),
-    )
+    for idx in range(len(data_points["Moves"])):
+        FENs = moves_to_FENs(data_points["Moves"][idx])
 
-    data_point["Moves"] = data_point["Moves"][:idx_to_cut_at]
+        idx_to_cut_at = randint(
+            min(5, len(FENs)),
+            len(FENs),
+        )
 
-    FENs = FENs[:idx_to_cut_at]
+        data_points["Moves"][idx] = data_points["Moves"][idx][:idx_to_cut_at]
 
-    evaluation = evaluate_position(
-        fen=FENs[-1],
+        FENs = FENs[:idx_to_cut_at]
+
+        samples.append({
+            "moves": data_points["Moves"][idx],
+            "FENs": FENs,
+        })
+
+    evaluations = evaluate_positions(
+        fens=[_sample["FENs"][-1] for _sample in samples],
         depth=12,
     )
 
     result = {
-        "task": PROMPT_FIND_WHO_IS_WINNING,
-        "input": {
-            "moves": data_point["Moves"],
-        },
-        "expected_output": {
-            "Most advantaged": "White" if evaluation >= 0 else "Black"
-        },
+        "task": [PROMPT_FIND_WHO_IS_WINNING] * len(samples),
+        "input": [{
+            "moves": _sample["moves"],
+        } for _sample in samples],
+        "expected_output": [{
+            "Most advantaged": "White" if _evaluation >= 0 else "Black"
+        } for _evaluation in evaluations],
     }
 
     return result
@@ -48,25 +56,18 @@ def main(
     path_to_output_dataset: str,
 ) -> Dataset:
 
-    # path_to_stockfish = os.getenv("PATH_TO_STOCKFISH")
-
-    # if not path_to_stockfish:
-    #     raise RuntimeError("You must set PATH_TO_STOCKFISH env var.")
-
     os.makedirs(
         name=path_to_output_dataset if not "." in path_to_output_dataset else os.path.split(path_to_output_dataset)[0],
         exist_ok=True,
     )
 
-    # engine = SimpleEngine.popen_uci(path_to_stockfish)
-
     dataset = get_random_data_samples(number_of_samples=number_of_samples)
 
     dataset = dataset.map(
         generate_prompt_find_who_is_winning,
-        fn_kwargs={
-            # "engine": engine,
-        }, num_proc=os.cpu_count() - 1,
+        batched=True,
+        batch_size=20,
+        num_proc=os.cpu_count() - 1,
     )
     dataset = dataset.add_column("KIND", [TASK_ID] * len(dataset))
 
