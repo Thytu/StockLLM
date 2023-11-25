@@ -26,7 +26,7 @@ def generate_and_tokenize_prompt(sample, tokenizer) -> BatchEncoding:
         prompt=LABEL_PROMPT.format(
             "\n".join([f"{k}: {v}" for (k, v) in json.loads(sample["expected_output"]).items()])
         ),
-    )
+    )["input_ids"]
 
     return result
 
@@ -57,6 +57,7 @@ def main(
         num_proc=os.cpu_count(),
     )
     train_set = train_set.remove_columns([c for c in train_set.column_names if c not in COLUMNS_TO_KEEP])
+
 
     DatasetDict({
         "test": test_set,
