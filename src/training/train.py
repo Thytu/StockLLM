@@ -35,7 +35,7 @@ _tokenizer = AutoTokenizer.from_pretrained(
 _tokenizer.pad_token = _tokenizer.eos_token
 
 train_set = load_from_disk("outputs/dataset/train")
-test_set = load_from_disk("outputs/dataset/train")
+test_set = load_from_disk("outputs/dataset/test")
 
 bnb_config = BitsAndBytesConfig(
     load_in_4bit=True,
