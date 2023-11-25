@@ -62,6 +62,6 @@ stages:
   generate-ready-to-use-dataset:
     module: "data_processing.generate_ready_to_use_dataset"
     params:
-      path_to_test_set: "outputs/raw/train.csv"
-      path_to_train_set: "outputs/raw/test.csv"
+      path_to_test_set: "outputs/raw/test.csv"
+      path_to_train_set: "outputs/raw/train.csv"
       path_to_output_dataset: "outputs/dataset/"
