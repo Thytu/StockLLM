@@ -62,7 +62,7 @@ Key Features of StockLLM (WIP):
 * **Adaptive Learning Capabilities**: The model aspires to adapt dynamically to diverse skill levels, providing tailored guidance, analyses, and instructional content catering to beginners, intermediate, and advanced players alike.
 
 ### ChessInstruct Dataset
-The ChessInstruct Dataset serves as the foundation for training and fine-tuning Language Models (LLMs) specifically in the realm of chess instruction.
+The [ChessInstruct](https://huggingface.co/datasets/Thytu/ChessInstruct) Dataset serves as the foundation for training and fine-tuning Language Models (LLMs) specifically in the realm of chess instruction.
 Derived from the [laion/strategic_game_chess](https://huggingface.co/datasets/laion/strategic_game_chess) dataset, this meticulously curated dataset encompasses a wide array of annotated instructional chess content.
 
 Features of the ChessInstruct Dataset:
