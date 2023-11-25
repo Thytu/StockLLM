@@ -27,14 +27,16 @@ stages:
     params:
     - stages.create-task-MLM-on-moves
 
-  create-task-find-best-n-worst-move:
-    cmd: python src/entrypoint.py create-task-find-best-n-worst-move
-    deps:
-    - src/tasks/create_task_find_best_and_worst_moves.py
-    outs:
-    - outputs/tasks/bestAndWorstMoves.parquet
-    params:
-    - stages.create-task-find-best-n-worst-move
+  # Considered deprecated: I'm not convinced it's helpful for the
+  # model while it the most task consuming task to generate
+  # create-task-find-best-n-worst-positions:
+  #   cmd: python src/entrypoint.py create-task-find-best-n-worst-positions
+  #   deps:
+  #   - src/tasks/create_task_find_best_and_worst_positions.py
+  #   outs:
+  #   - outputs/tasks/bestAndWorstPositions.parquet
+  #   params:
+  #   - stages.create-task-find-best-n-worst-positions
 
   create-task-find-who-is-winning:
     cmd: python src/entrypoint.py create-task-find-who-is-winning
@@ -54,17 +56,37 @@ stages:
     params:
     - stages.create-task-sort-FENs
 
-  generate-dataset:
-    cmd: python src/entrypoint.py generate-dataset
+  create-task-find-next-best-move:
+    cmd: python src/entrypoint.py create-task-find-next-best-move
     deps:
-    - src/data_processing/generate_dataset.py
+    - src/tasks/create_task_find_next_best_move.py
+    outs:
+    - outputs/tasks/bestMove.parquet
+    params:
+    - stages.create-task-find-next-best-move
+
+  merge-tasks-into-dataset:
+    cmd: python src/entrypoint.py merge-tasks-into-dataset
+    deps:
+    - src/data_processing/merge_tasks_into_dataset.py
     - outputs/tasks/findLastMove.parquet
     - outputs/tasks/findScore.parquet
     - outputs/tasks/sortFENs.parquet
     - outputs/tasks/whoIsWinning.parquet
-    - outputs/tasks/bestAndWorstMoves.parquet
+    # - outputs/tasks/bestAndWorstPositions.parquet
+    - outputs/tasks/bestMove.parquet
     - outputs/tasks/MLM.parquet
     outs:
-    - outputs/dataset
+    - outputs/raw/
     params:
-    - stages.generate-dataset
+    - stages.merge-tasks-into-dataset
+
+  generate-ready-to-use-dataset:
+    cmd: python src/entrypoint.py generate-ready-to-use-dataset
+    deps:
+    - src/data_processing/generate_ready_to_use_dataset.py
+    - outputs/raw/
+    outs:
+    - outputs/dataset/
+    params:
+    - stages.generate-ready-to-use-dataset

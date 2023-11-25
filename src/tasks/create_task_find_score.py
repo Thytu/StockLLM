@@ -19,7 +19,9 @@ def generate_prompt_find_score(data_point):
         "input": {
             "moves": data_point["Moves"],
         },
-        "expected_output": data_point["Result"],
+        "expected_output": {
+            "score": data_point["Result"]
+        },
     }
 
     return result

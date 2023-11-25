@@ -1,4 +1,6 @@
 import os
+import json
+import pandas as pd
 
 from transformers import BatchEncoding
 from model import get_tokenizer, tokenize
@@ -15,17 +17,15 @@ def generate_and_tokenize_prompt(sample, tokenizer) -> BatchEncoding:
         tokenizer=tokenizer,
         prompt=PROMPT.format(
             sample["task"],
-            "\n".join([f"{k}: {v}" for (k, v) in sample["input"].items()])
+            "\n".join([f"{k}: {v}" for (k, v) in json.loads(sample["input"]).items()])
         ),
-        return_tensors=False,
     )
 
     result["labels"] = tokenize(
         tokenizer=tokenizer,
         prompt=LABEL_PROMPT.format(
-            "\n".join([f"{k}: {v}" for (k, v) in sample["output"].items()])
+            "\n".join([f"{k}: {v}" for (k, v) in json.loads(sample["expected_output"]).items()])
         ),
-        return_tensors=False,
     )
 
     return result
@@ -38,7 +38,7 @@ def main(
 
     tokenizer = get_tokenizer()
 
-    test_set = Dataset.from_parquet(path_to_test_set).map(
+    test_set = Dataset.from_csv(path_to_test_set).map(
         generate_and_tokenize_prompt,
         fn_kwargs={
             "tokenizer": tokenizer,
@@ -46,7 +46,7 @@ def main(
         num_proc=os.cpu_count(),
     )
 
-    train_set = Dataset.from_parquet(path_to_train_set).map(
+    train_set = Dataset.from_csv(path_to_train_set).map(
         generate_and_tokenize_prompt,
         fn_kwargs={
             "tokenizer": tokenizer,

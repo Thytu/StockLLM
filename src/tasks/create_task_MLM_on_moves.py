@@ -47,7 +47,9 @@ def generate_prompt_MLM_on_moves(data_point):
             "FEN": final_FEN,
             "result": data_point["Result"],
         },
-        "expected_output": str(removed_moves).replace("'", ""),
+        "expected_output": {
+            "missing moves": str(removed_moves).replace("'", "")
+        },
     }
 
     return result

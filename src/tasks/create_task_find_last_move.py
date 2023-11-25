@@ -27,7 +27,9 @@ def generate_prompt_find_last_move(data_point):
             "moves": moves,
             "result": data_point["Result"],
         },
-        "expected_output": str(removed_moves),
+        "expected_output": {
+            "missing move": str(removed_moves)
+        },
     }
 
     return result

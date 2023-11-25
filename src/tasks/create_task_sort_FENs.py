@@ -37,7 +37,9 @@ def generate_prompt_sort_FENs(data_point):
         "input": {
             "FENs": [elem[1].split(' ')[0] for elem in sampled_FENs],
         },
-        "expected_output": str(labels).replace("'", ""),
+        "expected_output": {
+            "sorted FENs": str(labels).replace("'", ""),
+        },
     }
 
     return result

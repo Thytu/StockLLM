@@ -18,11 +18,13 @@ stages:
       number_of_samples: 15000
       path_to_output_dataset: "outputs/tasks/MLM.parquet"
 
-  create-task-find-best-n-worst-move:
-    module: "tasks.create_task_find_best_and_worst_moves"
-    params:
-      number_of_samples: 20000
-      path_to_output_dataset: "outputs/tasks/bestAndWorstMoves.parquet"
+  # Considered deprecated: I'm not convinced it's helpful for the
+  # model while it the most task consuming task to generate
+  # create-task-find-best-n-worst-positions:
+  #   module: "tasks.create_task_find_best_and_worst_positions"
+  #   params:
+  #     number_of_samples: 20000
+  #     path_to_output_dataset: "outputs/tasks/bestAndWorstPositions.parquet"
 
   create-task-find-who-is-winning:
     module: "tasks.create_task_find_who_is_winning"
@@ -36,6 +38,12 @@ stages:
       number_of_samples: 10000
       path_to_output_dataset: "outputs/tasks/sortFENs.parquet"
 
+  create-task-find-next-best-move:
+    module: "tasks.create_task_find_next_best_move"
+    params:
+      number_of_samples: 20000
+      path_to_output_dataset: "outputs/tasks/bestMove.parquet"
+
   merge-tasks-into-dataset:
     module: "data_processing.merge_tasks_into_dataset"
     params:
@@ -43,17 +51,17 @@ stages:
         - "outputs/tasks/findLastMove.parquet"
         - "outputs/tasks/findScore.parquet"
         - "outputs/tasks/MLM.parquet"
-        - "outputs/tasks/bestAndWorstMoves.parquet"
+        # - "outputs/tasks/bestAndWorstPositions.parquet"
         - "outputs/tasks/whoIsWinning.parquet"
         - "outputs/tasks/sortFENs.parquet"
+        - "outputs/tasks/bestMove.parquet"
       test_size: 0.01
-      path_to_train_set: "outputs/raw/train.parquet"
-      path_to_test_set: "outputs/raw/test.parquet"
+      path_to_train_set: "outputs/raw/train.csv"
+      path_to_test_set: "outputs/raw/test.csv"
 
   generate-ready-to-use-dataset:
     module: "data_processing.generate_ready_to_use_dataset"
     params:
-      paths:
-        - "outputs/rawq/train.parquet"
-        - "outputs/rawq/test.parquet"
+      path_to_test_set: "outputs/raw/train.csv"
+      path_to_train_set: "outputs/raw/test.csv"
       path_to_output_dataset: "outputs/dataset/"
