@@ -39,9 +39,8 @@
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
 
@@ -50,7 +49,31 @@
 
 ## About The Project
 
-TODO
+StockLLM represents a initiative focusing on refining chess instruction and language modeling through the fine-tuning of a Large Language Model. This project encompasses two pivotal components, each engineered to enhance and streamline the comprehension and dissemination of chess-related knowledge:
+
+### StockLLM (Work in Progress)
+StockLLM stands as an ongoing endeavor aimed at developing a highly specialized Large Language Model tailored explicitly for the domain of chess instruction.
+StockLLM endeavors to distill and encode intricate chess-related concepts, strategies, and instructional nuances into a language-based model.
+
+Key Features of StockLLM (WIP):
+
+* **Fine-tuned Specialization**: Through meticulous fine-tuning on curated chess instructional datasets, StockLLM seeks to encapsulate the inherent complexities and strategic depth of chess gameplay within its language-based representations.
+* **Advanced Contextual Understanding**: StockLLM aims to grasp the subtleties of chess moves, positions, tactics, and strategic principles, fostering an enriched understanding for instructional purposes.
+* **Adaptive Learning Capabilities**: The model aspires to adapt dynamically to diverse skill levels, providing tailored guidance, analyses, and instructional content catering to beginners, intermediate, and advanced players alike.
+
+### ChessInstruct Dataset
+The ChessInstruct Dataset serves as the foundation for training and fine-tuning Language Models (LLMs) specifically in the realm of chess instruction.
+Derived from the [laion/strategic_game_chess](https://huggingface.co/datasets/laion/strategic_game_chess) dataset, this meticulously curated dataset encompasses a wide array of annotated instructional chess content.
+
+Features of the ChessInstruct Dataset:
+
+* **Rich and Diverse Content**: Curated with a broad spectrum of instructional resources including annotated games, strategic analyses (incoming) and positional evaluations, the dataset facilitates comprehensive learning and modeling.
+* **Customizable Training Resource**: The ChessInstruct Dataset allows for the tailored fine-tuning of any Language Model, enabling researchers and practitioners to adapt and optimize LLMs for chess-specific instructional contexts.
+* **Annotated Instructional Insights**: Detailed annotations and instructional cues within the dataset provide valuable guidance for language model training, emphasizing strategic moves, tactics, and decision-making processes.
+
+StockLLM, in conjunction with the ChessInstruct Dataset, aims to propel the boundaries of language modeling in the domain of chess instruction.
+Through nuanced linguistic representations and tailored instructional datasets, this project envisions revolutionizing the efficacy and depth of chess education by harnessing the power of advanced Natural Language Processing.
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -74,12 +97,20 @@ TODO
 ## Roadmap
 
 ### Dataset
-- [ ] Change intermediate output format to parquet
-- [ ] Generate an intermediate dataset agnostic to any model's prompt format
-- [ ] Generate move evaluation localy by running a StockFish server
+- [x] Change intermediate output format to parquet
+- [x] Generate an intermediate dataset agnostic to any model's prompt format
+- [x] Generate move evaluation localy by running a StockFish server
+- [ ] Add a new task "detect illegal move"
+- [ ] Add a new task "find WIN/DRAW/LOSE stats"
+- [ ] Generate game strategic analyses
+- [ ] Create an use `LABEL_PROMPT` to improve model's output format
+- [ ] (Diverse) Add an evaluation section to evaluate StockLLM agains StockFish
+- [ ] Check for additional dataset to base ChessInstruct on
 
 ### Model
-- [ ] RM will come soonly
+- [ ] Provide training as dvc step
+- [ ] Provided trained version of StockLLM
+- [ ] Find StockLLM's ELO
 
 
 See the [open issues](https://github.com/Thytu/StockLLM/issues) for a full list of proposed features and known issues.
@@ -92,26 +123,18 @@ See the [open issues](https://github.com/Thytu/StockLLM/issues) for a full list 
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
 
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/my-feature`)
-3. Commit your Changes (`git commit -m 'feat: my new feature`)
-4. Push to the Branch (`git push origin feature/my-feature`)
-5. Open a Pull Request
+Don't forget to give the project a star! 🌟 Thanks again!
 
 Please try to follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
+## Acknowledgments
 
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
+I extend my heartfelt thanks to [LAION](https://laion.ai/) for graciously providing the [laion/strategic_game_chess](https://huggingface.co/datasets/laion/strategic_game_chess?row=0) dataset that served as the backbone of this project.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -122,15 +145,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 Valentin De Matos - [@ThytuVDM](https://twitter.com/ThytuVDM) - vltn.dematos@gmail.com
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-## Acknowledgments
-
-TODO
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
