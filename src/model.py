@@ -1,4 +1,5 @@
-from transformers import AutoTokenizer
+from typing import Optional
+from transformers import AutoTokenizer, PreTrainedTokenizer, BatchEncoding
 
 
 MODEL_MAX_LENGTH = 4096
@@ -6,11 +7,11 @@ BASE_MODEL_ID = "mistralai/Mistral-7B-v0.1"
 
 
 def tokenize(
-    tokenizer,
-    prompt,
-    return_tensors=None,
+    tokenizer: PreTrainedTokenizer,
+    prompt: str,
+    return_tensors: Optional[bool] = None,
     max_length: int = MODEL_MAX_LENGTH,
-):
+) -> BatchEncoding:
     return tokenizer(
         prompt,
         truncation=True,
@@ -18,6 +19,10 @@ def tokenize(
         padding="max_length",
         return_tensors=return_tensors,
     )
+
+
+def decode(tokenizer: PreTrainedTokenizer, token_ids: BatchEncoding) -> str:
+    tokenizer.decode(token_ids, skip_special_tokens=True)
 
 
 def get_tokenizer():

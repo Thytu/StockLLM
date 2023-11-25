@@ -4,51 +4,50 @@ from random import randint
 from utils.retry import retry
 from datasets import Dataset
 from data_processing.get_random_data_samples import get_random_data_samples
-from data_processing import moves_to_FENs, evaluate_positions
+from data_processing import moves_to_FENs, get_next_best_moves
 
 
-TASK_ID = "FIND_ADVANTAGED_PLAYER"
+TASK_ID = "FIND_NEXT_BEST_MOVE"
 
-PROMPT_FIND_WHO_IS_WINNING = """Given some set of chess moves, write who is more advantaged (white or black)"""
+PROMPT_FIND_BEST_NEXT_MOVE = """Given some set of chess moves, write the best possible move"""
 
-@retry
-def generate_prompt_find_who_is_winning(data_points):
+# @retry
+def generate_prompt_find_next_best_move(data_point):
+
+    CHESS_MATE = "chess mate"
 
     samples = []
 
-    for idx in range(len(data_points["Moves"])):
-        FENs = moves_to_FENs(data_points["Moves"][idx])
+    for idx in range(len(data_point["Moves"])):
+        FENs = moves_to_FENs(data_point["Moves"][idx])
 
         idx_to_cut_at = randint(
-            min(5, len(FENs)),
-            len(FENs),
+            min(5, len(FENs) - 1),
+            len(FENs) - 1,
         )
 
-        data_points["Moves"][idx] = data_points["Moves"][idx][:idx_to_cut_at]
-
-        FENs = FENs[:idx_to_cut_at]
+        data_point["Moves"][idx] = data_point["Moves"][idx][:idx_to_cut_at]
+        last_FEN = FENs[idx_to_cut_at]
 
         samples.append({
-            "moves": data_points["Moves"][idx],
-            "FENs": FENs,
+            "moves": data_point["Moves"][idx],
+            "fen": last_FEN,
         })
 
-    evaluations = evaluate_positions(
-        fens=[_sample["FENs"][-1] for _sample in samples],
-        depth=12,
+    best_next_moves = get_next_best_moves(
+        fens=[s["fen"] for s in samples],
+        depth=12
     )
 
-    result = {
-        "task": [PROMPT_FIND_WHO_IS_WINNING] * len(samples),
+    return {
+        "task": [PROMPT_FIND_BEST_NEXT_MOVE] * len(samples),
         "input": [{
             "moves": _sample["moves"],
         } for _sample in samples],
         "expected_output": [{
-            "Most advantaged": "White" if _evaluation >= 0 else "Black"
-        } for _evaluation in evaluations],
+            "next best move": _best_next_move if _best_next_move is not None else CHESS_MATE
+        } for _best_next_move in best_next_moves]
     }
-
-    return result
 
 
 def main(
@@ -64,7 +63,7 @@ def main(
     dataset = get_random_data_samples(number_of_samples=number_of_samples)
 
     dataset = dataset.map(
-        generate_prompt_find_who_is_winning,
+        generate_prompt_find_next_best_move,
         batched=True,
         batch_size=20,
         num_proc=os.cpu_count() - 1,
