@@ -7,18 +7,7 @@ from data_processing import moves_to_FENs
 
 TASK_ID = "SORT_FENS"
 
-PROMPT_SORT_FENS = """<s>[INST]
-Given a list of partial FENs, sort them from the ealier in the game to the latest in the game.
-
-Output Format: Sorted list of FENs
-[/INST]
-
-[INPUTS]
-FENs: {}
-[/INPUTS]
-
-[OUTPUTS]
-Sorted FENs:"""
+PROMPT_SORT_FENS = """Given a list of partial FENs, sort them from the ealier in the game to the latest in the game."""
 
 
 def generate_prompt_sort_FENs(data_point):

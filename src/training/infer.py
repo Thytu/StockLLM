@@ -15,11 +15,10 @@ bnb_config = BitsAndBytesConfig(
 )
 
 base_model = AutoModelForCausalLM.from_pretrained(
-    base_model_id,  # Mistral, same as before
-    quantization_config=bnb_config,  # Same quantization config as before
+    base_model_id,
+    quantization_config=bnb_config,
     device_map="auto",
     trust_remote_code=True,
-    # use_auth_token=True
 )
 
 eval_tokenizer = AutoTokenizer.from_pretrained(
@@ -29,26 +28,22 @@ eval_tokenizer = AutoTokenizer.from_pretrained(
 )
 eval_tokenizer.pad_token = eval_tokenizer.eos_token
 
-ft_model = PeftModel.from_pretrained(base_model, "Mistral-7B-v0.1-StockLLM//checkpoint-200").to("cuda")
+ft_model = PeftModel.from_pretrained(base_model, "Mistral-7B-v0.1-StockLLM/checkpoint-600").to("cuda")
 ft_model.eval()
-
 
 dataset = load_from_disk("outputs/dataset/test").shuffle()
 
-
 with torch.no_grad():
-    model_output = ft_model.generate(inputs=torch.tensor(dataset[0]["input_ids"]).unsqueeze(0))
-    print(eval_tokenizer.decode(model_output[0], skip_special_tokens=True))
+    for idx in range(10):
+        print("MODEL OUTPUT")
+        model_output = ft_model.generate(inputs=torch.tensor(dataset[idx]["input_ids"]).unsqueeze(0))
+        model_output = eval_tokenizer.decode(model_output[0], skip_special_tokens=True)
+        print(model_output)
 
-    model_output = ft_model.generate(inputs=torch.tensor(dataset[1]["input_ids"]).unsqueeze(0))
-    print(eval_tokenizer.decode(model_output[0], skip_special_tokens=True))
+        print("LEN")
+        print(len(model_output))
 
-# model_input = generate_MLM_prompt(eval_tokenizer, data_sample, return_tensors="pt")
+        print("EXPECTED OUTPUT")
+        print(eval_tokenizer.decode(dataset[idx]["labels"], skip_special_tokens=True))
 
-# with torch.no_grad():
-#     print(eval_tokenizer.decode(ft_model.generate(**model_input, max_new_tokens=128)[0], skip_special_tokens=True))
-
-# model_input = generate_MLMlastonly_prompt(eval_tokenizer, data_sample, return_tensors="pt")
-
-# with torch.no_grad():
-#     print(eval_tokenizer.decode(ft_model.generate(**model_input, max_new_tokens=128)[0], skip_special_tokens=True))
+        print("--" * 10, end="\n" * 2)

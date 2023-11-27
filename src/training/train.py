@@ -1,113 +1,122 @@
 import os
 import wandb
-import torch
-import transformers
 import dvc.api
+import transformers
 
 from datetime import datetime
 from datasets import load_from_disk
-from transformers import AutoTokenizer
-from transformers import AutoModelForCausalLM, BitsAndBytesConfig
-from accelerate import FullyShardedDataParallelPlugin, Accelerator
-from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
-from torch.distributed.fsdp.fully_sharded_data_parallel import FullOptimStateDictConfig, FullStateDictConfig
+from peft import get_peft_model, prepare_model_for_kbit_training
+from model import get_model, get_bitesandbytes_config, get_lora_config, get_tokenizer
 
 
-WANDB_PROJECT = "StockLLM"
-BASE_MODEL_ID = "mistralai/Mistral-7B-v0.1"
-# BASE_MODEL_ID = "mistralai/Mistral-7B-Instruct-v0.1"
-PROJECT_NAME = BASE_MODEL_ID.split("/")[-1] + "-" + WANDB_PROJECT
-RUN_NAME = f"{PROJECT_NAME}-{datetime.now().strftime('%Y-%m-%d-%H-%M')}"
+def get_trainer(
+    model,
+    tokenizer,
+    train_set,
+    test_set,
+    output_dir,
+    **kwargs
+) -> transformers.Trainer:
+
+    default_params = {
+        "output_dir": output_dir,
+
+        "max_steps": 10_000,
+        "warmup_steps": 5,
+        "eval_steps": 100,
+        "logging_steps": 100,
+        "save_steps": 100,
+        # "gradient_accumulation_steps": 2, # TODO: test impact on GPU/CPU
+
+        "per_device_train_batch_size": 16,
+        "per_device_eval_batch_size": 16,
+        "learning_rate": 2.5e-5, # Want about 10x smaller than the Mistral learning rate
+        "bf16": False,
+        "optim": "paged_adamw_8bit",
+
+        "logging_dir": os.path.join(output_dir, "logs"),
+        "save_strategy": "steps",
+        "evaluation_strategy": "steps",
+        "do_eval": True,
+        "report_to": "wandb",
+        "dataloader_pin_memory": True,
+        "dataloader_num_workers": 8,
+    }
+
+    default_params.update(**kwargs)
+
+    return transformers.Trainer(
+        model=model,
+        train_dataset=train_set,
+        eval_dataset=test_set,
+        args=transformers.TrainingArguments(**default_params),
+        data_collator=transformers.DataCollatorForLanguageModeling(
+            tokenizer,
+            mlm=False, # TODO: check if I should set True of False
+        ),
+    )
 
 
-wandb.login()
-os.environ["WANDB_PROJECT"] = WANDB_PROJECT
+def main(
+    project_name,
+    model_parameters,
+    training_parameters,
+    path_to_outputs: str,
+    to_log_to_wandb=None,
+):
 
-wandb.init(project=WANDB_PROJECT, name=RUN_NAME)
-wandb.run.config["dvc-params"] = dvc.api.params_show()
+    wandb.login()
+    os.environ["WANDB_PROJECT"] = project_name
 
-_tokenizer = AutoTokenizer.from_pretrained(
-    BASE_MODEL_ID,
-    model_max_length=2048,
-    padding_side="left",
-    add_eos_token=True
-)
-_tokenizer.pad_token = _tokenizer.eos_token
+    bnb_config = get_bitesandbytes_config(**model_parameters["bitesandbytes_parameters"])
 
-train_set = load_from_disk("outputs/dataset/train")
-test_set = load_from_disk("outputs/dataset/test")
+    model = get_model(quantization_config=bnb_config)
+    model.gradient_checkpointing_enable()
 
-bnb_config = BitsAndBytesConfig(
-    load_in_4bit=True,
-    bnb_4bit_use_double_quant=True,
-    bnb_4bit_quant_type="nf4",
-    bnb_4bit_compute_dtype=torch.bfloat16
-)
+    model = prepare_model_for_kbit_training(model)
+    model = get_peft_model(model, peft_config=get_lora_config())
+    model.config.use_cache = False
 
-model = AutoModelForCausalLM.from_pretrained(
-    BASE_MODEL_ID,
-    quantization_config=bnb_config
-)
-model.gradient_checkpointing_enable()
-model = prepare_model_for_kbit_training(model)
+    tokenizer = get_tokenizer(
+        model_max_length=model_parameters["model_max_length"],
+    )
 
-fsdp_plugin = FullyShardedDataParallelPlugin(
-    state_dict_config=FullStateDictConfig(offload_to_cpu=False, rank0_only=False),
-    optim_state_dict_config=FullOptimStateDictConfig(offload_to_cpu=False, rank0_only=False),
-)
+    train_set = load_from_disk("outputs/dataset/train")
+    test_set = load_from_disk("outputs/dataset/test")
 
-accelerator = Accelerator(fsdp_plugin=fsdp_plugin)
+    run_name = f"{project_name}-{datetime.now().strftime('%Y-%m-%d-%H-%M')}"
 
-config = LoraConfig(
-    r=8,
-    lora_alpha=16,
-    target_modules=[
-        "q_proj",
-        "k_proj",
-        "v_proj",
-        "o_proj",
-        "gate_proj",
-        "up_proj",
-        "down_proj",
-        "lm_head",
-    ],
-    bias="none",
-    lora_dropout=0.05,  # Conventional
-    task_type="CAUSAL_LM",
-)
+    trainer: transformers.Trainer = get_trainer(
+        model=model,
+        tokenizer=tokenizer,
+        train_set=train_set,
+        test_set=test_set,
+        run_name=run_name,
+        output_dir=path_to_outputs,
+        **training_parameters,
+    )
 
-model = get_peft_model(model, config)
-model = accelerator.prepare_model(model)
+    with wandb.init(project=project_name, name=run_name) as run:
+        run.config["run-params"] = to_log_to_wandb
 
-trainer = transformers.Trainer(
-    model=model,
-    train_dataset=train_set,
-    eval_dataset=test_set,
-    args=transformers.TrainingArguments(
-        output_dir=PROJECT_NAME,
-        warmup_steps=5,
-        per_device_train_batch_size=4,
-        per_device_eval_batch_size=16,
-        # gradient_accumulation_steps=2,
-        max_steps=int(50_000 / 4),
-        learning_rate=2.5e-5, # Want about 10x smaller than the Mistral learning rate
-        logging_steps=50,
-        bf16=False,
-        optim="paged_adamw_8bit",
-        logging_dir="./logs",        # Directory for storing logs
-        save_strategy="steps",       # Save the model checkpoint every logging step
-        save_steps=50,                # Save checkpoints every 50 steps
-        evaluation_strategy="steps", # Evaluate the model every logging step
-        eval_steps=50,               # Evaluate and save checkpoints every 50 steps
-        do_eval=True,                # Perform evaluation at the end of training
-        report_to="wandb",           # Comment this out if you don't want to use weights & baises
-        run_name=RUN_NAME,          # Name of the W&B run (optional)
-        dataloader_pin_memory=True,
-        dataloader_num_workers=8,
-    ),
-    data_collator=transformers.DataCollatorForLanguageModeling(_tokenizer, mlm=False),
-)
+        trainer.train()
 
-model.config.use_cache = False  # silence the warnings. Please re-enable for inference!
 
-trainer.train()
+if __name__ == "__main__":
+
+    import dvc.api
+
+    params = dvc.api.params_show()
+
+    path_to_outputs = "outputs/poc/"
+
+    main(
+        project_name=params['general']['project-name'],
+        model_parameters=params["model"],
+        path_to_outputs=path_to_outputs,
+        to_log_to_wandb={
+            "general": params["general"],
+            "model": params["model"],
+            "stages": params["stages"],
+        },
+    )

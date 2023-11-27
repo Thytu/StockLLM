@@ -81,7 +81,26 @@ stages:
     params:
     - stages.merge-tasks-into-dataset
 
-  generate-ready-to-use-dataset:
+  generate-poc-dataset:
+    cmd: python src/entrypoint.py generate-ready-to-use-dataset
+    deps:
+    - src/data_processing/generate_ready_to_use_dataset.py
+    - outputs/raw/
+    outs:
+    - outputs/poc-dataset/
+    params:
+    - stages.generate-ready-to-use-dataset
+
+  train-poc:
+    cmd: python src/entrypoint.py train-poc
+    outs:
+    - outputs/poc/
+    deps:
+    - outputs/poc-dataset/
+    params:
+    - stages.train-poc
+
+  generate-final-dataset:
     cmd: python src/entrypoint.py generate-ready-to-use-dataset
     deps:
     - src/data_processing/generate_ready_to_use_dataset.py
@@ -90,3 +109,13 @@ stages:
     - outputs/dataset/
     params:
     - stages.generate-ready-to-use-dataset
+
+  train-final-model:
+    cmd: python src/entrypoint.py train-final-model
+    outs:
+    - outputs/model/
+    deps:
+    - outputs/poc/
+    - outputs/dataset/
+    params:
+    - stages.train-final-model
