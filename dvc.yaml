@@ -82,14 +82,14 @@ stages:
     - stages.merge-tasks-into-dataset
 
   generate-poc-dataset:
-    cmd: python src/entrypoint.py generate-ready-to-use-dataset
+    cmd: python src/entrypoint.py generate-poc-dataset
     deps:
     - src/data_processing/generate_ready_to_use_dataset.py
     - outputs/raw/
     outs:
     - outputs/poc-dataset/
     params:
-    - stages.generate-ready-to-use-dataset
+    - stages.generate-poc-dataset
 
   train-poc:
     cmd: python src/entrypoint.py train-poc
