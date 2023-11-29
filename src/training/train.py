@@ -61,6 +61,7 @@ def main(
     project_name,
     model_parameters,
     training_parameters,
+    path_to_dataset,
     path_to_outputs: str,
     to_log_to_wandb=None,
 ):
@@ -81,16 +82,15 @@ def main(
         model_max_length=model_parameters["model_max_length"],
     )
 
-    train_set = load_from_disk("outputs/dataset/train")
-    test_set = load_from_disk("outputs/dataset/test")
+    dataset = load_from_disk(path_to_dataset)
 
     run_name = f"{project_name}-{datetime.now().strftime('%Y-%m-%d-%H-%M')}"
 
     trainer: transformers.Trainer = get_trainer(
         model=model,
         tokenizer=tokenizer,
-        train_set=train_set,
-        test_set=test_set,
+        train_set=dataset["train"],
+        test_set=dataset["test"],
         run_name=run_name,
         output_dir=path_to_outputs,
         **training_parameters,
