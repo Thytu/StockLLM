@@ -35,17 +35,17 @@ def decode(tokenizer: PreTrainedTokenizer, token_ids: BatchEncoding) -> str:
 
 def get_tokenizer(**kwargs):
 
-    default_value = {
+    default_params = {
         "model_max_length": _DEFAULT_MODEL_MAX_LENGTH,
         "padding_side": "left",
         "add_eos_token": True
     }
 
-    default_value.update(kwargs)
+    default_params.update(kwargs)
 
     _tokenizer = AutoTokenizer.from_pretrained(
         pretrained_model_name_or_path=BASE_MODEL_ID,
-        **default_value,
+        **default_params,
     )
     _tokenizer.pad_token = _tokenizer.eos_token
 
@@ -55,16 +55,16 @@ def get_tokenizer(**kwargs):
 # NOTE: 4bits are the responsables for the 25% aten:_copy (GPU -> CPU -> GPU)
 def get_bitesandbytes_config(**kwargs):
 
-    default_value = {
+    default_params = {
         "load_in_4bit": True,
         "bnb_4bit_use_double_quant": True,
         "bnb_4bit_quant_type": "nf4",
         "bnb_4bit_compute_dtype": bfloat16
     }
 
-    default_value.update(kwargs)
+    default_params.update(kwargs)
 
-    return BitsAndBytesConfig(default_value)
+    return BitsAndBytesConfig(**default_params)
 
 
 def get_lora_config(**kwargs):
@@ -89,7 +89,7 @@ def get_lora_config(**kwargs):
 
     default_params.update(kwargs)
 
-    return LoraConfig(default_params)
+    return LoraConfig(**default_params)
 
 
 def get_model(**kwargs):
