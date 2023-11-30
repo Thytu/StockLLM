@@ -1,4 +1,5 @@
 import os
+
 from random import random
 from datasets import Dataset
 from data_processing.get_random_data_samples import get_random_data_samples
@@ -7,10 +8,7 @@ from data_processing import moves_to_FENs
 
 TASK_ID = "MLM_ON_MOVES"
 
-PROMPT_MLM_ON_MOVES = """Given an incomplit set of chess moves and some informations regarding this game, write the missing chess moves.
-
-Missing chess moves are indicated with a "?" mark. Write ONLY the missing moves, not the provided ones.
-Output Format: A comma-separated list of the missing chess moves."""
+PROMPT_MLM_ON_MOVES = """Given an incomplit set of chess moves (missing chess moves are indicated with a "?" mark) and some informations regarding this game, write the missing chess moves."""
 
 
 def __remove_random_moves(moves, prob_to_remove: float = 0.1):

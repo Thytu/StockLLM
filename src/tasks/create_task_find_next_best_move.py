@@ -1,7 +1,6 @@
 import os
 
 from random import randint
-from utils.retry import retry
 from datasets import Dataset
 from data_processing.get_random_data_samples import get_random_data_samples
 from data_processing import moves_to_FENs, get_next_best_moves
@@ -9,7 +8,7 @@ from data_processing import moves_to_FENs, get_next_best_moves
 
 TASK_ID = "FIND_NEXT_BEST_MOVE"
 
-PROMPT_FIND_BEST_NEXT_MOVE = """Given some set of chess moves, write the best possible move"""
+PROMPT_FIND_BEST_NEXT_MOVE = """Given some set of chess moves, write the best possible move to do as the player"""
 
 # @retry
 def generate_prompt_find_next_best_move(data_point):

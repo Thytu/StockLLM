@@ -28,22 +28,37 @@ eval_tokenizer = AutoTokenizer.from_pretrained(
 )
 eval_tokenizer.pad_token = eval_tokenizer.eos_token
 
-ft_model = PeftModel.from_pretrained(base_model, "Mistral-7B-v0.1-StockLLM/checkpoint-600").to("cuda")
+ft_model = PeftModel.from_pretrained(base_model, "Mistral-7B-v0.1-StockLLM/checkpoint-50").to("cuda")
 ft_model.eval()
 
-dataset = load_from_disk("outputs/dataset/test").shuffle()
+dataset = load_from_disk("outputs/poc-dataset/test").shuffle()
+
+
+import json
+
+
+def formatting_prompts_func(example):
+    output_texts = []
+
+    for idx in range(len(example['task'])):
+
+        inputs = "\n".join([f"{k}: {v}" for (k, v) in json.loads(example["input"][idx]).items()])
+        expected_output = "\n".join([f"{k}: {v}" for (k, v) in json.loads(example["expected_output"][idx]).items()])
+
+        text = f"<s>[INST]{example['task'][idx]}[/INST]\n[IN]{inputs}[/IN]\n[OUT]{expected_output}[/OUT]</s>"
+        output_texts.append(text)
+
+    return output_texts
+
 
 with torch.no_grad():
     for idx in range(10):
-        print("MODEL OUTPUT")
-        model_output = ft_model.generate(inputs=torch.tensor(dataset[idx]["input_ids"]).unsqueeze(0))
+
+        inputs = "\n".join([f"{k}: {v}" for (k, v) in json.loads(dataset[idx]["input"]).items()])
+        text = f"<s>[INST]{dataset[idx]['task']}[/INST]\n[IN]{inputs}[/IN]\n[OUT]"
+
+        tokens = eval_tokenizer([text], return_tensors="pt")
+
+        model_output = ft_model.generate(**tokens)
         model_output = eval_tokenizer.decode(model_output[0], skip_special_tokens=True)
         print(model_output)
-
-        print("LEN")
-        print(len(model_output))
-
-        print("EXPECTED OUTPUT")
-        print(eval_tokenizer.decode(dataset[idx]["labels"], skip_special_tokens=True))
-
-        print("--" * 10, end="\n" * 2)

@@ -7,10 +7,7 @@ TASK_ID = "FIND_FINAL_SCORE"
 
 PATH_TO_OUTPUT_DATASET = "outputs/tasks/findScore"
 
-PROMPT_FIND_SCORE = """Given a full set of chess moves, announce the final score of the game.
-
-Input Format: A comma-separated list of chess moves.
-Output Format: "1-0" if White wins, "0-1" if Black wins, and "1/2-1/2" in case of a draw."""
+PROMPT_FIND_SCORE = """Given a full set of chess moves, announce the final score of the game, "white" if White wins, "black" if Black wins, and "draw" in case of a draw."""
 
 
 def generate_prompt_find_score(data_point):
@@ -20,7 +17,7 @@ def generate_prompt_find_score(data_point):
             "moves": data_point["Moves"],
         },
         "expected_output": {
-            "score": data_point["Result"]
+            "score": "white" if data_point["Result"] == "1-0" else "black" if data_point["Result"] == "0-1" else "draw"
         },
     }
 

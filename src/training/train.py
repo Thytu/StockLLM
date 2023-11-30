@@ -7,7 +7,7 @@ from datetime import datetime
 from datasets import load_from_disk
 from peft import get_peft_model, prepare_model_for_kbit_training
 from model import get_model, get_bitesandbytes_config, get_lora_config, get_tokenizer
-
+from trl import SFTTrainer
 
 def get_trainer(
     model,
@@ -44,6 +44,25 @@ def get_trainer(
     }
 
     default_params.update(**kwargs)
+
+    from data_processing.formatting_prompts_func import formatting_prompts_func
+
+    # def formatting_prompts_func(example):
+    #     output_texts = []
+    #     for i in range(len(example['question'])):
+    #         text = f"<s>[INST]{example['prompt'][i]}[/INST]\n[IN]{example['input'][i]}[/IN]\n[OUT]{example['output'][i]}[/OUT]</s>"
+    #         output_texts.append(text)
+    #     return output_texts
+
+    return SFTTrainer(
+        model,
+        tokenizer=tokenizer,
+        train_dataset=train_set,
+        eval_dataset=test_set,
+        max_seq_length="TODO",
+        args=transformers.TrainingArguments(**default_params),
+        formatting_func=formatting_prompts_func,
+    )
 
     return transformers.Trainer(
         model=model,
