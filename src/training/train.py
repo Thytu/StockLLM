@@ -9,6 +9,7 @@ from peft import get_peft_model, prepare_model_for_kbit_training
 from model import get_model, get_bitesandbytes_config, get_lora_config, get_tokenizer
 from trl import SFTTrainer
 
+
 def get_trainer(
     model,
     tokenizer,
@@ -24,14 +25,14 @@ def get_trainer(
         "max_steps": 10_000,
         "warmup_steps": 5,
         "eval_steps": 100,
-        "logging_steps": 100,
+        "logging_steps": 1,
         "save_steps": 100,
         # "gradient_accumulation_steps": 2, # TODO: test impact on GPU/CPU
 
         "per_device_train_batch_size": 16,
         "per_device_eval_batch_size": 16,
         "learning_rate": 2.5e-5, # Want about 10x smaller than the Mistral learning rate
-        "bf16": False,
+        "bf16": True,
         "optim": "paged_adamw_8bit",
 
         "logging_dir": os.path.join(output_dir, "logs"),
@@ -47,32 +48,14 @@ def get_trainer(
 
     from data_processing.formatting_prompts_func import formatting_prompts_func
 
-    # def formatting_prompts_func(example):
-    #     output_texts = []
-    #     for i in range(len(example['question'])):
-    #         text = f"<s>[INST]{example['prompt'][i]}[/INST]\n[IN]{example['input'][i]}[/IN]\n[OUT]{example['output'][i]}[/OUT]</s>"
-    #         output_texts.append(text)
-    #     return output_texts
-
     return SFTTrainer(
         model,
         tokenizer=tokenizer,
         train_dataset=train_set,
         eval_dataset=test_set,
-        max_seq_length="TODO",
+        max_seq_length=tokenizer.model_max_length,
         args=transformers.TrainingArguments(**default_params),
         formatting_func=formatting_prompts_func,
-    )
-
-    return transformers.Trainer(
-        model=model,
-        train_dataset=train_set,
-        eval_dataset=test_set,
-        args=transformers.TrainingArguments(**default_params),
-        data_collator=transformers.DataCollatorForLanguageModeling(
-            tokenizer,
-            mlm=False, # TODO: check if I should set True of False
-        ),
     )
 
 

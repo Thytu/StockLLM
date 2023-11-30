@@ -28,7 +28,7 @@ eval_tokenizer = AutoTokenizer.from_pretrained(
 )
 eval_tokenizer.pad_token = eval_tokenizer.eos_token
 
-ft_model = PeftModel.from_pretrained(base_model, "Mistral-7B-v0.1-StockLLM/checkpoint-50").to("cuda")
+ft_model = PeftModel.from_pretrained(base_model, "./outputs/poc/checkpoint-1000").to("cuda")
 ft_model.eval()
 
 dataset = load_from_disk("outputs/poc-dataset/test").shuffle()
