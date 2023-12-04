@@ -79,15 +79,16 @@ stages:
       project_name: *project_name
       model_parameters:
         <<: *model
-        model_max_length: &poc_model_max_length 1024
+        model_max_length: &poc_model_max_length 2048
       training_parameters:
-        max_steps: 200
+        max_steps: 2000
         warmup_steps: 3
-        eval_steps: 25
-        save_steps: 50
-        logging_steps: 50
-        per_device_train_batch_size: *train_batch_size
-        per_device_eval_batch_size: *eval_batch_size
+        eval_steps: 50
+        save_steps: 100
+        logging_steps: 25
+        per_device_train_batch_size: 16
+        per_device_eval_batch_size: 16
+        learning_rate: 2.5E-5
 
   generate-poc-dataset:
     module: "data_processing.generate_ready_to_use_dataset"
@@ -116,8 +117,9 @@ stages:
         warmup_steps: 5
         eval_steps: 100
         save_steps: 200
-        logging_steps: 200
+        logging_steps: 50
         model_max_length: *model_max_length
-        per_device_train_batch_size: *train_batch_size
-        per_device_eval_batch_size: *eval_batch_size
+        per_device_train_batch_size: 8
+        per_device_eval_batch_size: 8
         gradient_accumulation_steps: 2
+        learning_rate: 1.0E-5

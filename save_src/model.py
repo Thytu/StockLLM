@@ -93,8 +93,4 @@ def get_lora_config(**kwargs):
 
 
 def get_model(**kwargs):
-    return AutoModelForCausalLM.from_pretrained(
-        BASE_MODEL_ID,
-        use_flash_attention_2=True,
-        **kwargs
-    )
+    return AutoModelForCausalLM.from_pretrained(BASE_MODEL_ID, **kwargs)

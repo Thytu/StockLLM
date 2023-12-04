@@ -14,10 +14,6 @@ def generate_pgn(moves: List[str]) -> str:
     pgn_notation = ""
 
     for nb in range(len(pairs_of_move)):
-
-        if pgn_notation:
-            pgn_notation += " "
-
         pgn_notation += f"{nb + 1}. {pairs_of_move[nb][0]} {pairs_of_move[nb][1] if len(pairs_of_move[nb]) > 1 else ''}"
 
     return pgn_notation

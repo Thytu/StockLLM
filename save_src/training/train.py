@@ -8,7 +8,6 @@ from datasets import load_from_disk
 from peft import get_peft_model, prepare_model_for_kbit_training
 from model import get_model, get_bitesandbytes_config, get_lora_config, get_tokenizer
 from trl import SFTTrainer
-from data_processing.get_dict_move_in_utf8_to_token import get_dict_move_in_utf8_to_token
 
 
 def get_trainer(
@@ -47,8 +46,7 @@ def get_trainer(
 
     default_params.update(**kwargs)
 
-    # from data_processing.formatting_prompts_func import formatting_prompts_func
-    from transformers import DataCollatorForLanguageModeling
+    from data_processing.formatting_prompts_func import formatting_prompts_func
 
     return SFTTrainer(
         model,
@@ -57,9 +55,7 @@ def get_trainer(
         eval_dataset=test_set,
         max_seq_length=tokenizer.model_max_length,
         args=transformers.TrainingArguments(**default_params),
-        # formatting_func=formatting_prompts_func,
-        dataset_text_field="text",
-        data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
+        formatting_func=formatting_prompts_func,
     )
 
 
@@ -71,8 +67,6 @@ def main(
     path_to_outputs: str,
     to_log_to_wandb=None,
 ):
-    
-    project_name += "-FineTuningCLM"
 
     wandb.login()
     os.environ["WANDB_PROJECT"] = project_name
@@ -90,15 +84,7 @@ def main(
         model_max_length=model_parameters["model_max_length"],
     )
 
-    # Adding chess moves to vocabulaty
-    # TODO: must be done elsewhere
-    _dict_move_in_utf8_to_token = get_dict_move_in_utf8_to_token()
-    tokenizer.add_tokens(list(_dict_move_in_utf8_to_token.keys()))
-    model.resize_token_embeddings(len(tokenizer))
-
-    from data_processing.generate_finetuning_dataset import main as data_main
-    # dataset = load_from_disk(path_to_dataset)
-    dataset = data_main(number_of_samples=30_000)
+    dataset = load_from_disk(path_to_dataset)
 
     run_name = f"{project_name}-{datetime.now().strftime('%Y-%m-%d-%H-%M')}"
 

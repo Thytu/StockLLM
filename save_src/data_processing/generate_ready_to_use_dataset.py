@@ -60,6 +60,6 @@ def main(
     # TODO: filter based on lenght
 
     DatasetDict({
-        "test": test_set.shuffle(),
-        "train": train_set.shuffle(),
+        "test": test_set,
+        "train": train_set,
     }).save_to_disk(path_to_output_dataset)
