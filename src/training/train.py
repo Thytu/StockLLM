@@ -105,7 +105,7 @@ def main(
 
     dataset = load_from_disk(path_to_dataset)
 
-    run_name = f"{project_name}-{datetime.now().strftime('%Y-%m-%d-%H-%M')}"
+    run_name = datetime.now().strftime('%Y-%m-%d-%H-%M')
 
     formatting_func = getattr(
         importlib.import_module(f"data_processing.formatting_prompts_func"),
