@@ -80,9 +80,6 @@ def main(
 ):
     
     project_name += f'-{subproject_name}'
-    
-    wandb.login()
-    os.environ["WANDB_PROJECT"] = project_name
 
     bnb_config = get_bitesandbytes_config(**model_parameters["bitesandbytes_parameters"])
 
@@ -100,7 +97,7 @@ def main(
     tokenizer = AutoTokenizer.from_pretrained(
         pretrained_model_name_or_path=path_to_model,
         model_max_length=model_parameters["model_max_length"],
-        padding_side="left",
+        padding_side="right",
         add_eos_token=True,
         
     )
@@ -124,6 +121,8 @@ def main(
         formatting_func=formatting_func,
         **training_parameters,
     )
+
+    wandb.login()
 
     with wandb.init(project=project_name, name=run_name) as run:
         run.config["run-params"] = to_log_to_wandb

@@ -2,10 +2,11 @@ import io
 import json
 import chess.pgn
 
+from typing import List, Dict
 from .generate_PGNs import generate_pgn
 
 
-def causal_formatting_prompts_func(example):
+def causal_formatting_prompts_func(example: Dict[str, str]) -> List[str]:
     output_texts = []
     
     def _create_sample(moves, result, termination):
@@ -26,7 +27,7 @@ def causal_formatting_prompts_func(example):
     return output_texts
 
 
-def instruct_formatting_prompts_func(example):
+def instruct_formatting_prompts_func(example: Dict[str, str]) -> List[str]:
     output_texts = []
 
     def _format_dict_to_string(data):

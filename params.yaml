@@ -14,9 +14,7 @@ model: &model
 
 
 training:
-  train_batch_size: &train_batch_size 16
-  eval_batch_size: &eval_batch_size 16
-  use_bf16: &use_bf16 False
+  use_bf16: &use_bf16 True
   optimizer: &optimizer paged_adamw_8bit
 
 stages:
@@ -48,12 +46,19 @@ stages:
         formatting_func: causal_formatting_prompts_func
         max_steps: 4000
         warmup_steps: 3
-        eval_steps: 50
-        save_steps: 100
+        eval_steps: 250
+        save_steps: 250
         logging_steps: 25
         per_device_train_batch_size: 16
         per_device_eval_batch_size: 16
         learning_rate: 2.0E-5
+
+  merge-causal-adapter-to-model:
+    module: "model.merge_lora_to_model"
+    params:
+      path_to_model: *path-to-untrained-model-w-vocab
+      path_to_adapter: "./outputs/causal/checkpoint-2000/"
+      path_to_output: &path-to-causal-model "./outputs/causal-merged/"
 
   create-task-find-last-move:
     module: "tasks.create_task_find_last_move"
@@ -117,7 +122,7 @@ stages:
     module: "training.train"
     params:
       path_to_outputs: "./outputs/instruct/"
-      path_to_model: "./outputs/causal/checkpoint-2000/"
+      path_to_model: *path-to-causal-model
       path_to_dataset: *path-to-instruct-dataset
       project_name: *project_name
       subproject_name: Instruct
@@ -127,9 +132,16 @@ stages:
         formatting_func: instruct_formatting_prompts_func
         max_steps: 2000
         warmup_steps: 3
-        eval_steps: 50
+        eval_steps: 100
         save_steps: 100
         logging_steps: 25
         per_device_train_batch_size: 16
         per_device_eval_batch_size: 16
         learning_rate: 2.5E-5
+
+  merge-instruct-adapter-to-model:
+    module: "model.merge_lora_to_model"
+    params:
+      path_to_model: *path-to-causal-model
+      path_to_adapter: "./outputs/instruct/checkpoint-2000/"
+      path_to_output: &path-to-instruct-model "./outputs/instruct-merged/"

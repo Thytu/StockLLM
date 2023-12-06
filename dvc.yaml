@@ -28,6 +28,15 @@ stages:
     params:
     - stages.train-model-on-new-vocab
 
+  merge-causal-adapter-to-model:
+    cmd: python src/entrypoint.py merge-causal-adapter-to-model
+    deps:
+    - outputs/causal/
+    outs:
+    - outputs/causal-merged/
+    params:
+    - merge-causal-adapter-to-model
+
   create-task-find-last-move:
     cmd: python src/entrypoint.py create-task-find-last-move
     deps:
@@ -114,6 +123,15 @@ stages:
     - outputs/instruct/
     deps:
     - outputs/instruct-dataset/
-    - outputs/causal/
+    - outputs/causal-merged/
     params:
     - stages.train-instruct-model
+
+  merge-instruct-adapter-to-model:
+    cmd: python src/entrypoint.py merge-instruct-adapter-to-model
+    deps:
+    - outputs/instruct/
+    outs:
+    - outputs/instruct-merged/
+    params:
+    - merge-instruct-adapter-to-model
