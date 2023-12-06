@@ -1,7 +1,7 @@
 from datasets import load_from_disk
-from model import get_tokenizer
+from model import get_default_tokenizer
 
-tokenizer = get_tokenizer()
+tokenizer = get_default_tokenizer()
 dataset = load_from_disk("outputs/dataset").shuffle()
 
 for i in range(3):

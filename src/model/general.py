@@ -33,7 +33,7 @@ def decode(tokenizer: PreTrainedTokenizer, token_ids: BatchEncoding) -> str:
     tokenizer.decode(token_ids, skip_special_tokens=True)
 
 
-def get_tokenizer(**kwargs):
+def get_default_tokenizer(**kwargs) -> AutoTokenizer:
 
     default_params = {
         "model_max_length": _DEFAULT_MODEL_MAX_LENGTH,
@@ -92,9 +92,15 @@ def get_lora_config(**kwargs):
     return LoraConfig(**default_params)
 
 
-def get_model(**kwargs):
+def get_default_model(**kwargs) -> AutoModelForCausalLM:
+    
+    default_params = {
+        "use_flash_attention_2": True # TODO: must not be hardcoded
+    }
+    
+    default_params.update(kwargs)
+
     return AutoModelForCausalLM.from_pretrained(
         BASE_MODEL_ID,
-        use_flash_attention_2=True,
-        **kwargs
+        **default_params
     )

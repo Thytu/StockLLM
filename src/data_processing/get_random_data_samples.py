@@ -6,7 +6,7 @@ def gen_from_iterable_dataset(iterable_ds):
     yield from iterable_ds
 
 
-def get_random_data_samples(number_of_samples: int):
+def get_random_data_samples(number_of_samples: int) -> Dataset:
 
     if number_of_samples < 0:
         raise RuntimeError(f"{number_of_samples=} must be positive.")

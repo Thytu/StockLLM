@@ -1,5 +1,33 @@
 stages:
 
+  add-chessmoves-to-model-vocab:
+    cmd: python src/entrypoint.py add-chessmoves-to-model-vocab
+    deps:
+    - src/model/add_chessmoves_to_vocabulary.py
+    outs:
+    - outputs/untrained-model-w-vocab/
+    params:
+    - stages.add-chessmoves-to-model-vocab
+
+  generate-causal-dataset:
+    cmd: python src/entrypoint.py generate-causal-dataset
+    deps:
+    - src/data_processing/generate_causal_dataset.py
+    outs:
+    - outputs/causal-dataset/
+    params:
+    - stages.generate-causal-dataset
+  
+  train-model-on-new-vocab:
+    cmd: python src/entrypoint.py train-model-on-new-vocab
+    deps:
+    - outputs/causal-dataset/
+    - outputs/untrained-model-w-vocab/
+    outs:
+    - outputs/causal/
+    params:
+    - stages.train-model-on-new-vocab
+
   create-task-find-last-move:
     cmd: python src/entrypoint.py create-task-find-last-move
     deps:
@@ -26,17 +54,6 @@ stages:
     - outputs/tasks/MLM.parquet
     params:
     - stages.create-task-MLM-on-moves
-
-  # Considered deprecated: I'm not convinced it's helpful for the
-  # model while it the most task consuming task to generate
-  # create-task-find-best-n-worst-positions:
-  #   cmd: python src/entrypoint.py create-task-find-best-n-worst-positions
-  #   deps:
-  #   - src/tasks/create_task_find_best_and_worst_positions.py
-  #   outs:
-  #   - outputs/tasks/bestAndWorstPositions.parquet
-  #   params:
-  #   - stages.create-task-find-best-n-worst-positions
 
   create-task-find-who-is-winning:
     cmd: python src/entrypoint.py create-task-find-who-is-winning
@@ -81,41 +98,22 @@ stages:
     params:
     - stages.merge-tasks-into-dataset
 
-  generate-poc-dataset:
-    cmd: python src/entrypoint.py generate-poc-dataset
+  generate-instruct-dataset:
+    cmd: python src/entrypoint.py generate-instruct-dataset
     deps:
-    - src/data_processing/generate_ready_to_use_dataset.py
+    - src/data_processing/generate_ready_to_use_dataset.py # TODO: rename module
     - outputs/raw/
     outs:
-    - outputs/poc-dataset/
+    - outputs/instruct-dataset/
     params:
-    - stages.generate-poc-dataset
+    - stages.generate-instruct-dataset
 
-  train-poc:
-    cmd: python src/entrypoint.py train-poc
+  train-instruct-model:
+    cmd: python src/entrypoint.py train-instruct-model
     outs:
-    - outputs/poc/
+    - outputs/instruct/
     deps:
-    - outputs/poc-dataset/
+    - outputs/instruct-dataset/
+    - outputs/causal/
     params:
-    - stages.train-poc
-
-  generate-final-dataset:
-    cmd: python src/entrypoint.py generate-ready-to-use-dataset
-    deps:
-    - src/data_processing/generate_ready_to_use_dataset.py
-    - outputs/raw/
-    outs:
-    - outputs/dataset/
-    params:
-    - stages.generate-ready-to-use-dataset
-
-  train-final-model:
-    cmd: python src/entrypoint.py train-final-model
-    outs:
-    - outputs/model/
-    deps:
-    - outputs/poc/
-    - outputs/dataset/
-    params:
-    - stages.train-final-model
+    - stages.train-instruct-model

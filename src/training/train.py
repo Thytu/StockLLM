@@ -1,14 +1,17 @@
 import os
 import wandb
 import dvc.api
+import importlib
 import transformers
 
+from typing import Dict, Any
+from trl import SFTTrainer
 from datetime import datetime
 from datasets import load_from_disk
+from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import DataCollatorForLanguageModeling
 from peft import get_peft_model, prepare_model_for_kbit_training
-from model import get_model, get_bitesandbytes_config, get_lora_config, get_tokenizer
-from trl import SFTTrainer
-from data_processing.get_dict_move_in_utf8_to_token import get_dict_move_in_utf8_to_token
+from model import get_bitesandbytes_config, get_lora_config
 
 
 def get_trainer(
@@ -17,6 +20,7 @@ def get_trainer(
     train_set,
     test_set,
     output_dir,
+    formatting_func,
     **kwargs
 ) -> transformers.Trainer:
 
@@ -47,9 +51,6 @@ def get_trainer(
 
     default_params.update(**kwargs)
 
-    # from data_processing.formatting_prompts_func import formatting_prompts_func
-    from transformers import DataCollatorForLanguageModeling
-
     return SFTTrainer(
         model,
         tokenizer=tokenizer,
@@ -57,51 +58,62 @@ def get_trainer(
         eval_dataset=test_set,
         max_seq_length=tokenizer.model_max_length,
         args=transformers.TrainingArguments(**default_params),
-        # formatting_func=formatting_prompts_func,
-        dataset_text_field="text",
-        data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
+        # formatting_func=instruct_formatting_prompts_func, # TODO: use param to know wich fn to use
+        formatting_func=formatting_func, # TODO: use param to know wich fn to use
+        # dataset_text_field="text", # TODO: same as below
+        data_collator = DataCollatorForLanguageModeling( # TODO: verify I can to that for the instruct part
+            tokenizer=tokenizer,
+            mlm=False
+        )
     )
 
 
 def main(
-    project_name,
-    model_parameters,
-    training_parameters,
-    path_to_dataset,
+    project_name: str,
+    subproject_name: str,
+    path_to_model: str,
+    model_parameters: Dict[str, Any],
+    training_parameters: Dict[str, Any],
+    path_to_dataset: str,
     path_to_outputs: str,
-    to_log_to_wandb=None,
+    to_log_to_wandb: bool = None,
 ):
     
-    project_name += "-FineTuningCLM"
-
+    project_name += f'-{subproject_name}'
+    
     wandb.login()
     os.environ["WANDB_PROJECT"] = project_name
 
     bnb_config = get_bitesandbytes_config(**model_parameters["bitesandbytes_parameters"])
 
-    model = get_model(quantization_config=bnb_config)
+    model = AutoModelForCausalLM.from_pretrained(
+        pretrained_model_name_or_path=path_to_model,
+        use_flash_attention_2=True, # TODO: must not be hardcoded
+        quantization_config=bnb_config,
+    )
     model.gradient_checkpointing_enable()
 
     model = prepare_model_for_kbit_training(model)
     model = get_peft_model(model, peft_config=get_lora_config())
     model.config.use_cache = False
 
-    tokenizer = get_tokenizer(
+    tokenizer = AutoTokenizer.from_pretrained(
+        pretrained_model_name_or_path=path_to_model,
         model_max_length=model_parameters["model_max_length"],
+        padding_side="left",
+        add_eos_token=True,
+        
     )
+    tokenizer.pad_token = tokenizer.eos_token
 
-    # Adding chess moves to vocabulaty
-    # TODO: must be done elsewhere
-    _dict_move_in_utf8_to_token = get_dict_move_in_utf8_to_token()
-    tokenizer.add_tokens(list(_dict_move_in_utf8_to_token.keys()))
-    model.resize_token_embeddings(len(tokenizer))
-
-    from data_processing.generate_finetuning_dataset import main as data_main
-    # dataset = load_from_disk(path_to_dataset)
-    dataset = data_main(number_of_samples=30_000)
+    dataset = load_from_disk(path_to_dataset)
 
     run_name = f"{project_name}-{datetime.now().strftime('%Y-%m-%d-%H-%M')}"
 
+    formatting_func = getattr(
+        importlib.import_module(f"data_processing.formatting_prompts_func"),
+        training_parameters.pop("formatting_func"),
+    )
     trainer: transformers.Trainer = get_trainer(
         model=model,
         tokenizer=tokenizer,
@@ -109,6 +121,7 @@ def main(
         test_set=dataset["test"],
         run_name=run_name,
         output_dir=path_to_outputs,
+        formatting_func=formatting_func,
         **training_parameters,
     )
 

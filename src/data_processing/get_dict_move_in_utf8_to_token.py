@@ -1,5 +1,5 @@
 from itertools import combinations
-from model import get_tokenizer
+from model import get_default_tokenizer
 
 
 ROWS = ('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
@@ -9,7 +9,7 @@ COLUMNS = ('1', '2', '3', '4', '5', '6', '7', '8')
 def get_dict_move_in_utf8_to_token(model_vocab_size: int = 32_000):
 
     positions_in_utf8 = []
-    tokenizer = get_tokenizer()
+    tokenizer = get_default_tokenizer()
 
     for row in ROWS:
         for column in COLUMNS:

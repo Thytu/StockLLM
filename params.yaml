@@ -21,66 +21,110 @@ training:
 
 stages:
 
+  add-chessmoves-to-model-vocab:
+    module: "model.add_chessmoves_to_vocabulary"
+    params:
+      model_parameters: *model
+      path_to_output: &path-to-untrained-model-w-vocab "./outputs/untrained-model-w-vocab/"
+  
+  generate-causal-dataset:
+    module: "data_processing.generate_causal_dataset"
+    params:
+      number_of_training_samples: 47500
+      number_of_testing_samples: 2500
+      path_to_output_dataset: &path-to-causal-dataset "./outputs/causal-dataset/"
+  
+  train-model-on-new-vocab:
+    module: "training.train"
+    params:
+      path_to_model: *path-to-untrained-model-w-vocab
+      path_to_dataset: *path-to-causal-dataset
+      path_to_outputs: "./outputs/causal/"
+      project_name: *project_name
+      subproject_name: Causal
+      model_parameters:
+        <<: *model
+      training_parameters:
+        formatting_func: causal_formatting_prompts_func
+        max_steps: 4000
+        warmup_steps: 3
+        eval_steps: 50
+        save_steps: 100
+        logging_steps: 25
+        per_device_train_batch_size: 16
+        per_device_eval_batch_size: 16
+        learning_rate: 2.0E-5
+
   create-task-find-last-move:
     module: "tasks.create_task_find_last_move"
     params:
       number_of_samples: 15000
-      path_to_output_dataset: "outputs/tasks/findLastMove.parquet"
+      path_to_output_dataset: "./outputs/tasks/findLastMove.parquet"
 
   create-task-find-score:
     module: "tasks.create_task_find_score"
     params:
       number_of_samples: 20000
-      path_to_output_dataset: "outputs/tasks/findScore.parquet"
+      path_to_output_dataset: "./outputs/tasks/findScore.parquet"
 
   create-task-MLM-on-moves:
     module: "tasks.create_task_MLM_on_moves"
     params:
       number_of_samples: 15000
-      path_to_output_dataset: "outputs/tasks/MLM.parquet"
+      path_to_output_dataset: "./outputs/tasks/MLM.parquet"
 
   create-task-find-who-is-winning:
     module: "tasks.create_task_find_who_is_winning"
     params:
       number_of_samples: 20000
-      path_to_output_dataset: "outputs/tasks/whoIsWinning.parquet"
+      path_to_output_dataset: "./outputs/tasks/whoIsWinning.parquet"
 
   create-task-sort-FENs:
     module: "tasks.create_task_sort_FENs"
     params:
       number_of_samples: 10000
-      path_to_output_dataset: "outputs/tasks/sortFENs.parquet"
+      path_to_output_dataset: "./outputs/tasks/sortFENs.parquet"
 
   create-task-find-next-best-move:
     module: "tasks.create_task_find_next_best_move"
     params:
       number_of_samples: 20000
-      path_to_output_dataset: "outputs/tasks/bestMove.parquet"
+      path_to_output_dataset: "./outputs/tasks/bestMove.parquet"
 
   merge-tasks-into-dataset:
     module: "data_processing.merge_tasks_into_dataset"
     params:
       paths:
-        - "outputs/tasks/findLastMove.parquet"
-        - "outputs/tasks/findScore.parquet"
-        - "outputs/tasks/MLM.parquet"
-        - "outputs/tasks/whoIsWinning.parquet"
-        - "outputs/tasks/sortFENs.parquet"
-        - "outputs/tasks/bestMove.parquet"
+        - "./outputs/tasks/findLastMove.parquet"
+        - "./outputs/tasks/findScore.parquet"
+        - "./outputs/tasks/MLM.parquet"
+        - "./outputs/tasks/whoIsWinning.parquet"
+        - "./outputs/tasks/sortFENs.parquet"
+        - "./outputs/tasks/bestMove.parquet"
       test_size: 0.01
-      path_to_train_set: "outputs/raw/train.csv"
-      path_to_test_set: "outputs/raw/test.csv"
+      path_to_train_set: "./outputs/raw/train.csv"
+      path_to_test_set: "./outputs/raw/test.csv"
 
-  train-poc:
+  generate-instruct-dataset:
+    module: "data_processing.generate_ready_to_use_dataset"
+    params:
+      path_to_test_set: "./outputs/raw/test.csv"
+      path_to_train_set: "./outputs/raw/train.csv"
+      path_to_output_dataset: &path-to-instruct-dataset "./outputs/instruct-dataset/"
+      model_max_length: *model_max_length
+
+  train-instruct-model:
     module: "training.train"
     params:
-      path_to_outputs: "outputs/poc/"
-      path_to_dataset: &path-to-poc-dataset "outputs/poc-dataset/"
+      path_to_outputs: "./outputs/instruct/"
+      path_to_model: "./outputs/causal/checkpoint-2000/"
+      path_to_dataset: *path-to-instruct-dataset
       project_name: *project_name
+      subproject_name: Instruct
       model_parameters:
         <<: *model
-        model_max_length: &poc_model_max_length 2048
       training_parameters:
+        formatting_func: instruct_formatting_prompts_func
         max_steps: 2000
         warmup_steps: 3
         eval_steps: 50
@@ -89,37 +133,3 @@ stages:
         per_device_train_batch_size: 16
         per_device_eval_batch_size: 16
         learning_rate: 2.5E-5
-
-  generate-poc-dataset:
-    module: "data_processing.generate_ready_to_use_dataset"
-    params:
-      path_to_test_set: "outputs/raw/test.csv"
-      path_to_train_set: "outputs/raw/train.csv"
-      path_to_output_dataset: *path-to-poc-dataset
-      model_max_length: *poc_model_max_length
-
-  generate-final-dataset:
-    module: "data_processing.generate_ready_to_use_dataset"
-    params:
-      path_to_test_set: "outputs/raw/test.csv"
-      path_to_train_set: "outputs/raw/train.csv"
-      path_to_output_dataset: "outputs/poc-dataset/"
-      model_max_length: *model_max_length
-
-  train-final-model:
-    module: "training.train"
-    params:
-      path_to_outputs: "outputs/model/"
-      project_name: *project_name
-      model_parameters: *model
-      training_parameters:
-        max_steps: 10_000
-        warmup_steps: 5
-        eval_steps: 100
-        save_steps: 200
-        logging_steps: 50
-        model_max_length: *model_max_length
-        per_device_train_batch_size: 8
-        per_device_eval_batch_size: 8
-        gradient_accumulation_steps: 2
-        learning_rate: 1.0E-5
