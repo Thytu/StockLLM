@@ -1,4 +1,4 @@
-import httpx
+import requests
 
 from typing import List
 from utils.retry import retry
@@ -13,7 +13,7 @@ def evaluate_position(
     depth: int = 12,
 ) -> float:
 
-    response = httpx.post(
+    response = requests.post(
         url=STOCKFISH_ONLINE_ENDPOINT + "evaluate/",
         json={
             "fen": fen,
@@ -28,7 +28,7 @@ def evaluate_position(
 
 
 def evaluate_positions(fens: List[str], depth: int):
-    response = httpx.post(
+    response = requests.post(
         url=STOCKFISH_ONLINE_ENDPOINT + "evaluates/",
         json={
             "fens": fens,
@@ -43,7 +43,7 @@ def evaluate_positions(fens: List[str], depth: int):
 
 
 def get_next_best_move(fen: str, depth: int):
-    response = httpx.post(
+    response = requests.post(
         url=STOCKFISH_ONLINE_ENDPOINT + "best-move/",
         json={
             "fen": fen,
@@ -58,7 +58,7 @@ def get_next_best_move(fen: str, depth: int):
 
 
 def get_next_best_moves(fens: List[str], depth: int):
-    response = httpx.post(
+    response = requests.post(
         url=STOCKFISH_ONLINE_ENDPOINT + "best-moves/",
         json={
             "fens": fens,

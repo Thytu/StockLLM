@@ -97,3 +97,9 @@ wcwidth==0.2.8
 widgetsnbextension==4.0.9
 xxhash==3.4.1
 yarl==1.9.2
+dvc
+chess
+fastapi
+uvicorn
+git+https://github.com/py-stockfish/stockfish@f2cb530dd5793e157620f40766f1484f2f037302
+trl

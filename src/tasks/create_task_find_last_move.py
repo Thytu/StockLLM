@@ -7,10 +7,7 @@ TASK_ID = "FIND_LAST_MOVE"
 
 PATH_TO_OUTPUT_DATASET = "outputs/tasks/findLastMove"
 
-PROMPT_FIND_LAST_MOVE = """Given an incomplit set of chess moves and the game's final score, write the last missing chess move.
-
-Input Format: A comma-separated list of chess moves followed by the game score.
-Output Format: The missing chess move"""
+PROMPT_FIND_LAST_MOVE = """Given an incomplit set of chess moves and the game's final score, write the last missing chess move."""
 
 
 def gen_from_iterable_dataset(iterable_ds):

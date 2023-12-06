@@ -2,7 +2,6 @@ import io
 import chess.pgn
 
 from typing import List
-from datasets import Dataset
 from data_processing.generate_PGNs import generate_pgn
 
 

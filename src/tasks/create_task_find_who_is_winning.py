@@ -9,7 +9,7 @@ from data_processing import moves_to_FENs, evaluate_positions
 
 TASK_ID = "FIND_ADVANTAGED_PLAYER"
 
-PROMPT_FIND_WHO_IS_WINNING = """Given some set of chess moves, write who is more advantaged (white or black)"""
+PROMPT_FIND_WHO_IS_WINNING = """Given some set of chess moves, write the player who is currently the most advantaged (white or black)"""
 
 @retry
 def generate_prompt_find_who_is_winning(data_points):

@@ -6,7 +6,7 @@ from data_processing import evaluate_positions
 from data_processing.get_random_data_samples import get_random_data_samples
 
 
-TASK_ID = "BEST_N_WORST_MOVE"
+TASK_ID = "BEST_N_WORST_POSITIONS"
 
 PROMPT_FIND_WORST_AND_BEST_POSITIONS = """Given a full set of chess moves, write the past worst and best positions from each side."""
 

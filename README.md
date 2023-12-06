@@ -88,7 +88,43 @@ TODO
 
 ## Usage
 
-TODO
+To replicate the experiments, there are two primary methods:
+
+### Using DVC
+
+Utilize DVC to rerun the entire pipeline or modify certain parameters:
+
+Run the entire pipeline:
+```bash
+dvc repro
+```
+
+Play with the parameters used:
+```bash
+dvc exp run -S "param.to.overwrite=new-value"
+```
+
+### Running Individual Stages (without DVC)
+
+Execute a single stage by running the following command:
+```bash
+python src/entrypoint.py <name-of-stage-to-run>
+```
+
+For instance:
+```bash
+python src/entrypoint.py train-instruct-model
+```
+
+
+Upon executing the DVC pipeline, multiple outputs will be generated and stored in the `outputs/` folder:
+
+1. Intermediate version of [Mistral-7b](https://huggingface.co/mistralai/Mistral-7B-v0.1) : This model incorporates each possible chess move within its vocabulary as a distinct token.
+2. [ChessInstruct](https://huggingface.co/datasets/Thytu/ChessInstruct) Dataset: An instructive dataset focused explicitly on chess.
+3. StockLLM: An instructive iteration of Mistral-7b specialized specifically for chess.
+
+These outputs encapsulate the refined components developed during the experiment replication process, providing a comprehensive suite of resources for further exploration and utilization within the realm of chess instruction and language modeling.
+Feel free to adapt and utilize these outputs in alignment with your specific requirements and research goals.
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>

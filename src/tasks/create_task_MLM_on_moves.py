@@ -7,10 +7,7 @@ from data_processing import moves_to_FENs
 
 TASK_ID = "MLM_ON_MOVES"
 
-PROMPT_MLM_ON_MOVES = """Given an incomplit set of chess moves and some informations regarding this game, write the missing chess moves.
-
-Missing chess moves are indicated with a "?" mark. Write ONLY the missing moves, not the provided ones.
-Output Format: A comma-separated list of the missing chess moves."""
+PROMPT_MLM_ON_MOVES = """Given an incomplit set of chess moves (missing chess moves are indicated with a "?" mark) and some informations regarding this game, write the missing chess moves."""
 
 
 def __remove_random_moves(moves, prob_to_remove: float = 0.1):
@@ -48,7 +45,7 @@ def generate_prompt_MLM_on_moves(data_point):
             "result": data_point["Result"],
         },
         "expected_output": {
-            "missing moves": str(removed_moves).replace("'", "")
+            "missing moves": [removed_moves] if isinstance(removed_moves, str) else removed_moves
         },
     }
 

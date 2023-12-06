@@ -1,67 +1,147 @@
+general:
+  project-name: &project_name StockLLM
+
+
+model: &model
+
+  model_max_length: &model_max_length 2048
+
+  bitesandbytes_parameters:
+    load_in_4bit: True
+    bnb_4bit_use_double_quant: True
+    bnb_4bit_quant_type: nf4
+    bnb_4bit_compute_dtype: bfloat16
+
+
+training:
+  use_bf16: &use_bf16 True
+  optimizer: &optimizer paged_adamw_8bit
+
 stages:
+
+  add-chessmoves-to-model-vocab:
+    module: "model.add_chessmoves_to_vocabulary"
+    params:
+      model_parameters: *model
+      path_to_output: &path-to-untrained-model-w-vocab "./outputs/untrained-model-w-vocab/"
+  
+  generate-causal-dataset:
+    module: "data_processing.generate_causal_dataset"
+    params:
+      number_of_training_samples: 47500
+      number_of_testing_samples: 2500
+      path_to_output_dataset: &path-to-causal-dataset "./outputs/causal-dataset/"
+  
+  train-model-on-new-vocab:
+    module: "training.train"
+    params:
+      path_to_model: *path-to-untrained-model-w-vocab
+      path_to_dataset: *path-to-causal-dataset
+      path_to_outputs: "./outputs/causal/"
+      project_name: *project_name
+      subproject_name: Causal
+      model_parameters:
+        <<: *model
+      training_parameters:
+        formatting_func: causal_formatting_prompts_func
+        max_steps: 4000
+        warmup_steps: 3
+        eval_steps: 250
+        save_steps: 250
+        logging_steps: 25
+        per_device_train_batch_size: 16
+        per_device_eval_batch_size: 16
+        learning_rate: 2.0E-5
+
+  merge-causal-adapter-to-model:
+    module: "model.merge_lora_to_model"
+    params:
+      path_to_model: *path-to-untrained-model-w-vocab
+      path_to_adapter: "./outputs/causal/checkpoint-2000/"
+      path_to_output: &path-to-causal-model "./outputs/causal-merged/"
 
   create-task-find-last-move:
     module: "tasks.create_task_find_last_move"
     params:
       number_of_samples: 15000
-      path_to_output_dataset: "outputs/tasks/findLastMove.parquet"
+      path_to_output_dataset: "./outputs/tasks/findLastMove.parquet"
 
   create-task-find-score:
     module: "tasks.create_task_find_score"
     params:
       number_of_samples: 20000
-      path_to_output_dataset: "outputs/tasks/findScore.parquet"
+      path_to_output_dataset: "./outputs/tasks/findScore.parquet"
 
   create-task-MLM-on-moves:
     module: "tasks.create_task_MLM_on_moves"
     params:
       number_of_samples: 15000
-      path_to_output_dataset: "outputs/tasks/MLM.parquet"
-
-  # Considered deprecated: I'm not convinced it's helpful for the
-  # model while it the most task consuming task to generate
-  # create-task-find-best-n-worst-positions:
-  #   module: "tasks.create_task_find_best_and_worst_positions"
-  #   params:
-  #     number_of_samples: 20000
-  #     path_to_output_dataset: "outputs/tasks/bestAndWorstPositions.parquet"
+      path_to_output_dataset: "./outputs/tasks/MLM.parquet"
 
   create-task-find-who-is-winning:
     module: "tasks.create_task_find_who_is_winning"
     params:
       number_of_samples: 20000
-      path_to_output_dataset: "outputs/tasks/whoIsWinning.parquet"
+      path_to_output_dataset: "./outputs/tasks/whoIsWinning.parquet"
 
   create-task-sort-FENs:
     module: "tasks.create_task_sort_FENs"
     params:
       number_of_samples: 10000
-      path_to_output_dataset: "outputs/tasks/sortFENs.parquet"
+      path_to_output_dataset: "./outputs/tasks/sortFENs.parquet"
 
   create-task-find-next-best-move:
     module: "tasks.create_task_find_next_best_move"
     params:
       number_of_samples: 20000
-      path_to_output_dataset: "outputs/tasks/bestMove.parquet"
+      path_to_output_dataset: "./outputs/tasks/bestMove.parquet"
 
   merge-tasks-into-dataset:
     module: "data_processing.merge_tasks_into_dataset"
     params:
       paths:
-        - "outputs/tasks/findLastMove.parquet"
-        - "outputs/tasks/findScore.parquet"
-        - "outputs/tasks/MLM.parquet"
-        # - "outputs/tasks/bestAndWorstPositions.parquet"
-        - "outputs/tasks/whoIsWinning.parquet"
-        - "outputs/tasks/sortFENs.parquet"
-        - "outputs/tasks/bestMove.parquet"
+        - "./outputs/tasks/findLastMove.parquet"
+        - "./outputs/tasks/findScore.parquet"
+        - "./outputs/tasks/MLM.parquet"
+        - "./outputs/tasks/whoIsWinning.parquet"
+        - "./outputs/tasks/sortFENs.parquet"
+        - "./outputs/tasks/bestMove.parquet"
       test_size: 0.01
-      path_to_train_set: "outputs/raw/train.csv"
-      path_to_test_set: "outputs/raw/test.csv"
+      path_to_train_set: "./outputs/raw/train.csv"
+      path_to_test_set: "./outputs/raw/test.csv"
 
-  generate-ready-to-use-dataset:
+  generate-instruct-dataset:
     module: "data_processing.generate_ready_to_use_dataset"
     params:
-      path_to_test_set: "outputs/raw/test.csv"
-      path_to_train_set: "outputs/raw/train.csv"
-      path_to_output_dataset: "outputs/dataset/"
+      path_to_test_set: "./outputs/raw/test.csv"
+      path_to_train_set: "./outputs/raw/train.csv"
+      path_to_output_dataset: &path-to-instruct-dataset "./outputs/instruct-dataset/"
+      model_max_length: *model_max_length
+
+  train-instruct-model:
+    module: "training.train"
+    params:
+      path_to_outputs: "./outputs/instruct/"
+      path_to_model: *path-to-causal-model
+      path_to_dataset: *path-to-instruct-dataset
+      project_name: *project_name
+      subproject_name: Instruct
+      model_parameters:
+        <<: *model
+      training_parameters:
+        formatting_func: instruct_formatting_prompts_func
+        max_steps: 2000
+        warmup_steps: 3
+        eval_steps: 100
+        save_steps: 100
+        logging_steps: 25
+        per_device_train_batch_size: 16
+        per_device_eval_batch_size: 16
+        learning_rate: 2.5E-5
+
+  merge-instruct-adapter-to-model:
+    module: "model.merge_lora_to_model"
+    params:
+      path_to_model: *path-to-causal-model
+      path_to_adapter: "./outputs/instruct/checkpoint-2000/"
+      path_to_output: &path-to-instruct-model "./outputs/instruct-merged/"
