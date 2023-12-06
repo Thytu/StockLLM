@@ -11,7 +11,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Thytu/StockLLM">
-    <img src="https://i.ibb.co/8zqgnxX/StockLLM.png" alt="Logo" width="200" height="200">
+    <img src="https://i.ibb.co/rcBKty6/Stock-LLM-min.png" alt="Logo" width="200" height="200">
   </a>
 
   <h3 align="center">StockLLM</h3>
