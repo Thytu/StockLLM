@@ -5,142 +5,142 @@ stages:
     deps:
     - path: src/tasks/create_task_find_last_move.py
       hash: md5
-      md5: 193333a518824964886c768eb0cbf1d9
-      size: 1782
+      md5: d310f8d656d9d9e0668c246828595ddf
+      size: 1663
     params:
       params.yaml:
         stages.create-task-find-last-move:
           module: tasks.create_task_find_last_move
           params:
             number_of_samples: 15000
-            path_to_output_dataset: outputs/tasks/findLastMove.parquet
+            path_to_output_dataset: ./outputs/tasks/findLastMove.parquet
     outs:
-    - path: outputs/tasks/findLastMove.parquet
+    - path: ./outputs/tasks/findLastMove.parquet
       hash: md5
-      md5: 78197fae3f5937db2b891a80e82e5088
-      size: 7966417
+      md5: caa230cf802921a4aae5933e90c71bd2
+      size: 7964159
   create-task-find-score:
     cmd: python src/entrypoint.py create-task-find-score
     deps:
     - path: src/tasks/create_task_find_score.py
       hash: md5
-      md5: 1640f9cd62204cbcce1108e5df46420e
-      size: 1548
+      md5: 320b28e27a6fe933721f30ae8340ebf5
+      size: 1558
     params:
       params.yaml:
         stages.create-task-find-score:
           module: tasks.create_task_find_score
           params:
             number_of_samples: 20000
-            path_to_output_dataset: outputs/tasks/findScore.parquet
+            path_to_output_dataset: ./outputs/tasks/findScore.parquet
     outs:
-    - path: outputs/tasks/findScore.parquet
+    - path: ./outputs/tasks/findScore.parquet
       hash: md5
-      md5: 6865bcfc9d4694f2ae43eb2bd99efa48
-      size: 10569968
+      md5: ebdd6a28a03e7ff139a3c19daecee227
+      size: 10592089
   create-task-MLM-on-moves:
     cmd: python src/entrypoint.py create-task-MLM-on-moves
     deps:
     - path: src/tasks/create_task_MLM_on_moves.py
       hash: md5
-      md5: f63ef62e2aba59adc4e90f68807a5d2a
-      size: 2098
+      md5: 0ce07e63a313ea3c86425c787dc5dddc
+      size: 2012
     params:
       params.yaml:
         stages.create-task-MLM-on-moves:
           module: tasks.create_task_MLM_on_moves
           params:
             number_of_samples: 15000
-            path_to_output_dataset: outputs/tasks/MLM.parquet
+            path_to_output_dataset: ./outputs/tasks/MLM.parquet
     outs:
-    - path: outputs/tasks/MLM.parquet
+    - path: ./outputs/tasks/MLM.parquet
       hash: md5
-      md5: 204b523cbe7be7c43a499da0e571c1a3
-      size: 8636277
+      md5: 0bb4b73168240a51ad5e53dbdc0b11f3
+      size: 8475246
   create-task-find-who-is-winning:
     cmd: python src/entrypoint.py create-task-find-who-is-winning
     deps:
     - path: src/tasks/create_task_find_who_is_winning.py
       hash: md5
-      md5: bff22b380ea0893e8151236b100c10a8
-      size: 2001
+      md5: 53952e4db20747e04402c799e5dab637
+      size: 2026
     params:
       params.yaml:
         stages.create-task-find-who-is-winning:
           module: tasks.create_task_find_who_is_winning
           params:
             number_of_samples: 20000
-            path_to_output_dataset: outputs/tasks/whoIsWinning.parquet
+            path_to_output_dataset: ./outputs/tasks/whoIsWinning.parquet
     outs:
-    - path: outputs/tasks/whoIsWinning.parquet
+    - path: ./outputs/tasks/whoIsWinning.parquet
       hash: md5
-      md5: 0b5527f2e77d79c56711ae0534f0540d
-      size: 5448956
+      md5: a98f4ff7f285a932b914ca181afda72d
+      size: 5489791
   create-task-sort-FENs:
     cmd: python src/entrypoint.py create-task-sort-FENs
     deps:
     - path: src/tasks/create_task_sort_FENs.py
       hash: md5
-      md5: 814418d6f546c7af7deb60105dbffe67
-      size: 1751
+      md5: 82818d64ccba140074ad3396625f77bc
+      size: 1645
     params:
       params.yaml:
         stages.create-task-sort-FENs:
           module: tasks.create_task_sort_FENs
           params:
             number_of_samples: 10000
-            path_to_output_dataset: outputs/tasks/sortFENs.parquet
+            path_to_output_dataset: ./outputs/tasks/sortFENs.parquet
     outs:
-    - path: outputs/tasks/sortFENs.parquet
+    - path: ./outputs/tasks/sortFENs.parquet
       hash: md5
-      md5: 1e8ced3e657d6b80f24f25724b6e3053
-      size: 5280419
+      md5: ffd0e4141a63615bb29965f6b14e4799
+      size: 5290753
   create-task-find-next-best-move:
     cmd: python src/entrypoint.py create-task-find-next-best-move
     deps:
     - path: src/tasks/create_task_find_next_best_move.py
       hash: md5
-      md5: 25cbb3764dfd47616f9cebe82198b6d8
-      size: 2016
+      md5: 3a35ebd926ab7b755994af44e282701b
+      size: 1998
     params:
       params.yaml:
         stages.create-task-find-next-best-move:
           module: tasks.create_task_find_next_best_move
           params:
             number_of_samples: 20000
-            path_to_output_dataset: outputs/tasks/bestMove.parquet
+            path_to_output_dataset: ./outputs/tasks/bestMove.parquet
     outs:
-    - path: outputs/tasks/bestMove.parquet
+    - path: ./outputs/tasks/bestMove.parquet
       hash: md5
-      md5: 58119ee89ea9ce5741387983f7a7714a
-      size: 5483092
+      md5: b0bf765ca5fdee04161bff5bd3b619d2
+      size: 5461140
   merge-tasks-into-dataset:
     cmd: python src/entrypoint.py merge-tasks-into-dataset
     deps:
-    - path: outputs/tasks/MLM.parquet
+    - path: ./outputs/tasks/MLM.parquet
       hash: md5
-      md5: 204b523cbe7be7c43a499da0e571c1a3
-      size: 8636277
-    - path: outputs/tasks/bestMove.parquet
+      md5: 0bb4b73168240a51ad5e53dbdc0b11f3
+      size: 8475246
+    - path: ./outputs/tasks/bestMove.parquet
       hash: md5
-      md5: 58119ee89ea9ce5741387983f7a7714a
-      size: 5483092
-    - path: outputs/tasks/findLastMove.parquet
+      md5: b0bf765ca5fdee04161bff5bd3b619d2
+      size: 5461140
+    - path: ./outputs/tasks/findLastMove.parquet
       hash: md5
-      md5: 78197fae3f5937db2b891a80e82e5088
-      size: 7966417
-    - path: outputs/tasks/findScore.parquet
+      md5: caa230cf802921a4aae5933e90c71bd2
+      size: 7964159
+    - path: ./outputs/tasks/findScore.parquet
       hash: md5
-      md5: 6865bcfc9d4694f2ae43eb2bd99efa48
-      size: 10569968
-    - path: outputs/tasks/sortFENs.parquet
+      md5: ebdd6a28a03e7ff139a3c19daecee227
+      size: 10592089
+    - path: ./outputs/tasks/sortFENs.parquet
       hash: md5
-      md5: 1e8ced3e657d6b80f24f25724b6e3053
-      size: 5280419
-    - path: outputs/tasks/whoIsWinning.parquet
+      md5: ffd0e4141a63615bb29965f6b14e4799
+      size: 5290753
+    - path: ./outputs/tasks/whoIsWinning.parquet
       hash: md5
-      md5: 0b5527f2e77d79c56711ae0534f0540d
-      size: 5448956
+      md5: a98f4ff7f285a932b914ca181afda72d
+      size: 5489791
     - path: src/data_processing/merge_tasks_into_dataset.py
       hash: md5
       md5: 3e08ec1a248497a5b62e9625dcfd39d5
@@ -151,20 +151,20 @@ stages:
           module: data_processing.merge_tasks_into_dataset
           params:
             paths:
-            - outputs/tasks/findLastMove.parquet
-            - outputs/tasks/findScore.parquet
-            - outputs/tasks/MLM.parquet
-            - outputs/tasks/whoIsWinning.parquet
-            - outputs/tasks/sortFENs.parquet
-            - outputs/tasks/bestMove.parquet
+            - ./outputs/tasks/findLastMove.parquet
+            - ./outputs/tasks/findScore.parquet
+            - ./outputs/tasks/MLM.parquet
+            - ./outputs/tasks/whoIsWinning.parquet
+            - ./outputs/tasks/sortFENs.parquet
+            - ./outputs/tasks/bestMove.parquet
             test_size: 0.01
-            path_to_train_set: outputs/raw/train.csv
-            path_to_test_set: outputs/raw/test.csv
+            path_to_train_set: ./outputs/raw/train.csv
+            path_to_test_set: ./outputs/raw/test.csv
     outs:
-    - path: outputs/raw/
+    - path: ./outputs/raw/
       hash: md5
-      md5: 924b9e7fc0de8a6f56f45f1512cd58b9.dir
-      size: 162771040
+      md5: eb4c9ca95dbc96ba6b003c2753ae4b3e.dir
+      size: 158100584
       nfiles: 2
   generate-ready-to-use-dataset:
     cmd: python src/entrypoint.py generate-ready-to-use-dataset
@@ -192,3 +192,139 @@ stages:
       md5: 5487244f04e0bb4b4dd0ece0bddaa941.dir
       size: 5326051725
       nfiles: 17
+  generate-poc-dataset:
+    cmd: python src/entrypoint.py generate-poc-dataset
+    deps:
+    - path: outputs/raw/
+      hash: md5
+      md5: 3f09ce6ce05246c7912ac485d14c1156.dir
+      size: 157981784
+      nfiles: 2
+    - path: src/data_processing/generate_ready_to_use_dataset.py
+      hash: md5
+      md5: af2322e00865e3241c0cbc7f2f2afe23
+      size: 1716
+    params:
+      params.yaml:
+        stages.generate-poc-dataset:
+          module: data_processing.generate_ready_to_use_dataset
+          params:
+            path_to_test_set: outputs/raw/test.csv
+            path_to_train_set: outputs/raw/train.csv
+            path_to_output_dataset: outputs/poc-dataset/
+            model_max_length: 2048
+    outs:
+    - path: outputs/poc-dataset/
+      hash: md5
+      md5: 1177f2b405c2fe695e1826cd8e22cab2.dir
+      size: 130777717
+      nfiles: 7
+  train-poc:
+    cmd: python src/entrypoint.py train-poc
+    deps:
+    - path: outputs/poc-dataset/
+      hash: md5
+      md5: aa389a5cdaea38399dcc0e5205cfa6ca.dir
+      size: 399709837
+      nfiles: 9
+    params:
+      params.yaml:
+        stages.train-poc:
+          module: training.train
+          params:
+            path_to_outputs: outputs/poc/
+            path_to_dataset: outputs/poc-dataset/
+            project_name: StockLLM
+            model_parameters:
+              model_max_length: 2048
+              bitesandbytes_parameters:
+                load_in_4bit: true
+                bnb_4bit_use_double_quant: true
+                bnb_4bit_quant_type: nf4
+                bnb_4bit_compute_dtype: bfloat16
+            training_parameters:
+              max_steps: 2000
+              warmup_steps: 3
+              eval_steps: 25
+              save_steps: 100
+              logging_steps: 10
+              per_device_train_batch_size: 16
+              per_device_eval_batch_size: 16
+    outs:
+    - path: outputs/poc/
+      hash: md5
+      md5: 932e10adaf95ec97f3d68c41775dd98e.dir
+      size: 2603493909
+      nfiles: 220
+  add-chessmoves-to-model-vocab:
+    cmd: python src/entrypoint.py add-chessmoves-to-model-vocab
+    deps:
+    - path: src/model/add_chessmoves_to_vocabulary.py
+      hash: md5
+      md5: 825c2fad77e84284d4abc55374fdc546
+      size: 905
+    params:
+      params.yaml:
+        stages.add-chessmoves-to-model-vocab:
+          module: model.add_chessmoves_to_vocabulary
+          params:
+            model_parameters:
+              model_max_length: 2048
+              bitesandbytes_parameters:
+                load_in_8bit: true
+                torch_dtype: bfloat16
+            path_to_output: ./outputs/untrained-model-w-vocab/
+    outs:
+    - path: ./outputs/untrained-model-w-vocab/
+      hash: md5
+      md5: da50edc5af0d9b373d170ad2bf74897e.dir
+      size: 29102382984
+      nfiles: 9
+  generate-causal-dataset:
+    cmd: python src/entrypoint.py generate-causal-dataset
+    deps:
+    - path: src/data_processing/generate_causal_dataset.py
+      hash: md5
+      md5: c297d198f46aa729943bcc340537b437
+      size: 563
+    params:
+      params.yaml:
+        stages.generate-causal-dataset:
+          module: data_processing.generate_causal_dataset
+          params:
+            number_of_training_samples: 100000
+            number_of_testing_samples: 2000
+            path_to_output_dataset: ./outputs/causal-dataset/
+    outs:
+    - path: ./outputs/causal-dataset/
+      hash: md5
+      md5: a3a04591934a904953bbe0bc4b036361.dir
+      size: 157919613
+      nfiles: 7
+  generate-instruct-dataset:
+    cmd: python src/entrypoint.py generate-instruct-dataset
+    deps:
+    - path: ./outputs/raw/
+      hash: md5
+      md5: eb4c9ca95dbc96ba6b003c2753ae4b3e.dir
+      size: 158100584
+      nfiles: 2
+    - path: src/data_processing/generate_ready_to_use_dataset.py
+      hash: md5
+      md5: 91a7a89dc5cc71de4088be3b5d14ef4d
+      size: 607
+    params:
+      params.yaml:
+        stages.generate-instruct-dataset:
+          module: data_processing.generate_ready_to_use_dataset
+          params:
+            path_to_test_set: ./outputs/raw/test.csv
+            path_to_train_set: ./outputs/raw/train.csv
+            path_to_output_dataset: ./outputs/instruct-dataset/
+            model_max_length: 2048
+    outs:
+    - path: ./outputs/instruct-dataset/
+      hash: md5
+      md5: 7035ff3202e7b9ed31d6688ac8b9fc0f.dir
+      size: 130872457
+      nfiles: 7
