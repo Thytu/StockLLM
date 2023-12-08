@@ -1,0 +1,799 @@
+[
+    {
+        "title": "Chess Fundamentals by José Raúl Capablanca",
+        "format": "txt",
+        "url": "https://www.gutenberg.org/ebooks/33870.txt.utf-8"
+    }, {
+        "title": "Chess Strategy by Edward Lasker",
+        "format": "txt",
+        "url": "https://www.gutenberg.org/ebooks/5614.txt.utf-8"
+    }, {
+        "title": "The blue book of chess by Howard Staunton",
+        "format": "txt",
+        "url": "https://www.gutenberg.org/ebooks/16377.txt.utf-8"
+    }, {
+        "title": "A Game of Queens",
+        "url": "https://www.qualitychess.co.uk/ebooks/AGameofQueens-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "A Matter of Endgame Technique",
+        "url": "https://www.qualitychess.co.uk/ebooks/AMatterofEndgameTechnique-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "A Spanish Rep. for Black",
+        "url": "https://www.qualitychess.co.uk/ebooks/SpanishUpdate.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Advanced Chess Tactics 2nd edition",
+        "url": "https://www.qualitychess.co.uk/ebooks/AdvancedChessTactics2ndedition-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Alma",
+        "url": "https://www.qualitychess.co.uk/ebooks/Alma-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Alterman Gambit Guide - Black Gambits 1",
+        "url": "https://www.qualitychess.co.uk/ebooks/Black-Gambits-1-exceprt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Alterman Gambit Guide - Black Gambits 2",
+        "url": "https://www.qualitychess.co.uk/ebooks/Black-Gambits-2-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Alterman Gambit Guide - White Gambits",
+        "url": "https://www.qualitychess.co.uk/ebooks/Alterman-Gambit-Guide.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Analyzing the Chess Mind",
+        "url": "https://www.qualitychess.co.uk/ebooks/AnalyzingtheChessMind-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Anand Files",
+        "url": "https://www.qualitychess.co.uk/ebooks/AnandFiles-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Attacking Manual 1",
+        "url": "https://www.qualitychess.co.uk/ebooks/attackingmanual1.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Attacking Manual 2",
+        "url": "https://www.qualitychess.co.uk/ebooks/attacking_manual_2.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Attacking the Spanish",
+        "url": "https://www.qualitychess.co.uk/ebooks/Attacking_the_Spanish_excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Beat the KID",
+        "url": "https://www.qualitychess.co.uk/ebooks/BeattheKID-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Beating the Open Games",
+        "url": "https://www.qualitychess.co.uk/ebooks/BTOG-2nd-edit-Evans-Gambit.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Black and White Magic",
+        "url": "https://www.qualitychess.co.uk/ebooks/BlackandWhiteMagic+Excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Boost Your Chess 1",
+        "url": "https://www.qualitychess.co.uk/ebooks/Boost-Your-Chess-1-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Boost Your Chess 2",
+        "url": "https://www.qualitychess.co.uk/ebooks/BoostYourChess2-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Boost Your Chess 3",
+        "url": "https://www.qualitychess.co.uk/ebooks/BoostYourChess3.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Build up Your Chess 1",
+        "url": "https://www.qualitychess.co.uk/ebooks/Build-up-Your-Chess-1-exceprt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Build up Your Chess 2",
+        "url": "https://www.qualitychess.co.uk/ebooks/Build-up-your-chess-2-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Build up Your Chess 3",
+        "url": "https://www.qualitychess.co.uk/ebooks/Build-up-Your-Chess-3-exceprt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Carlsen's Assault on the Throne",
+        "url": "https://www.qualitychess.co.uk/ebooks/CarlsensAssaultontheThrone-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Challenging the Gr&uuml;nfeld",
+        "url": "https://www.qualitychess.co.uk/ebooks/ChallengingtheGrunfeld-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Challenging the Nimzo-Indian",
+        "url": "https://www.qualitychess.co.uk/ebooks/ChallengingtheNimzoindian-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Champions of the New Millennium",
+        "url": "https://www.qualitychess.co.uk/ebooks/ChampionsoftheNewMilennium-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Chess Behind Bars",
+        "url": "https://www.qualitychess.co.uk/ebooks/Chess_Behind_Bars-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Chess Evolution 1",
+        "url": "https://www.qualitychess.co.uk/ebooks/Chess-Evolution-1-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Chess Evolution 2",
+        "url": "https://www.qualitychess.co.uk/ebooks/Chess_Evolution_2-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Chess Evolution 3",
+        "url": "https://www.qualitychess.co.uk/ebooks/Chess_Evolution_3-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Chess Evolution November 5/2011",
+        "url": "https://www.qualitychess.co.uk/ebooks/Chess-Evolution-November-2011-Excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Chess Evolution September 4/2011",
+        "url": "https://www.qualitychess.co.uk/ebooks/ChessEvolution2011-4-September-Promotional.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Chess for Kids and Parents",
+        "url": "https://www.qualitychess.co.uk/ebooks/Chessforkidsandparents-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Chess Lessons",
+        "url": "https://www.qualitychess.co.uk/ebooks/ChessLessons.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Chess Praxis",
+        "url": "https://www.qualitychess.co.uk/ebooks/ChessPraxis-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Chess Structures - A Grandmaster Guide",
+        "url": "https://www.qualitychess.co.uk/ebooks/Flores_Rios_Chess_Structures-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Chess Tactics from Scratch",
+        "url": "https://www.qualitychess.co.uk/ebooks/Chess-Tactics-Scratch-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Chess Tips for the Improving Player",
+        "url": "https://www.qualitychess.co.uk/ebooks/ChessTipsfortheImprovingPlayer-exceprt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Coffeehouse Repertoire 1.e4 Volume 1",
+        "url": "https://www.qualitychess.co.uk/ebooks/CoffeehouseRepertoireVol1-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Coffeehouse Repertoire 1.e4 Volume 2",
+        "url": "https://www.qualitychess.co.uk/ebooks/CoffeehouseRepertoireVol2-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Conceptual Rook Endgames",
+        "url": "https://www.qualitychess.co.uk/ebooks/ConceptualRookEndgamesExcerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Decision Making in Major Piece Endings",
+        "url": "https://www.qualitychess.co.uk/ebooks/DecisionMakinginMajorPieceEndings-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Dragon - Volume One",
+        "url": "https://www.qualitychess.co.uk/ebooks/TheDragon1-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Dragon - Volume Two",
+        "url": "https://www.qualitychess.co.uk/ebooks/TheDragon2-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Dutch Sidelines",
+        "url": "https://www.qualitychess.co.uk/ebooks/DutchSidelines-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Dynamic Decision Making in Chess",
+        "url": "https://www.qualitychess.co.uk/ebooks/DynamicDecisionMakinginChess-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "e3 Poison",
+        "url": "https://www.qualitychess.co.uk/ebooks/e3_Poison-extract.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Endgame Labyrinths",
+        "url": "https://www.qualitychess.co.uk/ebooks/EndgameLabyrinthsOnlineExcerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Experts on the Anti-Sicilian",
+        "url": "https://www.qualitychess.co.uk/ebooks/ExpertsontheAnti-Sicilian-Excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Experts vs the Sicilian 2nd edition",
+        "url": "https://www.qualitychess.co.uk/ebooks/Expertsvsthesicilian-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Fischer - Spassky 1972",
+        "url": "https://www.qualitychess.co.uk/ebooks/Fischer-Spassky1972-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "From GM to Top 10",
+        "url": "https://www.qualitychess.co.uk/ebooks/FromGMtoTop10Excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Genius in the Background",
+        "url": "https://www.qualitychess.co.uk/ebooks/Genius_in_the_Background-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire - 1.e4 vol 1",
+        "url": "https://www.qualitychess.co.uk/ebooks/GMRep-1e4-vol1-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire - 1.e4 vs Minor Defences",
+        "url": "https://www.qualitychess.co.uk/ebooks/1e4vsMinorDefences-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire - 1.e4 vs The French, etc.",
+        "url": "https://www.qualitychess.co.uk/ebooks/GMRep-1e4-vol1-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire - 1.e4 vs the Sicilian I",
+        "url": "https://www.qualitychess.co.uk/ebooks/Negi_1e4_vs_the_Sicilian_One-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire - 1.e4 vs The Sicilian II",
+        "url": "https://www.qualitychess.co.uk/ebooks/GrandmasterRepertoire1e4vsSicilianII-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire - 1.e4 vs The Sicilian III",
+        "url": "https://www.qualitychess.co.uk/ebooks/1e4vsSicilianIII-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire 1 - 1.d4 Volume One",
+        "url": "https://www.qualitychess.co.uk/ebooks/GMrep1-web-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire 10 - The Tarrasch Defence",
+        "url": "https://www.qualitychess.co.uk/ebooks/GM10-Tarrasch-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire 11 - Beating 1.d4 Sidelines",
+        "url": "https://www.qualitychess.co.uk/ebooks/GM11-1d4Sidelines-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire 12 - The Modern Benoni",
+        "url": "https://www.qualitychess.co.uk/ebooks/GM12-ModernBenoni-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire 13 - The Open Spanish",
+        "url": "https://www.qualitychess.co.uk/ebooks/GM13-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire 16 - The French Defence Vol. 3",
+        "url": "https://www.qualitychess.co.uk/ebooks/GM16-FrenchDefence3-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire 17 - The Classic Slav",
+        "url": "https://www.qualitychess.co.uk/ebooks/GM17-TheClassicalSlav-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire 18 - The Sicilian Sveshnikov",
+        "url": "https://www.qualitychess.co.uk/ebooks/GM18-Sveshnikov-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire 19 - Beating Minor Openings",
+        "url": "https://www.qualitychess.co.uk/ebooks/BeatingMinorOpenings-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire 1A - The Catalan",
+        "url": "https://www.qualitychess.co.uk/ebooks/GM1A-Catalan-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire 1B - The Queen's Gambit",
+        "url": "https://www.qualitychess.co.uk/ebooks/1BTheQueensGambit-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire 2 - 1.d4 Volume Two",
+        "url": "https://www.qualitychess.co.uk/ebooks/GM2-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire 20 - The Semi-Slav",
+        "url": "https://www.qualitychess.co.uk/ebooks/TheSemi-Slav-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire 2A - King's Indian and Grunfeld",
+        "url": "https://www.qualitychess.co.uk/ebooks/GM2A-KingsIndianandGrunfeld-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire 2B - Dynamic Systems by Boris Avrukh",
+        "url": "https://www.qualitychess.co.uk/ebooks/DynamicDefences-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire 3 - The English Opening vol. 1",
+        "url": "https://www.qualitychess.co.uk/ebooks/GMRep3-Englishvolone.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire 4 - The English Opening vol. 2",
+        "url": "https://www.qualitychess.co.uk/ebooks/GM4-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire 5 - The English Opening vol. 3",
+        "url": "https://www.qualitychess.co.uk/ebooks/GM5-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire 6 - The Sicilian Defence",
+        "url": "https://www.qualitychess.co.uk/ebooks/GM6-The-Sicilian-Defence.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire 6A - Beating the Anti-Sicilians",
+        "url": "https://www.qualitychess.co.uk/ebooks/BeatingtheAnti-Sicilians-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire 7 - The Caro-Kann",
+        "url": "https://www.qualitychess.co.uk/ebooks/GM7Caro-Kann-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire 8 - Grunfeld vol 1",
+        "url": "https://www.qualitychess.co.uk/ebooks/GrandmasterRepertoire8-Excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "GM Repertoire 9 - Grunfeld vol 2",
+        "url": "https://www.qualitychess.co.uk/ebooks/GM9-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Grandmaster Battle Manual",
+        "url": "https://www.qualitychess.co.uk/ebooks/GrandmasterBattleManual-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Grandmaster Opening Preparation",
+        "url": "https://www.qualitychess.co.uk/ebooks/GrandmasterOpeningPreparation-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Grandmaster Preparation - Calculation",
+        "url": "https://www.qualitychess.co.uk/ebooks/CALCULATION-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Grandmaster Preparation - Endgame Play",
+        "url": "https://www.qualitychess.co.uk/ebooks/EndgamePlay-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Grandmaster Preparation - Positional Play",
+        "url": "https://www.qualitychess.co.uk/ebooks/PositionalPlay-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Grandmaster Preparation - Strategic Play",
+        "url": "https://www.qualitychess.co.uk/ebooks/StrategicPlay-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Grandmaster Training Camp 1 - Calculation!",
+        "url": "https://www.qualitychess.co.uk/ebooks/GrandmasterTrainingCamp1CalculationExcerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Grandmaster Training Camp 1 - Calculation!",
+        "url": "https://www.qualitychess.co.uk/ebooks/GrandmasterTrainingCamp1CalculationExcerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Grandmaster vs. Amateur",
+        "url": "https://www.qualitychess.co.uk/ebooks/Grandmaster-vs-Amateur-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Grandmaster vs. Amateur",
+        "url": "https://www.qualitychess.co.uk/ebooks/Grandmaster-vs-Amateur-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "How I Beat Fischer's Record",
+        "url": "https://www.qualitychess.co.uk/ebooks/HowIBeatFischersRecordExcerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "How I became a Chess Grandmaster",
+        "url": "https://www.qualitychess.co.uk/ebooks/HowIbecameaChessGrandmaster-Excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "I was a Victim of Bobby Fischer",
+        "url": "https://www.qualitychess.co.uk/ebooks/IwasaVictimofBobbyFischer-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Karpov's Strategic Wins 1",
+        "url": "https://www.qualitychess.co.uk/ebooks/KarpovsStrategicWins1-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Karpov's Strategic Wins 2",
+        "url": "https://www.qualitychess.co.uk/ebooks/KarpovsStrategicWins2-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Key Concepts of Gambit Play",
+        "url": "https://www.qualitychess.co.uk/ebooks/KeyConceptsofGambitPlay-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "King's Indian 1",
+        "url": "https://www.qualitychess.co.uk/ebooks/KingsIndian1-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "King's Indian 2",
+        "url": "https://www.qualitychess.co.uk/ebooks/KingsIndian2-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "King's Indian Warfare",
+        "url": "https://www.qualitychess.co.uk/ebooks/KingsIndianWarfare-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Korchnoi and his Chess Grandchildren",
+        "url": "https://www.qualitychess.co.uk/ebooks/KorchnoiandhisChessGrandchildren-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Kotronias on the King's Indian - Classical Systems",
+        "url": "https://www.qualitychess.co.uk/ebooks/Kotronias_Classical_Systems-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Kotronias on the King's Indian - Fianchetto Systems",
+        "url": "https://www.qualitychess.co.uk/ebooks/KotroniasontheKingsIndianFianchettoSystems-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Kotronias on the King's Indian - Mar del Plata I",
+        "url": "https://www.qualitychess.co.uk/ebooks/Kotronias_Mar_del_Plata_One-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Kotronias on the King's Indian - Mar del Plata II",
+        "url": "https://www.qualitychess.co.uk/ebooks/Kotronias_Mar_del_Plata_Two-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Kotronias on the King's Indian - Saemisch &amp; The Rest",
+        "url": "https://www.qualitychess.co.uk/ebooks/Kotronias_Samisch_and_Rest-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Learn from Bent Larsen",
+        "url": "https://www.qualitychess.co.uk/ebooks/LearnfromBentLarsen-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Learn from the Legends",
+        "url": "https://www.qualitychess.co.uk/ebooks/LearnfromtheLegends10thAnniversary-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Leningrad Dutch",
+        "url": "https://www.qualitychess.co.uk/ebooks/LeningradDutch-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Luther's Chess Reformation",
+        "url": "https://www.qualitychess.co.uk/ebooks/LuthersChessReformation-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Magnus Carlsen's Middlegame Evolution",
+        "url": "https://www.qualitychess.co.uk/ebooks/MagnusCarlsensMiddlegameEvolution-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Mating the Castled King",
+        "url": "https://www.qualitychess.co.uk/ebooks/MatingtheCastledKing-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Mayhem in the Morra",
+        "url": "https://www.qualitychess.co.uk/ebooks/MayhemintheMorraExcerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Mikhail Tal's Best Games 1",
+        "url": "https://www.qualitychess.co.uk/ebooks/Tal1TheMagicofYouth-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Mikhail Tal's Best Games 2",
+        "url": "https://www.qualitychess.co.uk/ebooks/Tal2TheWorldChampion-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Mikhail Tal's Best Games 3",
+        "url": "https://www.qualitychess.co.uk/ebooks/Tal3TheInvincible-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Modern Tiger",
+        "url": "https://www.qualitychess.co.uk/ebooks/The_Modern_Tiger-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "My System",
+        "url": "https://www.qualitychess.co.uk/ebooks/MySystem-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Nimzo-Indian Defence",
+        "url": "https://www.qualitychess.co.uk/ebooks/Nimzo-IndianDefence-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Opening Simulator - King's Indian Defence",
+        "url": "https://www.qualitychess.co.uk/ebooks/OpeningSimulatorKID-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Pirc Defence",
+        "url": "https://www.qualitychess.co.uk/ebooks/PircDefence-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Play the Scandinavian",
+        "url": "https://www.qualitychess.co.uk/ebooks/PlaytheScandinavian-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Play the Semi-Slav",
+        "url": "https://www.qualitychess.co.uk/ebooks/Semi-Slav-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Playing 1.d4 - The Indian Defences",
+        "url": "https://www.qualitychess.co.uk/ebooks/Playing1d4IndiansExcerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Playing 1.d4 - The Queen's Gambit",
+        "url": "https://www.qualitychess.co.uk/ebooks/Playing1d4QueensGambitexcerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Playing 1.d4 d5 - A Classical Repertoire",
+        "url": "https://www.qualitychess.co.uk/ebooks/Playing1d4d5-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Playing 1.e4 - Caro-Kann, 1...e5 and Minor Lines",
+        "url": "https://www.qualitychess.co.uk/ebooks/Playing1e4CaroKannandothers-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Playing 1.e4 - French Defence and Sicilian Sidelines",
+        "url": "https://www.qualitychess.co.uk/ebooks/Playing1e4FrenchDefenceSicilianSidelines-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Playing 1.e4 - Sicilian Main Lines",
+        "url": "https://www.qualitychess.co.uk/ebooks/Playing1e4SicilianMainLines-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Playing 1.e4 e5 - A Classical Repertoire",
+        "url": "https://www.qualitychess.co.uk/ebooks/Playing1e4e5-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Playing the Caro-Kann",
+        "url": "https://www.qualitychess.co.uk/ebooks/PlayingtheCaroKann-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Playing the English",
+        "url": "https://www.qualitychess.co.uk/ebooks/Playing%20the%20English%20excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Playing the French",
+        "url": "https://www.qualitychess.co.uk/ebooks/PlayingtheFrench-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Playing the Grunfeld",
+        "url": "https://www.qualitychess.co.uk/ebooks/PlayingtheGrunfeld-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Playing the Najdorf",
+        "url": "https://www.qualitychess.co.uk/ebooks/PlayingtheNajdorf-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Playing the Petroff",
+        "url": "https://www.qualitychess.co.uk/ebooks/PlayingthePetroff-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Playing the Queen's Gambit",
+        "url": "https://www.qualitychess.co.uk/ebooks/Playing-the-Queens-Gambit-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Playing the Ragozin",
+        "url": "https://www.qualitychess.co.uk/ebooks/PlayingtheRagozin-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Playing the Stonewall Dutch",
+        "url": "https://www.qualitychess.co.uk/ebooks/PlayingtheStonewallDutch-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Playing the Sveshnikov",
+        "url": "https://www.qualitychess.co.uk/ebooks/PlayingtheSveshnikovExcerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Playing the Trompowsky",
+        "url": "https://www.qualitychess.co.uk/ebooks/PlayingtheTrompowsky-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Positional Chess Sacrifices",
+        "url": "https://www.qualitychess.co.uk/ebooks/PositionalChessSacrifices-Excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Positional Decision Making in Chess",
+        "url": "https://www.qualitychess.co.uk/ebooks/PositionalDecisionMakinginChess-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Practical Chess Beauty",
+        "url": "https://www.qualitychess.co.uk/ebooks/PracticalChessBeauty-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Practical Chess Defence",
+        "url": "https://www.qualitychess.co.uk/ebooks/PracticalChessDefence-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Pump Up Your Rating",
+        "url": "https://www.qualitychess.co.uk/ebooks/PumpUpYourRating-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Python Strategy",
+        "url": "https://www.qualitychess.co.uk/ebooks/PythonStrategy-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Quality Chess Puzzle Book",
+        "url": "https://www.qualitychess.co.uk/ebooks/QualityChessPuzzleBook-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Questions of Modern Chess Theory",
+        "url": "https://www.qualitychess.co.uk/ebooks/QuestionsofModernChessTheory-Exceprt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Questions of Modern Chess Theory",
+        "url": "https://www.qualitychess.co.uk/ebooks/QuestionsofModernChessTheory-Exceprt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Reggio Emilia 2007/2008",
+        "url": "https://www.qualitychess.co.uk/ebooks/ReggioEmilia20072008-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Revision and Exam 1",
+        "url": "https://www.qualitychess.co.uk/ebooks/Revision&amp;Exam1-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Rook vs. Two Minor Pieces",
+        "url": "https://www.qualitychess.co.uk/ebooks/RookvsTwoMinorPieces-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "San Luis 2005 2nd edition",
+        "url": "https://www.qualitychess.co.uk/ebooks/SanLuis2editionpage41-51.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Secret Life of Bad Bishops",
+        "url": "https://www.qualitychess.co.uk/ebooks/TheSecretLifeofBadBishops-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Sharp Endgames",
+        "url": "https://www.qualitychess.co.uk/ebooks/SharpEndgames-extract.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Sicilian Taimanov",
+        "url": "https://www.qualitychess.co.uk/ebooks/SicilianTaimanov-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Sicilian Warfare",
+        "url": "https://www.qualitychess.co.uk/ebooks/SicilianWarfare-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Small Steps 2 Success",
+        "url": "https://www.qualitychess.co.uk/ebooks/SmallSteps2Success-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Small Steps to Giant Improvement",
+        "url": "https://www.qualitychess.co.uk/ebooks/SmallStepstoGiantImprovement-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Soviet Chess Primer",
+        "url": "https://www.qualitychess.co.uk/ebooks/Soviet_Chess_Primer-extract.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Soviet Chess Primer",
+        "url": "https://www.qualitychess.co.uk/ebooks/Soviet_Chess_Primer-extract.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Soviet Chess Strategy",
+        "url": "https://www.qualitychess.co.uk/ebooks/SovietChessStrategyexcerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Soviet Middlegame Technique",
+        "url": "https://www.qualitychess.co.uk/ebooks/SovietMiddlegameTechnique-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Soviet Outcast",
+        "url": "https://www.qualitychess.co.uk/ebooks/SovietOutcast-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Street Smart Chess",
+        "url": "https://www.qualitychess.co.uk/ebooks/StreetSmartChess-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Tactimania",
+        "url": "https://www.qualitychess.co.uk/ebooks/Tactimania-Excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Technical Decision Making in Chess",
+        "url": "https://www.qualitychess.co.uk/ebooks/TechnicalDecisionMakinginChess-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "The Benko Gambit",
+        "url": "https://www.qualitychess.co.uk/ebooks/Benkogambit-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "The Berlin Defence",
+        "url": "https://www.qualitychess.co.uk/ebooks/BerlinDefence-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "The Berlin Wall",
+        "url": "https://www.qualitychess.co.uk/ebooks/TheBerlinWallInternetexcerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "The Chess Alchemist",
+        "url": "https://www.qualitychess.co.uk/ebooks/ChessAlchemist-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "The Cutting Edge 1 - The Open Sicilian 1",
+        "url": "https://www.qualitychess.co.uk/ebooks/CuttingEdge1.pdf",
+        "format": "pdf"
+    }, {
+        "title": "The Cutting Edge 2 - Sicilian Najdorf 6.Be3",
+        "url": "https://www.qualitychess.co.uk/ebooks/CuttingEdge2-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "The Exhilarating Elephant Gambit",
+        "url": "https://www.qualitychess.co.uk/ebooks/ExhilaratingElephantGambit-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "The Italian Renaissance - I: Move Orders, Tricks and Alternatives",
+        "url": "https://www.qualitychess.co.uk/ebooks/ItalianRenaissance1-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "The Italian Renaissance - II: The Main Lines",
+        "url": "https://www.qualitychess.co.uk/ebooks/ItalianRenaissance2-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "The King's Gambit",
+        "url": "https://www.qualitychess.co.uk/ebooks/KingsGambit-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "The Nemesis - Geller's Greatest Games",
+        "url": "https://www.qualitychess.co.uk/ebooks/TheNemesis-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "The Queen's Indian Defence",
+        "url": "https://www.qualitychess.co.uk/ebooks/TheQueensIndian-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "The Road to Reykjavik",
+        "url": "https://www.qualitychess.co.uk/ebooks/RoadtoReykjavik-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "The Science of Strategy",
+        "url": "https://www.qualitychess.co.uk/ebooks/ScienceofStrategy-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "The Secret Ingredient to Winning at Chess",
+        "url": "https://www.qualitychess.co.uk/ebooks/TheSecretIngredient-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "The Sveshnikov Reloaded",
+        "url": "https://www.qualitychess.co.uk/ebooks/SveshnikovReloaded-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "The Thinkers",
+        "url": "https://www.qualitychess.co.uk/ebooks/TheThinkers-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Theoretical Rook Endgames",
+        "url": "https://www.qualitychess.co.uk/ebooks/TheoreticalRookEndgamesOnlineExcerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Think Like a Machine",
+        "url": "https://www.qualitychess.co.uk/ebooks/ThinkLikeaMachine-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Think Like a Super-GM",
+        "url": "https://www.qualitychess.co.uk/ebooks/ThinkLikeaSuper-GM-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Think Like a Super-GM",
+        "url": "https://www.qualitychess.co.uk/ebooks/ThinkLikeaSuper-GM-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "True Lies in Chess",
+        "url": "https://www.qualitychess.co.uk/ebooks/TrueLiesinChess-exceprt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Under the Surface",
+        "url": "https://www.qualitychess.co.uk/ebooks/UndertheSurface-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Understanding Chess Tactics",
+        "url": "https://www.qualitychess.co.uk/ebooks/UnderstandingChessTactics-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Vladimir Kramnik - The Inside Story of a Chess Genius",
+        "url": "https://www.qualitychess.co.uk/ebooks/VladimirKramnik-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Winning",
+        "url": "https://www.qualitychess.co.uk/ebooks/Winning-excerpt.pdf",
+        "format": "pdf"
+    }, {
+        "title": "Woodpecker Method",
+        "url": "https://www.qualitychess.co.uk/ebooks/WoodpeckerMethod-excerpt.pdf",
+        "format": "pdf"
+    }
+]

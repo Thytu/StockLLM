@@ -3,21 +3,48 @@ general:
 
 
 model: &model
-
   model_max_length: &model_max_length 2048
-
-  bitesandbytes_parameters:
-    load_in_4bit: True
-    bnb_4bit_use_double_quant: True
-    bnb_4bit_quant_type: nf4
-    bnb_4bit_compute_dtype: bfloat16
 
 
 training:
   use_bf16: &use_bf16 True
   optimizer: &optimizer paged_adamw_8bit
 
+
+dataset-pretraining-stages: &pretraining-dataset-stages
+
+  dataset-pretraining-download-literature:
+    module: "data_processing.dataset_pretraining.download_literature"
+    params:
+      path_to_list_of_literature: src/data_processing/dataset_pretraining/literature.json
+      path_to_output: ./outputs/pretrainin-dataset-steps/1_downloaded_literature
+  
+  dataset-pretraining-normalize-unicodes:
+    module: "data_processing.dataset_pretraining.normalize_unicodes"
+    params:
+      path_to_output: ./outputs/pretrainin-dataset-steps/2_normalized_unicodes
+
+  dataset-pretraining-filter-literature:
+    module: "data_processing.dataset_pretraining.filter_literature_based_on_nonascii"
+    params:
+      max_nonascii_percentage: 5
+      path_to_output: ./outputs/pretrainin-dataset-steps/3_filtered_literature
+
+  dataset-pretraining-remove-unwanted-chars:
+    module: "data_processing.dataset_pretraining.remove_unwanted_chars"
+    params:
+      path_to_output: ./outputs/pretrainin-dataset-steps/4_wo_unwanted_chars
+
+  dataset-pretraining-remove-part-of-beginning-n-end:
+    module: "data_processing.dataset_pretraining.remove_beginning_n_end"
+    params:
+      num_lines_to_remove_beginning: 100
+      num_lines_to_remove_end: 25
+      # path_to_output: ./outputs/pretrainin-dataset-steps/5_wo_beginning_n_end
+
 stages:
+
+  <<: *pretraining-dataset-stages
 
   add-chessmoves-to-model-vocab:
     module: "model.add_chessmoves_to_vocabulary"
@@ -28,8 +55,8 @@ stages:
   generate-causal-dataset:
     module: "data_processing.generate_causal_dataset"
     params:
-      number_of_training_samples: 47500
-      number_of_testing_samples: 2500
+      number_of_training_samples: 100000
+      number_of_testing_samples: 2000
       path_to_output_dataset: &path-to-causal-dataset "./outputs/causal-dataset/"
   
   train-model-on-new-vocab:
@@ -44,20 +71,21 @@ stages:
         <<: *model
       training_parameters:
         formatting_func: causal_formatting_prompts_func
-        max_steps: 4000
+        max_steps: 5000
         warmup_steps: 3
         eval_steps: 250
         save_steps: 250
         logging_steps: 25
-        per_device_train_batch_size: 16
-        per_device_eval_batch_size: 16
-        learning_rate: 2.0E-5
+        per_device_train_batch_size: 8
+        per_device_eval_batch_size: 8
+        gradient_accumulation_steps: 2
+        learning_rate: 2.5E-5
 
   merge-causal-adapter-to-model:
     module: "model.merge_lora_to_model"
     params:
       path_to_model: *path-to-untrained-model-w-vocab
-      path_to_adapter: "./outputs/causal/checkpoint-2000/"
+      path_to_adapter: "./outputs/causal/checkpoint-1000/"
       path_to_output: &path-to-causal-model "./outputs/causal-merged/"
 
   create-task-find-last-move:
@@ -122,21 +150,43 @@ stages:
     module: "training.train"
     params:
       path_to_outputs: "./outputs/instruct/"
-      path_to_model: *path-to-causal-model
+      path_to_model: "./outputs/causal/checkpoint-5000"
       path_to_dataset: *path-to-instruct-dataset
       project_name: *project_name
       subproject_name: Instruct
       model_parameters:
         <<: *model
+        bitesandbytes_parameters:
+          # load_in_8bit: True
+          # torch_dtype: bfloat16
+          bnb_4bit_use_double_quant: True
+          bnb_4bit_quant_type: nf4
+          bnb_4bit_compute_dtype: bfloat16
       training_parameters:
         formatting_func: instruct_formatting_prompts_func
+        lora_parameters:
+          r: 8
+          lora_alpha: 16
+          target_modules:
+            - q_proj
+            - k_proj
+            - v_proj
+            - o_proj
+            - gate_proj
+            - up_proj
+            - down_proj
+            - lm_head
+          bias: none
+          lora_dropout: 0.05
+          task_type: CAUSAL_LM
         max_steps: 2000
         warmup_steps: 3
         eval_steps: 100
         save_steps: 100
         logging_steps: 25
-        per_device_train_batch_size: 16
-        per_device_eval_batch_size: 16
+        per_device_train_batch_size: 8
+        per_device_eval_batch_size: 8
+        gradient_accumulation_steps: 2
         learning_rate: 2.5E-5
 
   merge-instruct-adapter-to-model:
