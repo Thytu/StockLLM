@@ -132,23 +132,31 @@ Feel free to adapt and utilize these outputs in alignment with your specific req
 
 ## Roadmap
 
+## Roadmap
+
 ### Dataset
-- [x] Change intermediate output format to parquet
-- [x] Generate an intermediate dataset agnostic to any model's prompt format
-- [x] Generate move evaluation localy by running a StockFish server
-- [ ] Add a new task "detect illegal move"
-- [ ] Add a new task "find WIN/DRAW/LOSE stats"
-- [ ] Generate game strategic analyses
-- [ ] Create an use `LABEL_PROMPT` to improve model's output format
-- [ ] (Diverse) Add an evaluation section to evaluate StockLLM agains StockFish
-- [ ] Check for additional dataset to base ChessInstruct on
+ - [x] Convert intermediate output format to parquet
+ - [x] Generate an intermediate dataset independent of any specific model's prompt format
+ - [x] Facilitate local move evaluation by running a StockFish server
+ - [ ] Introduce a new task: "detect illegal moves"
+ - [ ] Introduce a new task: "calculate WIN/DRAW/LOSE statistics"
+ - [ ] Generate strategic game analyses
+ - [ ] Implement the use of `LABEL_PROMPT` to enhance the model's output format
+ - [ ] Investigate additional datasets to bolster [ChessInstruct](https://huggingface.co/datasets/Thytu/ChessInstruct)
+ - [ ] Capture and incorporate strategies employed by various players to enhance the strategic analysis section.
+ - [ ] Introduce Time Control Variation: Include datasets or variations that encompass different time controls (blitz, rapid, classical) to diversify the model's exposure to varied game styles.
+ - [ ] Conduct an empirical analysis to assess the influence of varying game ELO ratings used during pre-training on the model's performance and adaptability to different skill levels (ELO).
 
 ### Model
-- [ ] Provide training as dvc step
-- [ ] Provided trained version of StockLLM
-- [ ] Find StockLLM's ELO
-
-
+ - [x] Provide training as a dvc step
+ - [ ] Conduct pre-training utilizing a blend of [laion/strategic_game_chess](https://huggingface.co/datasets/laion/strategic_game_chess) and chess-related literature
+ - [ ] Perform instruction fine-tuning using a combination of [ChessInstruct](https://huggingface.co/datasets/Thytu/ChessInstruct) and [tatsu-lab/alpaca](https://huggingface.co/datasets/tatsu-lab/alpaca)
+ - [ ] Supply a trained version of StockLLM
+ - [ ] Integrate an evaluation step involving matches against Stockfish (across different ELOs)
+ - [ ] Determine StockLLM's ELO rating
+ - [ ] Experiment with reinforcement learning approaches to allow the model to learn and adapt during gameplay, potentially enhancing its performance.
+ - [ ] Focus on improving the model's interpretability by incorporating methods to explain its decisions, especially in strategic analyses or move recommendations.
+ 
 See the [open issues](https://github.com/Thytu/StockLLM/issues) for a full list of proposed features and known issues.
 
 
