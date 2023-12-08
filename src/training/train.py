@@ -1,4 +1,5 @@
 import os
+import torch
 import wandb
 import dvc.api
 import importlib
@@ -58,9 +59,8 @@ def get_trainer(
         eval_dataset=test_set,
         max_seq_length=tokenizer.model_max_length,
         args=transformers.TrainingArguments(**default_params),
-        # formatting_func=instruct_formatting_prompts_func, # TODO: use param to know wich fn to use
-        formatting_func=formatting_func, # TODO: use param to know wich fn to use
-        # dataset_text_field="text", # TODO: same as below
+        formatting_func=formatting_func,
+        dataset_num_proc=os.cpu_count() - 1,
         data_collator = DataCollatorForLanguageModeling( # TODO: verify I can to that for the instruct part
             tokenizer=tokenizer,
             mlm=False
@@ -81,17 +81,22 @@ def main(
     
     project_name += f'-{subproject_name}'
 
-    bnb_config = get_bitesandbytes_config(**model_parameters["bitesandbytes_parameters"])
+    bnb_config = None
+    if "bitesandbytes_parameters" in model_parameters:
+        bnb_config = get_bitesandbytes_config(**model_parameters["bitesandbytes_parameters"])
 
     model = AutoModelForCausalLM.from_pretrained(
         pretrained_model_name_or_path=path_to_model,
-        use_flash_attention_2=True, # TODO: must not be hardcoded
+        torch_dtype=torch.bfloat16,
+        # use_flash_attention_2=True, # TODO: must not be hardcoded
         quantization_config=bnb_config,
     )
     model.gradient_checkpointing_enable()
 
-    model = prepare_model_for_kbit_training(model)
-    model = get_peft_model(model, peft_config=get_lora_config())
+    if (lora_parameters := training_parameters.pop("lora_parameters")):
+        model = prepare_model_for_kbit_training(model)
+        model = get_peft_model(model, peft_config=get_lora_config(**lora_parameters))
+
     model.config.use_cache = False
 
     tokenizer = AutoTokenizer.from_pretrained(
@@ -128,23 +133,3 @@ def main(
         run.config["run-params"] = to_log_to_wandb
 
         trainer.train()
-
-
-if __name__ == "__main__":
-
-    import dvc.api
-
-    params = dvc.api.params_show()
-
-    path_to_outputs = "outputs/poc/"
-
-    main(
-        project_name=params['general']['project-name'],
-        model_parameters=params["model"],
-        path_to_outputs=path_to_outputs,
-        to_log_to_wandb={
-            "general": params["general"],
-            "model": params["model"],
-            "stages": params["stages"],
-        },
-    )
