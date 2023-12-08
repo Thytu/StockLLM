@@ -17,30 +17,34 @@ dataset-pretraining-stages: &pretraining-dataset-stages
     module: "data_processing.dataset_pretraining.download_literature"
     params:
       path_to_list_of_literature: src/data_processing/dataset_pretraining/literature.json
-      path_to_output: ./outputs/pretrainin-dataset-steps/1_downloaded_literature
+      path_to_output: ./outputs/dataset-pretrainin-steps/1_downloaded_literature
   
   dataset-pretraining-normalize-unicodes:
     module: "data_processing.dataset_pretraining.normalize_unicodes"
     params:
-      path_to_output: ./outputs/pretrainin-dataset-steps/2_normalized_unicodes
+      path_to_literature: ./outputs/dataset-pretrainin-steps/1_downloaded_literature
+      path_to_output: ./outputs/dataset-pretrainin-steps/2_normalized_unicodes
 
   dataset-pretraining-filter-literature:
     module: "data_processing.dataset_pretraining.filter_literature_based_on_nonascii"
     params:
       max_nonascii_percentage: 5
-      path_to_output: ./outputs/pretrainin-dataset-steps/3_filtered_literature
+      path_to_literature: ./outputs/dataset-pretrainin-steps/2_normalized_unicodes
+      path_to_output: ./outputs/dataset-pretrainin-steps/3_filtered_literature
 
   dataset-pretraining-remove-unwanted-chars:
     module: "data_processing.dataset_pretraining.remove_unwanted_chars"
     params:
-      path_to_output: ./outputs/pretrainin-dataset-steps/4_wo_unwanted_chars
+      path_to_literature: ./outputs/dataset-pretrainin-steps/3_filtered_literature
+      path_to_output: ./outputs/dataset-pretrainin-steps/4_wo_unwanted_chars
 
   dataset-pretraining-remove-part-of-beginning-n-end:
     module: "data_processing.dataset_pretraining.remove_beginning_n_end"
     params:
       num_lines_to_remove_beginning: 100
       num_lines_to_remove_end: 25
-      # path_to_output: ./outputs/pretrainin-dataset-steps/5_wo_beginning_n_end
+      path_to_literature: ./outputs/dataset-pretrainin-steps/4_wo_unwanted_chars
+      path_to_output: ./outputs/dataset-pretrainin-steps/5_wo_beginning_n_end
 
 stages:
 

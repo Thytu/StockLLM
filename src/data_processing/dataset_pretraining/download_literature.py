@@ -55,7 +55,7 @@ def main(
     books = json.load(open(path_to_list_of_literature))
     
 
-    with multiprocessing.Pool(4) as pool:
+    with multiprocessing.Pool(os.cpu_count() - 1) as pool:
         pool.map(
             __apply_formater,
             [(b, path_to_output) for b in books],

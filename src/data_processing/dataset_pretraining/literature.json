@@ -1,16 +1,24 @@
 [
     {
         "title": "Chess Fundamentals by José Raúl Capablanca",
+        "format": "pdf",
+        "url": "https://drive.google.com/u/0/uc?id=184Vhf-lt8pJQRcpV07a48ffcl5SHfA9a&export=download"
+    }, {
+        "title": "Common sense in chess by Lasker, Emanuel, 1868-1941",
         "format": "txt",
-        "url": "https://www.gutenberg.org/ebooks/33870.txt.utf-8"
+        "url": "https://ia800902.us.archive.org/33/items/commonsenseinche00laskrich/commonsenseinche00laskrich_djvu.txt"
+    },{
+        "title": "The middle game in chess by Znosko-Borovskii, Evg. A. (Evgenii Aleksandrovich), 1884-1952",
+        "format": "txt",
+        "url": "https://ia800903.us.archive.org/25/items/middlegameinches00znos/middlegameinches00znos_djvu.txt"
+    }, {
+        "title": "Learn and Master Progressive Chess by Matej Guid",
+        "format": "pdf",
+        "url": "https://drive.google.com/u/0/uc?id=14po3uSf8cznP-WZ8T68OiBw4MvMZAL4t&export=download"
     }, {
         "title": "Chess Strategy by Edward Lasker",
-        "format": "txt",
-        "url": "https://www.gutenberg.org/ebooks/5614.txt.utf-8"
-    }, {
-        "title": "The blue book of chess by Howard Staunton",
-        "format": "txt",
-        "url": "https://www.gutenberg.org/ebooks/16377.txt.utf-8"
+        "format": "pdf",
+        "url": "https://drive.google.com/u/0/uc?id=1cC9IziVcbt9ncMV1lyrsUKbD3QSduzin&export=download"
     }, {
         "title": "A Game of Queens",
         "url": "https://www.qualitychess.co.uk/ebooks/AGameofQueens-excerpt.pdf",
@@ -620,10 +628,6 @@
         "url": "https://www.qualitychess.co.uk/ebooks/ReggioEmilia20072008-excerpt.pdf",
         "format": "pdf"
     }, {
-        "title": "Revision and Exam 1",
-        "url": "https://www.qualitychess.co.uk/ebooks/Revision&amp;Exam1-excerpt.pdf",
-        "format": "pdf"
-    }, {
         "title": "Rook vs. Two Minor Pieces",
         "url": "https://www.qualitychess.co.uk/ebooks/RookvsTwoMinorPieces-excerpt.pdf",
         "format": "pdf"
@@ -762,10 +766,6 @@
     }, {
         "title": "Think Like a Machine",
         "url": "https://www.qualitychess.co.uk/ebooks/ThinkLikeaMachine-excerpt.pdf",
-        "format": "pdf"
-    }, {
-        "title": "Think Like a Super-GM",
-        "url": "https://www.qualitychess.co.uk/ebooks/ThinkLikeaSuper-GM-excerpt.pdf",
         "format": "pdf"
     }, {
         "title": "Think Like a Super-GM",

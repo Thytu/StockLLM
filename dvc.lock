@@ -328,3 +328,110 @@ stages:
       md5: 7035ff3202e7b9ed31d6688ac8b9fc0f.dir
       size: 130872457
       nfiles: 7
+  dataset-pretraining-download-literature:
+    cmd: python src/entrypoint.py dataset-pretraining-download-literature
+    deps:
+    - path: src/data_processing/dataset_pretraining/literature.json
+      hash: md5
+      md5: 05906ca5182ee437c7e45375f7dd612c
+      size: 33935
+    params:
+      params.yaml:
+        stages.dataset-pretraining-download-literature:
+          module: data_processing.dataset_pretraining.download_literature
+          params:
+            path_to_list_of_literature: src/data_processing/dataset_pretraining/literature.json
+            path_to_output: ./outputs/dataset-pretrainin-steps/1_downloaded_literature
+    outs:
+    - path: ./outputs/dataset-pretrainin-steps/1_downloaded_literature
+      hash: md5
+      md5: 73bbc11d584a16cd00a62d3dfe63a790.dir
+      size: 6203934
+      nfiles: 195
+  dataset-pretraining-normalize-unicodes:
+    cmd: python src/entrypoint.py dataset-pretraining-normalize-unicodes
+    deps:
+    - path: ./outputs/dataset-pretrainin-steps/1_downloaded_literature
+      hash: md5
+      md5: 73bbc11d584a16cd00a62d3dfe63a790.dir
+      size: 6203934
+      nfiles: 195
+    params:
+      params.yaml:
+        stages.dataset-pretraining-normalize-unicodes:
+          module: data_processing.dataset_pretraining.normalize_unicodes
+          params:
+            path_to_literature: ./outputs/dataset-pretrainin-steps/1_downloaded_literature
+            path_to_output: ./outputs/dataset-pretrainin-steps/2_normalized_unicodes
+    outs:
+    - path: ./outputs/dataset-pretrainin-steps/2_normalized_unicodes
+      hash: md5
+      md5: aea0a7395962747a586859174141700c.dir
+      size: 6203849
+      nfiles: 195
+  dataset-pretraining-filter-literature:
+    cmd: python src/entrypoint.py dataset-pretraining-filter-literature
+    deps:
+    - path: ./outputs/dataset-pretrainin-steps/2_normalized_unicodes
+      hash: md5
+      md5: aea0a7395962747a586859174141700c.dir
+      size: 6203849
+      nfiles: 195
+    params:
+      params.yaml:
+        stages.dataset-pretraining-filter-literature:
+          module: data_processing.dataset_pretraining.filter_literature_based_on_nonascii
+          params:
+            max_nonascii_percentage: 5
+            path_to_literature: ./outputs/dataset-pretrainin-steps/2_normalized_unicodes
+            path_to_output: ./outputs/dataset-pretrainin-steps/3_filtered_literature
+    outs:
+    - path: ./outputs/dataset-pretrainin-steps/3_filtered_literature
+      hash: md5
+      md5: 94a7e2dd8b8318d2f87ae1f710b94371.dir
+      size: 2272385
+      nfiles: 49
+  dataset-pretraining-remove-unwanted-chars:
+    cmd: python src/entrypoint.py dataset-pretraining-remove-unwanted-chars
+    deps:
+    - path: ./outputs/dataset-pretrainin-steps/3_filtered_literature
+      hash: md5
+      md5: 94a7e2dd8b8318d2f87ae1f710b94371.dir
+      size: 2272385
+      nfiles: 49
+    params:
+      params.yaml:
+        stages.dataset-pretraining-remove-unwanted-chars:
+          module: data_processing.dataset_pretraining.remove_unwanted_chars
+          params:
+            path_to_literature: ./outputs/dataset-pretrainin-steps/3_filtered_literature
+            path_to_output: ./outputs/dataset-pretrainin-steps/4_wo_unwanted_chars
+    outs:
+    - path: ./outputs/dataset-pretrainin-steps/4_wo_unwanted_chars
+      hash: md5
+      md5: cc926aa6482d662fb1723149f5e00f99.dir
+      size: 2189783
+      nfiles: 49
+  dataset-pretraining-remove-part-of-beginning-n-end:
+    cmd: python src/entrypoint.py dataset-pretraining-remove-part-of-beginning-n-end
+    deps:
+    - path: ./outputs/dataset-pretrainin-steps/4_wo_unwanted_chars
+      hash: md5
+      md5: cc926aa6482d662fb1723149f5e00f99.dir
+      size: 2189783
+      nfiles: 49
+    params:
+      params.yaml:
+        stages.dataset-pretraining-remove-part-of-beginning-n-end:
+          module: data_processing.dataset_pretraining.remove_beginning_n_end
+          params:
+            num_lines_to_remove_beginning: 100
+            num_lines_to_remove_end: 25
+            path_to_literature: ./outputs/dataset-pretrainin-steps/4_wo_unwanted_chars
+            path_to_output: ./outputs/dataset-pretrainin-steps/5_wo_beginning_n_end
+    outs:
+    - path: ./outputs/dataset-pretrainin-steps/5_wo_beginning_n_end
+      hash: md5
+      md5: 7d5dddf3bacc477b48d2e29485508e27.dir
+      size: 1918807
+      nfiles: 49

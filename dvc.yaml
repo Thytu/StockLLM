@@ -5,43 +5,43 @@ stages:
     deps:
     - "src/data_processing/dataset_pretraining/literature.json"
     outs:
-    - ./outputs/pretrainin-dataset-steps/1_downloaded_literature
+    - ./outputs/dataset-pretrainin-steps/1_downloaded_literature
     params:
     - stages.dataset-pretraining-download-literature
   
   dataset-pretraining-normalize-unicodes:
     cmd: python src/entrypoint.py dataset-pretraining-normalize-unicodes
     deps:
-    - ./outputs/pretrainin-dataset-steps/downloaded_literature
+    - ./outputs/dataset-pretrainin-steps/1_downloaded_literature
     outs:
-    - ./outputs/pretrainin-dataset-steps/2_normalized_unicodes
+    - ./outputs/dataset-pretrainin-steps/2_normalized_unicodes
     params:
     - stages.dataset-pretraining-normalize-unicodes
   
   dataset-pretraining-filter-literature:
     cmd: python src/entrypoint.py dataset-pretraining-filter-literature
     deps:
-    - ./outputs/pretrainin-dataset-steps/downloaded_literature
+    - ./outputs/dataset-pretrainin-steps/2_normalized_unicodes
     outs:
-    - ./outputs/pretrainin-dataset-steps/3_filtered_literature
+    - ./outputs/dataset-pretrainin-steps/3_filtered_literature
     params:
     - stages.dataset-pretraining-filter-literature
 
   dataset-pretraining-remove-unwanted-chars:
     cmd: python src/entrypoint.py dataset-pretraining-remove-unwanted-chars
     deps:
-    - ./outputs/pretrainin-dataset-steps/downloaded_literature
+    - ./outputs/dataset-pretrainin-steps/3_filtered_literature
     outs:
-    - ./outputs/pretrainin-dataset-steps/4_wo_unwanted_chars
+    - ./outputs/dataset-pretrainin-steps/4_wo_unwanted_chars
     params:
     - stages.dataset-pretraining-remove-unwanted-chars
   
   dataset-pretraining-remove-part-of-beginning-n-end:
     cmd: python src/entrypoint.py dataset-pretraining-remove-part-of-beginning-n-end
     deps:
-    - ./outputs/pretrainin-dataset-steps/downloaded_literature
+    - ./outputs/dataset-pretrainin-steps/4_wo_unwanted_chars
     outs:
-    - ./outputs/pretrainin-dataset-steps/5_wo_beginning_n_end
+    - ./outputs/dataset-pretrainin-steps/5_wo_beginning_n_end
     params:
     - stages.dataset-pretraining-remove-part-of-beginning-n-end
 

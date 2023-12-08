@@ -1,4 +1,5 @@
 import os
+import json
 import unicodedata
 
 from tqdm import tqdm
@@ -6,12 +7,12 @@ from typing import List
 
 
 def main(
-    literature_to_filter: List[str],
+    path_to_literature: str,
     path_to_output: str,
 ) -> None:
     
 
-    pbar = tqdm(literature_to_filter)
+    pbar = tqdm([os.path.join(path_to_literature, fname) for fname in os.listdir(path_to_literature)])
 
     os.makedirs(path_to_output, exist_ok=True)
 
